@@ -1,16 +1,26 @@
-#include <stdlib.h>
 #include <stdio.h>
-#include <readline/readline.h>
+#include <unistd.h>
 
-int main()
-{
-	char *input;
+int main() {
+	__pid_t pid;
 
-	input = readline("Entrer du texte : ");
-	if (input != NULL)
+	pid = fork();
+	if (pid == -1)
 	{
-		printf("Vous avez saisi : %s\n", input);
-		free(input);
+		// Erreur lors du fork
+		printf("Fork error.\n");
+		return (1);
+	}
+	else if (pid == 0)
+	{
+		// Processus fils
+		printf("Processus fils (%d) : Hello team\n", getpid());
+	}
+	else
+	{
+		// Processus parent
+		printf("Processus parent (%d) : My son is %d\n", getpid(), pid);
+
 	}
 	return (0);
 }
