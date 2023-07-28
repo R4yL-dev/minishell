@@ -729,7 +729,7 @@ Je n'ai pas encore tout bien compris, mais je crois que `wait3()` est un implém
 
 ### 1.20.4. wait4() - Notes
 
-Je n'ai pas encore tout bien compris, mais je crois que `wait3()` est un implémentation de `wait()` spécifique à certains systèmes UNIX. Peux être MOSX ?
+Je n'ai pas encore tout bien compris, mais je crois que `wait4()` est un implémentation de `wait()` spécifique à certains systèmes UNIX. Peux être MOSX ?
 
 ## 1.21. signal()
 
