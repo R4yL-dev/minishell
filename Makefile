@@ -6,7 +6,7 @@ SRCS 		:= \
 OBJS		:= $(SRCS:.c=.o)
 
 CC 			:= gcc
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -std=gnu89
 CPPFLAGS	:= -I./headers -lreadline
 
 RM			:= rm -f
