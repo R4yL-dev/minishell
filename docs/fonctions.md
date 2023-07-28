@@ -13,7 +13,6 @@
 		- [1.3.1. rl\_clear\_history() - Prototype](#131-rl_clear_history---prototype)
 		- [1.3.2. rl\_clear\_history() - Explications](#132-rl_clear_history---explications)
 		- [1.3.3. rl\_clear\_history() - Exemple](#133-rl_clear_history---exemple)
-		- [1.3.4. rl\_clear\_history() - Notes](#134-rl_clear_history---notes)
 	- [1.4. rl\_on\_new\_line()](#14-rl_on_new_line)
 		- [1.4.1. rl\_on\_new\_line() - Prototype](#141-rl_on_new_line---prototype)
 		- [1.4.2. rl\_on\_new\_line() - Explications](#142-rl_on_new_line---explications)
@@ -33,7 +32,6 @@
 		- [1.7.1. add\_history() - Prototype](#171-add_history---prototype)
 		- [1.7.2. add\_history() - Explications](#172-add_history---explications)
 		- [1.7.3. add\_history() - Exemple](#173-add_history---exemple)
-		- [1.7.4. add\_history() - Notes](#174-add_history---notes)
 	- [1.8. printf()](#18-printf)
 	- [1.9. malloc()](#19-malloc)
 	- [1.10. free()](#110-free)
@@ -42,7 +40,6 @@
 		- [1.12.1. access() - Prototype](#1121-access---prototype)
 		- [1.12.2. access() - Explications](#1122-access---explications)
 		- [1.12.3. access() - Exemple](#1123-access---exemple)
-		- [1.12.4. access() - Notes](#1124-access---notes)
 	- [1.13. open()](#113-open)
 	- [1.14. read()](#114-read)
 	- [1.15. close()](#115-close)
@@ -50,12 +47,10 @@
 		- [1.16.1. fork() - Prototype](#1161-fork---prototype)
 		- [1.16.2. fork() - Explications](#1162-fork---explications)
 		- [1.16.3. fork() - Exemple](#1163-fork---exemple)
-		- [1.16.4. fork() - Notes](#1164-fork---notes)
 	- [1.17. wait()](#117-wait)
 		- [1.17.1. wait() - Prototype](#1171-wait---prototype)
 		- [1.17.2. wait() - Explications](#1172-wait---explications)
 		- [1.17.3. wait() - Exemple](#1173-wait---exemple)
-		- [1.17.4. wait() - Notes](#1174-wait---notes)
 	- [1.18. waitpid()](#118-waitpid)
 		- [1.18.1. waitpid() - Prototype](#1181-waitpid---prototype)
 		- [1.18.2. waitpid() - Explications](#1182-waitpid---explications)
@@ -332,8 +327,6 @@ int main()
 
 ```
 
-### 1.3.4. rl_clear_history() - Notes
-
 ## 1.4. rl_on_new_line()
 
 ### 1.4.1. rl_on_new_line() - Prototype
@@ -435,8 +428,6 @@ pwd
 less /etc/hosts
 ```
 
-### 1.7.4. add_history() - Notes
-
 ## 1.8. printf()
 
 Tu connais déjà `printf()` !!
@@ -496,8 +487,6 @@ int main() {
 ```text
 Le fichier existe
 ```
-
-### 1.12.4. access() - Notes
 
 ## 1.13. open()
 
@@ -570,25 +559,151 @@ Processus parent (54615) : My son is 54616
 Processus fils (54616) : Hello team
 ```
 
-### 1.16.4. fork() - Notes
-
 ## 1.17. wait()
 
 ### 1.17.1. wait() - Prototype
 
+```c
+#include <sys/types.h>
+#include <sys/wait.h>
+
+pid_t wait(int *status);
+```
+
 ### 1.17.2. wait() - Explications
+
+La fonction `wait()` attend qu'un processus fils se termine, et elle bloque l'exécution du processus parent jusqu'a ce que cela se produise. Elle prend un  pointeur vers un entier `status` en paramètre, qui est utilisé pour récupérer le status de sortie du processus fils. Ce statut contient des informations sur la manière dont le processus fils, telles que le code de retour du processus fils et s il s est terminé normalement ou à cause d un signal.
+
+La valeur de retour de `wait()` est le pid du processus fils qui s'est terminé, ou -1 s'il y a une erreur (par exemple, s'il n'y pas de processus fils à attendre).
+
+Il est important de noter que si le processus parent a plusieurs processus fils, `wait()` attendra uniquement la fin d'un processus fils à la fois. Pour attendre la fin de tous les priocessus fils, il peut être nécessaire d'appeler `wait()` plusieurs fois.
 
 ### 1.17.3. wait() - Exemple
 
-### 1.17.4. wait() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+int main() {
+	__pid_t pid;
+	__pid_t child_pid;
+	int status;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		// Erreur lors du fork
+		printf("Fork error.\n");
+		return (1);
+	}
+	else if (pid == 0)
+	{
+		printf("Processus fils (%d) : Hello team\n", getpid());
+		// Simule une tache qui dure 3 secondes
+		sleep(3);
+	}
+	else
+	{
+		printf("Processus parent (%d) : Mon fils est %d\n", getpid(), pid);
+		// Attendre la fin du processus fils
+		child_pid = wait(&status);
+		if (child_pid == -1)
+			return (2);
+		else
+		{
+			printf("Valeur de retour de wait() : %d\n", child_pid);
+			printf("Valeur de status : %d\n", status);
+		}
+	}
+	return (0);
+}
+```
+
+```text
+Processus parent (2588) : Mon fils est 2589
+Processus fils (2589) : Hello team
+Valeur de retour de wait() : 2589
+Valeur de status : 0
+```
+
+Dans cette exemple, je cree un processus fils qui attend durant 3 secondes afin de simuler une tâche. Le processus parent attend durant se temps et une fois terminer, vérifie que l'opération c'est bien déroulée (child_pid == -1). Si tout c'est bien passé, nous affichons `child_pid` afin de constater que la valeur de retour de `wait()` est bien le pid du processus fils. Nous affichons aussi `status` qui vaut `0` si le `wait()` c'est bien déroulé.
 
 ## 1.18. waitpid()
 
 ### 1.18.1. waitpid() - Prototype
 
+```c
+#include <sys/types.h>
+#include <sys/wait.h>
+
+pid_t waitpid(pid_t pid, int *status, int options);
+```
+
 ### 1.18.2. waitpid() - Explications
 
+la fonction `waitpid()` prend trois arguments :
+
+- `pid` : L'id du processus fils que le processus parent souhaite attendre. Il peut prendre différentes valeur :
+  - `> 0` : Attendre le processus avec le PID spécifié.
+  - `0` : Attendre n'importe quel processus fils du groupe de processus parent.
+  - `-1` : Attendre n'importe quel processus fils, semblable à `wait()`.
+  - `< -1` : Attendre n'importe quel processus fils dont le groupe de processus est égal à la valeur absolue de `pid`.
+- `status` : Un pointeur vers un entier ou le status de sortie du processus fils sera stocké. Comme pour `wait()`, ce status contient des informations sur la manière dont le processus fils s'est terminé.
+- `options` : Des options supplémentaires pour spécifier le compertement d'attente. Tu peux utiliser `0` pour attendre le processus fils de manière normale ou utiliser des options spécifiques, telles que `WNOHANG` pour effectuer une attente non bloquante.
+
+La valeur de retour de `waitpid()` est le PID du processus fils qui s'est terminé, ou :
+
+- `-1` en cas d'erreur (pas de processus fils à attendre ou une erreur s'est produite).
+- `0` si l'option `WNOHANG` est utilisée et que le processus fils spécifié n'est pas encore terminé.
+
+Il est important de noté que `waitpid()` est plus souple que `wait()` et offre des possibilités supplémentaires pour la gestion des processus fils dans des situations spécifiques.
+
 ### 1.18.3. waitpid() - Exemple
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+int main() {
+	__pid_t pid;
+	__pid_t child_pid;
+	int status;
+
+	pid = fork();
+	if (pid == -1)
+		return (1);
+	else if (pid == 0)
+	{
+		printf("Processus fils (%d) : Simule du travail durant 3 secondes\n", getpid());
+		sleep(3);
+	}
+	else
+	{
+		printf("Processus parent (%d) : Mon fils est %d\n", getpid(), pid);
+		// Attendre la fin du processus fils spécifié dans la variable pid
+		child_pid = waitpid(pid, &status, 0);
+		if (child_pid == -1)
+			return (2);
+		else
+		{
+			printf("Valeur de retour de waitpid() : %d\n", child_pid);
+			printf("Valeur de status : %d\n", status);
+		}
+	}
+	return (0);
+}
+```
+
+```text
+Processus parent (6696) : Mon fils est 6697
+Processus fils (6697) : Simule du travail durant 3 secondes
+Valeur de retour de waitpid() : 6697
+Valeur de status : 0
+```
 
 ### 1.18.4. waitpid() - Notes
 
@@ -602,6 +717,8 @@ Processus fils (54616) : Hello team
 
 ### 1.19.4. wait3() - Notes
 
+Je n'ai pas encore tout bien compris, mais je crois que `wait3()` est un implémentation de `wait()` spécifique à certains systèmes UNIX. Peux être MOSX ?
+
 ## 1.20. wait4()
 
 ### 1.20.1. wait4() - Prototype
@@ -612,25 +729,190 @@ Processus fils (54616) : Hello team
 
 ### 1.20.4. wait4() - Notes
 
+Je n'ai pas encore tout bien compris, mais je crois que `wait3()` est un implémentation de `wait()` spécifique à certains systèmes UNIX. Peux être MOSX ?
+
 ## 1.21. signal()
 
 ### 1.21.1. signal() - Prototype
 
+```c
+#include <signal.h>
+
+void (*signal(int signum, void (*handler)(int)))(int);
+```
+
 ### 1.21.2. signal() - Explications
+
+La fonction `signal()` prend deux arguments :
+
+- `signum` : C'est l'identifiant du signal que tu souhaites traiter. Les signaux sont identifiés par des constates prédéfinies dans le fichier d'en-tête `<signal.h>`, comme `SIGINT` pour le signal d'interruption (généralement envoyé lorsqu'un utilisateur appuie sur Ctrl+C), `SIGTERM` pour le signal de terminaison, `SIGUSR1` et `SIGUSR2` pour des signaux personnalisés, etc.
+- `handler` : C'est un pointeur vers la fonction qui sera exécutée lorsque le signal spécifié est reçu. La fonction de gestion des signaux doit avoir le format `void handler(int signum)`, ou `signum` est l'identifiant du signal reçu.
+
+La fonction `signal()` renvoie le pointeur vers l'ancien gestionnaire de signal, ou `SIG_ERR` en cas d'erreur.
 
 ### 1.21.3. signal() - Exemple
 
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <signal.h>
+
+// Fonction qui sera exécutée lors SIGINT est reçu
+// Il ne faut pas oublier de exit car sinon nous sommes bloquer dans le programme
+void handler_SIGINT(int signum)
+{
+	printf("\nSIGINT reçu ! (%d)\n", signum);
+	printf("Quit...\n");
+	_exit(0);
+}
+
+int main()
+{
+	// Définition du handler personnalisé pour le signal SIGINT
+	if (signal(SIGINT, handler_SIGINT) == SIG_ERR)
+	{
+		// Erreur de signal
+		printf("Erreur lors de la définition du handler de SIGINT\n");
+		return (1);
+	}
+	printf("Handler pour SIGINT définit\nAppuyez sur Ctrl+C\n");
+	// Boucle infinie pour attendre le Ctrl+C
+	while(1)
+	{
+		sleep(1);
+	}
+	return (0);
+}
+```
+
+```text
+Handler pour SIGINT définit
+Appuyez sur Ctrl+C
+^C
+SIGINT reçu ! (2)
+Quit...
+```
+
+Dance cet exemple, nous utilisons `signal()` pour définir un handler personnalisé (`handler_SIGINT()`) pour le signal `SIGINT`. Lorsque l'utilisateur appuie sur Ctrl+C pour envoyer le signal `SIGINT`, le handler est exécuté, le message "SIGINT reçu ! (2)" est afficher et le programme quitte.
+
 ### 1.21.4. signal() - Notes
+
+Il est important de noter que la fonction `signal()` est considérée comme obsolète dans certain contextes, car elle présente certains problèmes d'interprétation des signaux dans les environnements multi-thread. Il est recommandé d'utiliser la fonction `sigaction()` à la place, car elle offre une interface plus robuste pour la gestion des signaux.
 
 ## 1.22. sigaction()
 
 ### 1.22.1. sigaction() - Prototype
 
+```c
+#include <signal.h>
+
+int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
+```
+
 ### 1.22.2. sigaction() - Explications
+
+La fonction `sigaction()` prend trois arguments :
+
+- `signum` : C'est l'identifiant du signal que tu souhaites traiter. Les signaux sont identifiés par des constantes prédéfinies dans le fichier d'en-tête `<signal.h>`, comme `SIGINT` pour le signal d'interruption (généralement envoyé avec Ctrl+C), `SIGTERM` pour le signal de terminaison, `SIGUSR1` et `SIGUSR2` pour des signaux personnalisés, etc.
+- `act` : Un pointeur vers une structure `struct sigaction` qui spécifie le nouveau handler de signal à définir. La strucutre `struct sigaction` a la forme suivante :
+```c
+struct sigaction
+{
+	void (*sa_handler)(int);
+	sigset_t sa_mask;
+	int sa_flags
+	void (*sa_sigaction)(int, siginfo_t *, void *);
+};
+```
+-
+  - `sa_handler` : Un pointeur vers une fonction handler de signal, de la même manière que la fonction `signal()`. La fonction doit avoir la signature `void handler(int signum)`, ou `signum` est l'identifiant du signal reçu.
+  - `sa_mask` : Un ensemble de signaux supplémentaire à bloquer pendant que le handler de signal est en cours d'exécution. Cela permet d'éviter la récursivité involontaire si le même signal est reçu pendant que le ghandler est déjà en cours d'exécution.
+  - `sa_flags` : Drapeaux qui contrôlent le comportement du handler de signal. Par exemple, tu peux utiliser le drapeau `SA_RESTART` pour redémarrer les appels système interrompus par le signal plutôt que de les échouer avec `EINTR`.
+  - `sa_sigaction` : Un pointeur vers une fonction alternative de handler de signal. Cette fonction prend trois arguments et peut fournir des informations supplémentaire sur le signal reçu à l'aide de la structure `siginfo_t`. Ce champ est utilisé lorsque `sa_flag` inclut le drapeau `SA_SIGINFO`, sinon, `sa_handler` est utilisé.
+- `oldact` : Un pointeur vers un structure `struct sigaction` ou le handler de signal précédent sera stocké, si néscessaire.
+
+La fonction `sigaction()` renvoie `0` en cas de succèsm ou `-1` en ac d'erreur. En cas d'erreur, tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
 
 ### 1.22.3. sigaction() - Exemple
 
+```c
+#include <unistd.h>
+#include <stdio.h>
+#include <signal.h>
+
+// Fonction qui sera exécutée lors SIGINT est reçu
+// Il ne faut pas oublier de exit car sinon nous sommes bloquer dans le programme
+void handler_SIGINT(int signum)
+{
+	static int count = 0;
+	(void) signum;
+
+	count++;
+	printf("\nSIGINT reçu ! (count = %d)\n", count);
+	if (count == 10)
+	{
+		printf("Quit...\n");
+		_exit(0);
+	}
+}
+
+int main()
+{
+	struct sigaction new_action;
+
+	// Définition du nouveau handler
+	new_action.sa_handler = handler_SIGINT;
+	sigemptyset(&new_action.sa_mask);
+	new_action.sa_flags = 0;
+
+	// Remplacer l'ancien handler par le nouveau
+	if (sigaction(SIGINT, &new_action, NULL) == -1)
+	{
+		// Erreur de signal
+		printf("Erreur lors de la définition du handler de SIGINT\n");
+		return (1);
+	}
+	printf("Handler pour SIGINT définit\nAppuyez sur Ctrl+C\n");
+	printf("Pour quitter, appuier 10 fois Ctrl+C\n");
+	// Boucle infinie pour attendre les Ctrl+C
+	while(1)
+	{
+		sleep(1);
+	}
+	return (0);
+}
+```
+
+```text
+Handler pour SIGINT définit
+Appuyez sur Ctrl+C
+Pour quitter, appuier 10 fois Ctrl+C
+^C
+SIGINT reçu ! (count = 1)
+^C
+SIGINT reçu ! (count = 2)
+^C
+SIGINT reçu ! (count = 3)
+^C
+SIGINT reçu ! (count = 4)
+^C
+SIGINT reçu ! (count = 5)
+^C
+SIGINT reçu ! (count = 6)
+^C
+SIGINT reçu ! (count = 7)
+^C
+SIGINT reçu ! (count = 8)
+^C
+SIGINT reçu ! (count = 9)
+^C
+SIGINT reçu ! (count = 10)
+Quit...
+```
+
 ### 1.22.4. sigaction() - Notes
+
+Pour que cela fonctionne, il m'a fallu ajouter `-std=gnu89` lors de la compilation.
 
 ## 1.23. sigemptyset()
 
