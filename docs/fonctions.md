@@ -438,11 +438,11 @@ Tu connais déjà `malloc()` !!
 
 ## 1.10. free()
 
-Tu connais déjà `free()`
+Tu connais déjà `free()` !!
 
 ## 1.11. write()
 
-Tu connais déjà `write()`
+Tu connais déjà `write()` !!
 
 ## 1.12. access()
 
