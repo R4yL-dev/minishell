@@ -85,62 +85,47 @@
 		- [1.24.1. sigaddset() - Prototype](#1241-sigaddset---prototype)
 		- [1.24.2. sigaddset() - Explications](#1242-sigaddset---explications)
 		- [1.24.3. sigaddset() - Exemple](#1243-sigaddset---exemple)
-		- [1.24.4. sigaddset() - Notes](#1244-sigaddset---notes)
 	- [1.25. kill()](#125-kill)
 		- [1.25.1. kill() - Prototype](#1251-kill---prototype)
 		- [1.25.2. kill() - Explications](#1252-kill---explications)
 		- [1.25.3. kill() - Exemple](#1253-kill---exemple)
-		- [1.25.4. kill() - Notes](#1254-kill---notes)
 	- [1.26. exit()](#126-exit)
-		- [1.26.1. exit() - Prototype](#1261-exit---prototype)
-		- [1.26.2. exit() - Explications](#1262-exit---explications)
-		- [1.26.3. exit() - Exemple](#1263-exit---exemple)
-		- [1.26.4. exit() - Notes](#1264-exit---notes)
 	- [1.27. getcwd()](#127-getcwd)
 		- [1.27.1. getcwd() - Prototype](#1271-getcwd---prototype)
 		- [1.27.2. getcwd() - Explications](#1272-getcwd---explications)
 		- [1.27.3. getcwd() - Exemple](#1273-getcwd---exemple)
-		- [1.27.4. getcwd() - Notes](#1274-getcwd---notes)
 	- [1.28. chdir()](#128-chdir)
 		- [1.28.1. chdir() - Prototype](#1281-chdir---prototype)
 		- [1.28.2. chdir() - Explications](#1282-chdir---explications)
 		- [1.28.3. chdir() - Exemple](#1283-chdir---exemple)
-		- [1.28.4. chdir() - Notes](#1284-chdir---notes)
 	- [1.29. stat()](#129-stat)
 		- [1.29.1. stat() - Prototype](#1291-stat---prototype)
 		- [1.29.2. stat() - Explications](#1292-stat---explications)
 		- [1.29.3. stat() - Exemple](#1293-stat---exemple)
-		- [1.29.4. stat() - Notes](#1294-stat---notes)
 	- [1.30. lstat()](#130-lstat)
 		- [1.30.1. lstat() - Prototype](#1301-lstat---prototype)
 		- [1.30.2. lstat() - Explications](#1302-lstat---explications)
 		- [1.30.3. lstat() - Exemple](#1303-lstat---exemple)
-		- [1.30.4. lstat() - Notes](#1304-lstat---notes)
 	- [1.31. fstat()](#131-fstat)
 		- [1.31.1. fstat() - Prototype](#1311-fstat---prototype)
 		- [1.31.2. fstat() - Explications](#1312-fstat---explications)
 		- [1.31.3. fstat() - Exemple](#1313-fstat---exemple)
-		- [1.31.4. fstat() - Notes](#1314-fstat---notes)
 	- [1.32. unlink()](#132-unlink)
 		- [1.32.1. unlink() - Prototype](#1321-unlink---prototype)
 		- [1.32.2. unlink() - Explications](#1322-unlink---explications)
 		- [1.32.3. unlink() - Exemple](#1323-unlink---exemple)
-		- [1.32.4. unlink() - Notes](#1324-unlink---notes)
 	- [1.33. execve()](#133-execve)
 		- [1.33.1. execve() - Prototype](#1331-execve---prototype)
 		- [1.33.2. execve() - Explications](#1332-execve---explications)
 		- [1.33.3. execve() - Exemple](#1333-execve---exemple)
-		- [1.33.4. execve() - Notes](#1334-execve---notes)
 	- [1.34. dup()](#134-dup)
 		- [1.34.1. dup() - Prototype](#1341-dup---prototype)
 		- [1.34.2. dup() - Explications](#1342-dup---explications)
 		- [1.34.3. dup() - Exemple](#1343-dup---exemple)
-		- [1.34.4. dup() - Notes](#1344-dup---notes)
 	- [1.35. dup2()](#135-dup2)
 		- [1.35.1. dup2() - Prototype](#1351-dup2---prototype)
 		- [1.35.2. dup2() - Explications](#1352-dup2---explications)
 		- [1.35.3. dup2() - Exemple](#1353-dup2---exemple)
-		- [1.35.4. dup2() - Notes](#1354-dup2---notes)
 	- [1.36. pipe()](#136-pipe)
 		- [1.36.1. pipe() - Prototype](#1361-pipe---prototype)
 		- [1.36.2. pipe() - Explications](#1362-pipe---explications)
@@ -918,139 +903,840 @@ Pour que cela fonctionne, il m'a fallu ajouter `-std=gnu89` lors de la compilati
 
 ### 1.23.1. sigemptyset() - Prototype
 
+```c
+#include <signal.h>
+
+int sigemptyset(sigset_t *set);
+```
+
 ### 1.23.2. sigemptyset() - Explications
+
+La fonction `sigemptyset()` prend un pointeur vers un ensemble de signaux `set` en paramètre et initalise cet ensemble en le vidant, c'est à dire qu'aucun signal ne sera inclus dans l'ensemble de signaux.
+
+Il est important de noter que la fonction `sigemptyset()` ne renvoie pas de valeur significative en elle-même. Elle renvoie `0` en cas de succès, et `-1` en cas d'erreur.
 
 ### 1.23.3. sigemptyset() - Exemple
 
+```c
+#include <stdio.h>
+#include <signal.h>
+
+int main()
+{
+	sigset_t set;
+
+	// Initalisation du set
+	if (sigemptyset(&set) == -1)
+	{
+		printf("Erreur lors de l'initalisation du set\n");
+		return (1);
+	}
+	// Ajouter le signal SIGINT au set
+	if (sigaddset(&set, SIGINT) == -1)
+	{
+		printf("Erreur lors de l'ajout de SIGINT dans le set\n");
+		return (2);
+	}
+	// Vérifier que SIGINT est inclus dans le set
+	if (sigismember(&set, SIGINT) == 1)
+		printf("SIGINT est inclus dans le set\n");
+	else
+		printf("SIGINT n'est pas inclus dans le set\n");
+	// On vide le set
+	if (sigemptyset(&set) == -1)
+	{
+		printf("Erreur lors du vidage du set\n");
+		return (3);
+	}
+	// Vérifier que SIGINT n'est plus dans le set
+	if (sigismember(&set, SIGINT) == 1)
+		printf("SIGINT est inclus dans le set\n");
+	else
+		printf("SIGINT n'est pas inclus dans le set\n");
+	return (0);
+}
+```
+
+```text
+SIGINT est inclus dans le set
+SIGINT n'est pas inclus dans le set
+```
+
+Dans cet exemple, nous utilisons `sigemptyset()` pour initaliser le set, puis `sigaddset()` pour ajouter le signal `SIGINT` dans le set. Ensuite, nous utilisons `sigismember()` pour vérifier que `SIGINT` et bien dans le set. Finalement, nous ré-utilisons `sigemptyset()` pour vider le set et constater avec `sigismember()` que le set est bien vide.
+
 ### 1.23.4. sigemptyset() - Notes
+
+Il faut dans tous les cas commencer par utiliser `sigemptyset()` afin d'initaliser le set.
 
 ## 1.24. sigaddset()
 
 ### 1.24.1. sigaddset() - Prototype
 
+```c
+#include <signal.h>
+
+int sigaddset(sigset_t *set, int signum);
+```
+
 ### 1.24.2. sigaddset() - Explications
+
+La fonction `sigaddset()` prend deux paramètres :
+
+- `set` : Un pointeur vers l'ensemble de signaux (`sigset_t`) auquel tu veux ajouter un signal.
+- `signum` : L'identifiant du signal que tu souhaite ajouter au set.
+
+La fonction `sigaddset()` retourne `0` en cas de succès et `-1` en cas d'erreur.
 
 ### 1.24.3. sigaddset() - Exemple
 
-### 1.24.4. sigaddset() - Notes
+```c
+#include <stdio.h>
+#include <signal.h>
+
+int main()
+{
+	sigset_t set;
+
+	// Initalisation du set
+	if (sigemptyset(&set) == -1)
+	{
+		printf("Erreur lors de l'initalisation du set\n");
+		return (1);
+	}
+	// Ajouter le signal SIGINT au set
+	if (sigaddset(&set, SIGINT) == -1)
+	{
+		printf("Erreur lors de l'ajout de SIGINT dans le set\n");
+		return (2);
+	}
+	// Vérifier que SIGINT est inclus dans le set
+	if (sigismember(&set, SIGINT) == 1)
+		printf("SIGINT est inclus dans le set\n");
+	else
+		printf("SIGINT n'est pas inclus dans le set\n");
+	return (0);
+}
+```
+
+```text
+SIGINT est inclus dans le set
+```
 
 ## 1.25. kill()
 
 ### 1.25.1. kill() - Prototype
 
+```c
+#include <signal.h>
+
+int kill(pid_t, int sig);
+```
+
 ### 1.25.2. kill() - Explications
+
+La fonction `kill()` prend deux arguments :
+
+- `pid` : L'identifiant de processus (PID) du processus auquel tu veux envoyer le signal. Il peut prendre différentes valeur :
+  - `> 0` : Le signal est envoyé au processus avec le PID spécifié.
+  - `0` : Le signal est envoyé à tous les processus du même groupe de processus que celui de l'appelant.
+  - `-1` : Le signal est envoyé à tous les processus du même utilsateur que celui de l'appelant (à l'exception des processus pour lesquels l'appelant n'a pas leapermission d'envoyer des signaux).
+  - `< -1` : Le signal est envoyé à tous les processus du groupe de processus indiqué par la valeur absolue de `pid`.
+- `sig` : L'identifiant du signal que tu souhaites envoyer. Les signaux sont identifié par des constantes prédéfinies dans le fichier d'en-tête `<signal.h>`, telles que `SIGINT` pour le signal d'interruption, `SIGTERM` pour le signal de terminaison, `SIGKILL` pour arrêter immédiatement un processus, etc.
+
+La fonction `kill()` renvoie `0` en cas de succès et `-1` en cas d'erreur. En cas d'erreur, tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
 
 ### 1.25.3. kill() - Exemple
 
-### 1.25.4. kill() - Notes
+```c
+#include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+int main()
+{
+	pid_t pid = fork();
+
+	if (pid == -1)
+	{
+		printf("[M]Erreur lors du fork.\n");
+		return (1);
+	}
+	else if (pid == 0)
+	{
+		// Le fils attend en boucle, ils doit être kill par le parent
+		printf("[C] Je suis le fils (pid = %d).\n", getpid());
+		while (1)
+		{
+			printf("[C] Je taff.\n");
+			sleep(1);
+		}
+	}
+	else
+	{
+		printf("[M] Je suis le parent (pid = %d).\n", getpid());
+		printf("[M] Je vais attendre 5 secondes et kill() le fils.\n");
+		// Le parent attend 5 secondes et kill le fils
+		sleep(5);
+		printf("[M] je tue le fils\n");
+		if (kill(pid, SIGKILL) == -1)
+		{
+			printf("[M] Erreur lors du kill.\n");
+			return (2);
+		}
+		// On attend la fin de l'exécution du fils
+		waitpid(pid, NULL, 0);
+		printf("[M] Le processus fils c'est terminé.\n");
+	}
+	return (0);
+}
+```
+
+```text
+[M] Je suis le parent (pid = 12083).
+[M] Je vais attendre 5 secondes et kill() le fils.
+[C] Je suis le fils (pid = 12084).
+[C] Je taff.
+[C] Je taff.
+[C] Je taff.
+[C] Je taff.
+[C] Je taff.
+[M] je tue le fils
+[M] Le processus fils c'est terminé.
+```
 
 ## 1.26. exit()
 
-### 1.26.1. exit() - Prototype
-
-### 1.26.2. exit() - Explications
-
-### 1.26.3. exit() - Exemple
-
-### 1.26.4. exit() - Notes
+Tu connais déjà `open()` !!
 
 ## 1.27. getcwd()
 
 ### 1.27.1. getcwd() - Prototype
 
+```c
+#include <unistd.h>
+
+char *getcwd(char *buf, size_t size);
+```
+
 ### 1.27.2. getcwd() - Explications
+
+La fonction `getcwd()` prend deux arguments :
+
+- `buf` : Un pointeur vers un tampon (buffer) de caractères ou la chaine du chemin du réperoitre de travail sera stockée. Il est recommandl de fournir im tampon assez grand pour contenir le chemin complet, généralement défini comme un tableau de caractères.
+- `size` : La taille du tampon (`buf`) en octets.
+
+La fonction `getcwd()` renvoie un pointeur vers le tampon (`buf`) contenant le chemin complet du répertoire de travail. Si la fonction réussit, le tampon contiendra le chemin complet. Si le tampon est trop petit pour contenir le chemin complet, la fonction renverra `NULL`, et tu devras redimensionner le tampon avec un taille suffisante pour réussir l'appel suivant.
 
 ### 1.27.3. getcwd() - Exemple
 
-### 1.27.4. getcwd() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	// Création d'un buffer de 256 char
+	char buf[256];
+
+	// Récuperation du répértoire actuelle
+	if (getcwd(buf, sizeof(buf)) == NULL)
+	{
+		// Erreur lors de la récuperation du répertoir (souvent, buf trop petit)
+		printf("Erreur lors de la récuperation du répertoire actuel\n");
+		return (1);
+	}
+	// On affiche le répértoire actuel (buf)
+	printf("Répertoire actuel : %s\n", buf);
+	return (0);
+}
+```
+
+```text
+Répertoire actuel : /home/luca/Git/minishell
+```
 
 ## 1.28. chdir()
 
 ### 1.28.1. chdir() - Prototype
 
+```c
+#include <unistd.h>
+
+int chdir(const char *path);
+```
+
 ### 1.28.2. chdir() - Explications
+
+La fonction `chdir()` prend un argument :
+
+- `path` : Un pointeur vers une chaine de caractères représentant le chemin du nouveau répertoire vers lequel tu souhaites changer. Cette chaine de caractères doit contenir le chemin absolu ou relatif du répertoire.
+
+La fonction `chdir()` renvoie `0` en cas de succès et `-1` en cas d'erreur. En cas d'erreur, tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
 
 ### 1.28.3. chdir() - Exemple
 
-### 1.28.4. chdir() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	// Création d'une string contenant le nouveau répertoire
+	const char *newDir = "/etc";
+	char buf[256];
+
+	if (getcwd(buf, sizeof(buf)) == NULL)
+	{
+		printf("Erreur lors de la récuperation du répertoire actuel\n");
+		return (1);
+	}
+	printf("Répertoire actuel : %s\n", buf);
+	// Changement de répertoire
+	if (chdir(newDir) == -1)
+	{
+		printf("Erreur lors du changement de répertoire\n");
+		return (2);
+	}
+	if (getcwd(buf, sizeof(buf)) == NULL)
+	{
+		printf("Erreur lors de la récuperation du répertoire actuel\n");
+		return (3);
+	}
+	printf("Répertoire actuel : %s\n", buf);
+	return (0);
+}
+```
+
+```text
+Répertoire actuel : /home/luca/Git/minishell
+Répertoire actuel : /etc
+```
 
 ## 1.29. stat()
 
 ### 1.29.1. stat() - Prototype
 
+```c
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+int stat(const char *path, struct stat *buf);
+```
+
 ### 1.29.2. stat() - Explications
+
+La fonction `stat()` prend deux arguments :
+
+- `path` : Un pointeur vers une chaine de caractères représentant le chemin du fichier ou du répertoire dont tu souhaites obtenir les informations.
+- `buf` : Un pointeur vers une structure `struct stat` dans laquelle les informations sur le fichier ou le répertoire seront stockées.
+
+La structure `struct stat` est définie dans l'en-tête `<sys/stat.h>` et ressemble généralement à ceci :
+
+```c
+struct stat
+{
+	dev_t		st_dev;		// Identifiant du périphérique contenant le fichier
+	ino_t		st_ino;		// Numéro d'inode
+	mode_t		st_mode;	// Mode d'accès au fichier (permission)
+	nlink_t		st_nlink;	// Nombre de liens matériels
+	uid_t		st_uid;		// Identifiant de l'utilisateur propriétaire
+	gid_t		st_gid;		// Identifiant du groupe propriétaire
+	off_t		st_size;	// Taille du fichier en octets
+	time_t		st_atime;	// Heure d'accès du fichier
+	time_t		st_mtime;	// Heure de dernière modification du fichier
+	time_t		st_ctime;	// Heure du dernier changement d'état du fichier
+	blksize_t	st_blksize;	// Taille de bloc optimale pour E/S de fichiers
+	blkcnt_t	st_blocks;	// Nombre de blocs alloués pour le fichier
+};
+```
+
+La fonction `stat()` renvoie `0` en cas de succès et `-1` en cas d'erreur. En cas de succès, la structure `struct stat` pointée par `buf` contiendra les informations sur le fichier ou le répertoire spécifié par `path`. Si la fonction échoue, tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
 
 ### 1.29.3. stat() - Exemple
 
-### 1.29.4. stat() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+int main()
+{
+	const char *filename = "playground.c";
+	struct stat file_infos;
+
+	if (stat(filename, &file_infos) == -1)
+	{
+		printf("Erreur lors de la récuperation des infos du fichier.\n");
+		return (1);
+	}
+	printf("Information du fichier : %s\n", filename);
+	printf("Taille du fichier : %ld octets\n", file_infos.st_size);
+	printf("Permission (octal) : %o\n", file_infos.st_mode & 0777);
+	printf("Propriétaire : UID=%u, GID=%u\n", file_infos.st_uid, file_infos.st_gid);
+	return (0);
+}
+```
+
+```text
+Information du fichier : playground.c
+Taille du fichier : 573 octets
+Permission (octal) : 644
+Propriétaire : UID=1000, GID=1000
+```
 
 ## 1.30. lstat()
 
 ### 1.30.1. lstat() - Prototype
 
+```c
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+int lstat(const char *path, struct stat *buf);
+```
+
 ### 1.30.2. lstat() - Explications
+
+La fonction `lstat()` prend deux arguments :
+
+- `path` : Un pointeur vers une chaine de caractères représentant le chemin du fichier ou du répertoire (ou lien symbolique) dont tu souhaites obtenir les informations.
+- `buf` : Un pointeur vers une structure `struct stat` dans la quelle les informations sur le fichier ou le lien symbolique seront stockées.
+
+La structure `struct stat` est la même que celle utilisée avec la fonction stat() et est définie dans l'en-tête `<sys/stat.h>`.
+
+La fonction `lstat()` renvoie `0` en cas de succès et `-1` en cas d'erreur. En cas de succès, la structure `struct stat` pointée par `buf` contiendra les informations sur le fichier ou le lien symbolique spécifié par `parh`. Si la fonction échoue, tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
 
 ### 1.30.3. lstat() - Exemple
 
-### 1.30.4. lstat() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+int main()
+{
+	const char *filenameSyn = "exemple.txt";
+	struct stat syn_infos;
+	const char *filenameReg = "playground.c";
+	struct stat reg_infos;
+
+	if (lstat(filenameReg, &reg_infos) == -1 || lstat(filenameSyn, &syn_infos) == -1)
+	{
+		printf("Erreur lors de la récuperation des infos du fichier.\n");
+		return (1);
+	}
+	printf("Information du fichier ou le lien symbolique : %s\n", filenameSyn);
+	printf("Type de fichier : ");
+	if (S_ISREG(syn_infos.st_mode))
+		printf("Fichier régulier\n");
+	else if (S_ISDIR(syn_infos.st_mode))
+		printf("Répertoire\n");
+	else if (S_ISLNK(syn_infos.st_mode))
+		printf("Lien symbolique\n");
+	else
+		printf("Type de fichier inconnu\n");
+	printf("Information du fichier ou le lien symbolique : %s\n", filenameReg);
+	printf("Type de fichier : ");
+	if (S_ISREG(reg_infos.st_mode))
+		printf("Fichier régulier\n");
+	else if (S_ISDIR(reg_infos.st_mode))
+		printf("Répertoire\n");
+	else if (S_ISLNK(reg_infos.st_mode))
+		printf("Lien symbolique\n");
+	else
+		printf("Type de fichier inconnu\n");
+	return (0);
+}
+```
+
+```text
+Information du fichier ou le lien symbolique : exemple.txt
+Type de fichier : Lien symbolique
+Information du fichier ou le lien symbolique : playground.c
+Type de fichier : Fichier régulier
+```
 
 ## 1.31. fstat()
 
 ### 1.31.1. fstat() - Prototype
 
+```c
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int fstat(int fd, struct stat *buf);
+```
+
 ### 1.31.2. fstat() - Explications
+
+La fonction `fstat()` prend deux arguments :
+
+- `fd` : Le descripteur de fichier pour lequel tu souhaites obtenir les informations. Un descripteur de fichier est généralementobtenu lors de l'ouverture d'un fichier avec les fonction comme `open()` ou `creat()`, ou lors de la redirection des entrées/sorties standard avec `stdin`, `stdout` et `stderr`.
+- `buf` : Un pointeur vers une structure `struct stat` dans laquelle les informations sur le fichier associé au descripteur seront stockées.
+
+La structure `struct stat` est la même que celle utilisée avec les fonction `stat()` et `lstat()`, eet elle est définie dans l'en-tête `<sys/stat.h>`.
+
+La fonction `fstat()` renvoie `0` en cas de succès et `-1` en cas d'erreur. En cas de succès, la structure `struct stat` pointée par `buf` contiendra les informations sur le fichier associé au descipteur de fichier. Si la fonction écouhe, tu peux consulter la variables globale `errno` pour connaitre la nature de l'erreur.
 
 ### 1.31.3. fstat() - Exemple
 
-### 1.31.4. fstat() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+int main()
+{
+	const char *filename = "playground.c";
+	int fd = open(filename, O_RDONLY);
+	struct stat file_info;
+
+	if (fd == -1)
+	{
+		printf("Erreur lors de l'ouverture du fichier.\n");
+		return (1);
+	}
+
+	if (fstat(fd, &file_info) == -1)
+	{
+		printf("Erreur lors de la récuperation des infos du fichier.\n");
+		return (2);
+	}
+	close(fd);
+	printf("Information sur le fichier : %s.\n", filename);
+	printf("Taille du fichier : %ld octets.\n", file_info.st_size);
+	printf("Permission (octal) : %o.\n", file_info.st_mode & 0777);
+	return (0);
+}
+```
+
+```text
+Information sur le fichier : playground.c.
+Taille du fichier : 645 octets.
+Permission (octal) : 644.
+```
 
 ## 1.32. unlink()
 
 ### 1.32.1. unlink() - Prototype
 
+```c
+#include <unistd.h>
+
+int unlink(const char *pathname);
+```
+
 ### 1.32.2. unlink() - Explications
+
+La fonction `unlink()` prend un argument :
+
+- `pathname` : Un pointeur vers une chaine de caractères représentant le chemin du fichier que tu souhaite supprimer.
+
+La fonction `unlink()` renvoie `0` en cas de succès et `-1` en cas d'erreur. En cas d'erreur, tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
 
 ### 1.32.3. unlink() - Exemple
 
-### 1.32.4. unlink() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	const char *filename = "exemple.txt";
+
+	// Suppression du fichier
+	if (unlink(filename) == -1)
+	{
+		printf("Erreur lors de la suppression du fichier.\n");
+		return (1);
+	}
+	printf("Le fichier \"%s\" a été supprimé avec succès.\n", filename);
+	return (0);
+}
+```
+
+```text
+Le fichier "exemple.txt" a été supprimé avec succès.
+```
+
+```text
+Erreur lors de la suppression du fichier.
+```
+
+Ici, j'ai lancé le programme deux fois. Lors du premier run, le fichier est bien supprimer et lors du deuxième, nous avons une erreur car le fichier n'existe plus.
 
 ## 1.33. execve()
 
 ### 1.33.1. execve() - Prototype
 
+```c
+#include <unistd>
+
+int execve(const char *pathname, const char *argv[], const char *envp[]);
+```
+
 ### 1.33.2. execve() - Explications
+
+La fonction `execve()` prend trois arguments :
+
+- `pathname` : Un pointeur vers une chaine de caractères représentant le chemin du programme exécutable que tu souhaites lancer. Le chemin doit inclure le nom du fichier exécutable.
+- `argv` : Un tableau de pointeur de chaine de caractères qui représente les arguments passés au nouveau programme. Le premier élément `argv[0]` doit généralement contenir le nom du programme lui-même.
+- `envp` : Un tableau de pointeur de chaine de caractères qui repésente les variable d'environnement spécifient l'environnement dans le quel le programme est exécuté.
+
+La fonction `execve()` remplace le processus appelant par le nouveau programme spécifié. Si l'appel réussit, le nouveau programme prendra le contrôle et continuera son exécution. Si l'appel écouhe, `execve()` renverra `-1`m et tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
 
 ### 1.33.3. execve() - Exemple
 
-### 1.33.4. execve() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	char *const argv[] = { "ls", "-l", "/home/luca", NULL };
+	char *const envp[] = { NULL };
+
+	// Remplacer le programme actuel par "ls -l"
+	if (execve("/bin/ls", argv, envp) == -1)
+	{
+		printf("Erreur lors du lancement du nouveau programme.\n");
+		return (1);
+	}
+	// Cette oartie du code ne sera jamais exécutée
+	return (0);
+}
+```
+
+```text
+total 12
+drwxr-xr-x 3 luca luca 4096 Jul 26 15:26 Dev
+drwxr-xr-x 6 luca luca 4096 Jul 26 17:53 Git
+drwxr-xr-x 3 luca luca 4096 Jun 22 13:41 Projets
+-rw-r--r-- 1 luca luca    0 Jul 28 19:49 exemple.txt
+```
 
 ## 1.34. dup()
 
 ### 1.34.1. dup() - Prototype
 
+```c
+#include <unistd.h>
+
+int dup(int oldfd);
+```
+
 ### 1.34.2. dup() - Explications
+
+La fonction `dup()` prend un argument :
+
+- `oldfd` : Le descripteur de fichier que tu souhaites dupliquer.
+
+La fonction `dup()` renvoie un nouveau descripteur de fichier, qui est le plus petit descripteur disponible parmi les descripteurs non utilisés dans le processus. Si l'appel échoue, la fonction renverra `-1`, et tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
 
 ### 1.34.3. dup() - Exemple
 
-### 1.34.4. dup() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	int fd = dup(STDIN_FILENO);
+	char buf[256];
+	ssize_t sizeResult;
+
+	if (fd == -1)
+	{
+		printf("Erreur lors de la duplication.\n");
+		return (1);
+	}
+	printf("Descripteur original : %d\n", STDIN_FILENO);
+	printf("Nouveau descripteur : %d\n", fd);
+
+	sizeResult = read(STDIN_FILENO, buf, sizeof(buf));
+	if (sizeResult == -1)
+	{
+		printf("Erreur lors de la lecture du descripteur de fichier.\n");
+		return (2);
+	}
+	printf("Contenu lu avec le descripteur de fichier : %s\n", buf);
+	sizeResult = read(fd, buf, sizeof(buf));
+	if (sizeResult == -1)
+	{
+		printf("Erreur lors de la lecture du descripteur de fichier.\n");
+		return (3);
+	}
+	printf("Contenu lu avec le nouveau descripteur de fichier : %s\n", buf);
+	return (0);
+}
+```
+
+```text
+Descripteur original : 0
+Nouveau descripteur : 3
+aaaaaaaaa
+Contenu lu avec le descripteur de fichier : aaaaaaaaa
+
+bbbbbbbbbbbbbbbbb
+Contenu lu avec le nouveau descripteur de fichier : bbbbbbbbbbbbbbbbb
+```
 
 ## 1.35. dup2()
 
 ### 1.35.1. dup2() - Prototype
 
+```c
+#include <unistd.h>
+
+int dup2(int oldfd, int newfd);
+```
+
 ### 1.35.2. dup2() - Explications
+
+La fonction `dup2()` prend deux arguments :
+
+- `oldfd` : Le descipteur de fichier que tu souhaite dupliquer.
+- `newfd` : Le numéro du descripteur de fichier que tu souhaites utiliser pour le nouveau descripteur. Si `newfd` est déjà ouvert, la fonction `dup2()` le fermera automatiquement avant de faire la duplication.
+
+La fonction `dup2()` renvoie un nouveau descripteur de fichier, qui est équivalent à `newfd` et fait référence au même fichier ou au même flux de données que `oldfd`. Si l'appel échoue, la fonction renverra `-1`, et tu peux consulter la variable globale `errno` pour connaitre la nature de l 'erreur.
 
 ### 1.35.3. dup2() - Exemple
 
-### 1.35.4. dup2() - Notes
+```c
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+
+int main() {
+	const char *filename = "sortie.txt";
+	int filefd, saved_stdout;
+
+	// Sauvegarder STDOUT
+	saved_stdout = dup(STDOUT_FILENO);
+	// Ouvrire le fichier
+	filefd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (filefd == -1)
+		return (1);
+	// Rediriger la sortie standard dans le fichier
+	if (dup2(filefd, STDOUT_FILENO) == -1)
+	{
+		printf("Erreur lors de la duplication du descripteur.\n");
+		close(filefd);
+		return (2);
+	}
+	close(filefd);
+	// Ecrire sur la sortie standard revient à écrire dans le fichier
+	if (write(STDOUT_FILENO, "salut le fichier\n", strlen("salut le fichier\n")) == -1)
+		return (3);
+	// Redirigier la sortie standard sur sa valeur initial
+	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+		return (4);
+	// Ecrire sur la sortie standard revient à la normal
+	if (write(STDOUT_FILENO, "salut le terminal\n", strlen("salut le terminal\n")) == -1)
+		return (5);
+	return 0;
+}
+```
+
+```text
+salut le terminal
+```
+
+```text
+salut le fichier
+```
 
 ## 1.36. pipe()
 
 ### 1.36.1. pipe() - Prototype
 
+```c
+#include <unistd.h>
+
+int pipe(int pipefd[2]);
+```
+
 ### 1.36.2. pipe() - Explications
 
+La fonction `pipe()` prend un argument :
+
+- `pipefd` : Un tableau d'entiers de taille 2 qui sera utilisé pour renvoyer les descripteurs de fichiers du tube. `pipefd[0]` sera le descripteur de lecture, et `pipefd[1]` sera le descripteur d'écriture.
+
+La fonction `pipe()` renvoie `0` en cas de succès et `-1` en cas d'erreur, et tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
+
+Après l'appel à `pipe()`, tu obtiendras un tube avec une extrémité de lecture (`pipefd[0]`) et une extrémité d'écriture (`pipefd[1]`). Les données écrites dans `pipefd[1]` par un processus peuvent être lues à partir de `pipefd[0]` par un autre processus. Le tube a une capacité limitée, et écrire dans le tube peut être bloquante si le tube est plein. De même, la lecture à partir du tubepeut être bloquante si le tube est vide.
+
 ### 1.36.3. pipe() - Exemple
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+	int pipefd[2];
+	pid_t pid;
+	char msg[] = "Hello team !!";
+	char buf[100];
+
+	// Creation du tuyau
+	if (pipe(pipefd) == -1)
+	{
+		printf("Erreur lors de la création du tube.\n");
+		return (1);
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		printf("Erreur lors du fork.\n");
+		return (2);
+	}
+	if (pid == 0)
+	{
+		// Nous fermont pipefd[1] car nous n'avons pas besoin pour la lecture
+		close(pipefd[1]);
+		// Le fils lit dans le tuyau pour afficher le message
+		if (read(pipefd[0], buf, sizeof(buf)) == -1)
+		{
+			printf("Erreur lors de la lecture du tuyau.\n");
+			return (3);
+		}
+		// Nous fermons pipefd[0] car nous n'en n'avons plus besoin
+		close(pipefd[0]);
+		printf("[C] Nouveau message : %s\n", buf);
+	}
+	else
+	{
+		// Nous fermons pipefd[0] car nous n'en n'avons pas besoin pour l'écriture
+		close(pipefd[0]);
+		printf("[P] Ecriture du message dans le tuyau.\n");
+		// Le parent envoie le message dans le tuyau
+		if (write(pipefd[1], msg, sizeof(msg)) == -1)
+		{
+			printf("Erreur lors de l'écriture dans le tuyau.\n");
+			return (4);
+		}
+		// Nous fermons pipefd[1] car nous n'en n'avons plus besoin
+		close(pipefd[1]);
+	}
+	return 0;
+}
+```
+
+```text
+[P] Ecriture du message dans le tuyau.
+[C] Nouveau message : Hello team !!
+```
 
 ### 1.36.4. pipe() - Notes
 
