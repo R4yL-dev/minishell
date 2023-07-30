@@ -3,3 +3,4 @@ tests
 *.out
 *.txt
 .vscode/
+playground/
