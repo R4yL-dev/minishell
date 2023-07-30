@@ -130,42 +130,33 @@
 		- [1.36.1. pipe() - Prototype](#1361-pipe---prototype)
 		- [1.36.2. pipe() - Explications](#1362-pipe---explications)
 		- [1.36.3. pipe() - Exemple](#1363-pipe---exemple)
-		- [1.36.4. pipe() - Notes](#1364-pipe---notes)
 	- [1.37. opendir()](#137-opendir)
 		- [1.37.1. opendir() - Prototype](#1371-opendir---prototype)
 		- [1.37.2. opendir() - Explications](#1372-opendir---explications)
 		- [1.37.3. opendir() - Exemple](#1373-opendir---exemple)
-		- [1.37.4. opendir() - Notes](#1374-opendir---notes)
 	- [1.38. readdir()](#138-readdir)
 		- [1.38.1. readdir() - Prototype](#1381-readdir---prototype)
 		- [1.38.2. readdir() - Explications](#1382-readdir---explications)
 		- [1.38.3. readdir() - Exemple](#1383-readdir---exemple)
-		- [1.38.4. readdir() - Notes](#1384-readdir---notes)
 	- [1.39. closedir()](#139-closedir)
 		- [1.39.1. closedir() - Prototype](#1391-closedir---prototype)
 		- [1.39.2. closedir() - Explications](#1392-closedir---explications)
-		- [1.39.3. closedir() - Exemple](#1393-closedir---exemple)
-		- [1.39.4. closedir() - Notes](#1394-closedir---notes)
 	- [1.40. strerror()](#140-strerror)
 		- [1.40.1. strerror() - Prototype](#1401-strerror---prototype)
 		- [1.40.2. strerror() - Explications](#1402-strerror---explications)
 		- [1.40.3. strerror() - Exemple](#1403-strerror---exemple)
-		- [1.40.4. strerror() - Notes](#1404-strerror---notes)
 	- [1.41. perror()](#141-perror)
 		- [1.41.1. perror() - Prototype](#1411-perror---prototype)
 		- [1.41.2. perror() - Explications](#1412-perror---explications)
 		- [1.41.3. perror() - Exemple](#1413-perror---exemple)
-		- [1.41.4. perror() - Notes](#1414-perror---notes)
 	- [1.42. isatty()](#142-isatty)
 		- [1.42.1. isatty() - Prototype](#1421-isatty---prototype)
 		- [1.42.2. isatty() - Explications](#1422-isatty---explications)
 		- [1.42.3. isatty() - Exemple](#1423-isatty---exemple)
-		- [1.42.4. isatty() - Notes](#1424-isatty---notes)
 	- [1.43. ttyname()](#143-ttyname)
 		- [1.43.1. ttyname() - Prototype](#1431-ttyname---prototype)
 		- [1.43.2. ttyname() - Explications](#1432-ttyname---explications)
 		- [1.43.3. ttyname() - Exemple](#1433-ttyname---exemple)
-		- [1.43.4. ttyname() - Notes](#1434-ttyname---notes)
 	- [1.44. ttyslot()](#144-ttyslot)
 		- [1.44.1. ttyslot() - Prototype](#1441-ttyslot---prototype)
 		- [1.44.2. ttyslot() - Explications](#1442-ttyslot---explications)
@@ -180,7 +171,6 @@
 		- [1.46.1. getenv() - Prototype](#1461-getenv---prototype)
 		- [1.46.2. getenv() - Explications](#1462-getenv---explications)
 		- [1.46.3. getenv() - Exemple](#1463-getenv---exemple)
-		- [1.46.4. getenv() - Notes](#1464-getenv---notes)
 	- [1.47. tcsetattr()](#147-tcsetattr)
 		- [1.47.1. tcsetattr() - Prototype](#1471-tcsetattr---prototype)
 		- [1.47.2. tcsetattr() - Explications](#1472-tcsetattr---explications)
@@ -190,7 +180,6 @@
 		- [1.48.1. tcgetattr() - Prototype](#1481-tcgetattr---prototype)
 		- [1.48.2. tcgetattr() - Explications](#1482-tcgetattr---explications)
 		- [1.48.3. tcgetattr() - Exemple](#1483-tcgetattr---exemple)
-		- [1.48.4. tcgetattr() - Notes](#1484-tcgetattr---notes)
 	- [1.49. tgetent()](#149-tgetent)
 		- [1.49.1. tgetent() - Prototype](#1491-tgetent---prototype)
 		- [1.49.2. tgetent() - Explications](#1492-tgetent---explications)
@@ -200,12 +189,10 @@
 		- [1.50.1. tgetflag() - Prototype](#1501-tgetflag---prototype)
 		- [1.50.2. tgetflag() - Explications](#1502-tgetflag---explications)
 		- [1.50.3. tgetflag() - Exemple](#1503-tgetflag---exemple)
-		- [1.50.4. tgetflag() - Notes](#1504-tgetflag---notes)
 	- [1.51. tgetnum()](#151-tgetnum)
 		- [1.51.1. tgetnum() - Prototype](#1511-tgetnum---prototype)
-		- [1.51.2. tgetnum() - Explications](#1512-tgetnum---explications)
+		- [1.51.2. tgetnum() - Explication](#1512-tgetnum---explication)
 		- [1.51.3. tgetnum() - Exemple](#1513-tgetnum---exemple)
-		- [1.51.4. tgetnum() - Notes](#1514-tgetnum---notes)
 	- [1.52. tgetstr()](#152-tgetstr)
 		- [1.52.1. tgetstr() - Prototype](#1521-tgetstr---prototype)
 		- [1.52.2. tgetstr() - Explications](#1522-tgetstr---explications)
@@ -215,12 +202,10 @@
 		- [1.53.1. tgoto() - Prototype](#1531-tgoto---prototype)
 		- [1.53.2. tgoto() - Explications](#1532-tgoto---explications)
 		- [1.53.3. tgoto() - Exemple](#1533-tgoto---exemple)
-		- [1.53.4. tgoto() - Notes](#1534-tgoto---notes)
 	- [1.54. tputs()](#154-tputs)
 		- [1.54.1. tputs() - Prototype](#1541-tputs---prototype)
 		- [1.54.2. tputs() - Explications](#1542-tputs---explications)
 		- [1.54.3. tputs() - Exemple](#1543-tputs---exemple)
-		- [1.54.4. tputs() - Notes](#1544-tputs---notes)
 
 ## 1.2. readline()
 
@@ -1738,184 +1723,907 @@ int main() {
 [C] Nouveau message : Hello team !!
 ```
 
-### 1.36.4. pipe() - Notes
-
 ## 1.37. opendir()
 
 ### 1.37.1. opendir() - Prototype
 
+```c
+#include <sys/types.h>
+#include <dirent.h>
+
+DIR *opendir(const char *dirname);
+```
+
 ### 1.37.2. opendir() - Explications
+
+La fonction `opendir()` prend un argument :
+
+- `dirname` : le nom du répertoire que tu souhaites ouvrir. Il doit être passé en tant que chaine de caracrtères.
+
+La fonction `opendir()` renvoie un pointeur de type `DIR *` qui représente le descripteur du répertoire, en cas de succès. Si l'appel échoue, elle renverra `NULL`, et tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
 
 ### 1.37.3. opendir() - Exemple
 
-### 1.37.4. opendir() - Notes
+```c
+#include <stdio.h>
+#include <dirent.h>
+
+int main() {
+	const char *dirname = "/home/luca";
+	DIR *dir;
+
+	// Ouverture du répertoire
+	dir = opendir(dirname);
+	if (dir == NULL)
+	{
+		printf("Impossible d'ouvrir le répertoire.\n");
+		return (1);
+	}
+	// Fermeture du répertoire
+	closedir(dir);
+	return (0);
+}
+```
+
+```text
+
+```
 
 ## 1.38. readdir()
 
 ### 1.38.1. readdir() - Prototype
 
+```c
+#include <dirent.h>
+
+struct dirent *readdir(DIR *dirp);
+```
+
 ### 1.38.2. readdir() - Explications
+
+La fonction `readdir()` prend un argument :
+
+- `dirp` : Un pointeur de type `DIR *` qui représente le descripteur du répertoire, obtenu à l'aide de la fonction `opendir()`.
+
+La fonction `readdir()` renvoie un pointeur de type `struct dirent *` qui représente la prochaine entrée du répertoire, sous forme de structure `struct dirent`. Si la fin du répertoire est atteinte ou en cas d'erreur, elle renverra `NULL`.
+
+```c
+struct dirent
+{
+	ino_t			d_ino;		// Numéro d'inode
+	off_t			d_off;		// Décalage à la prochaine entrée
+	unsigned short	d_reclen;	// Longeur de cet enregistrement
+	unsigned char	d_type;		// Type d'entrée (par exemple, DT_REG, DT_DIR, etc.)
+	char			d_name[];	// Nom de l'entrée
+}
+```
+
+La valeur `d_name` est le nom de l'entrée (fichier ou sous répertoire) dans le répertoire.
 
 ### 1.38.3. readdir() - Exemple
 
-### 1.38.4. readdir() - Notes
+```c
+#include <stdio.h>
+#include <dirent.h>
+
+int main() {
+	const char *dirname = ".";
+	DIR *dir;
+	struct dirent *entry;
+
+	// Ouverture du répertoire
+	dir = opendir(dirname);
+	if (dir == NULL)
+	{
+		printf("Impossible d'ouvrir le répertoire.\n");
+		return (1);
+	}
+	// Parcourir le répertoire
+	while ((entry = readdir(dir)) != NULL)
+	{
+		if (entry->d_type == DT_REG)
+			printf("Fichier\t\t: %s\n", entry->d_name);
+		else if (entry->d_type == DT_DIR)
+			printf("Répertoire\t: %s\n", entry->d_name);
+		else if (entry->d_type == DT_LNK)
+			printf("Lien symbolique\t: %s\n", entry->d_name);
+		else
+			printf("Type inconnu\t: %s\n", entry->d_name);
+	}
+	// Fermeture du répertoire
+	closedir(dir);
+	return (0);
+}
+```
+
+```text
+Fichier         : README.md
+Fichier         : playground.o
+Répertoire      : .
+Répertoire      : ..
+Fichier         : Makefile
+Fichier         : sortie.txt
+Lien symbolique : exemple.txt
+Répertoire      : docs
+Fichier         : tests
+Répertoire      : .vscode
+Fichier         : playground.c
+Répertoire      : .git
+Fichier         : .gitignore
+```
 
 ## 1.39. closedir()
 
 ### 1.39.1. closedir() - Prototype
 
+```c
+#include <dirent.h>
+
+int closedir(DIR *dirp);
+```
+
 ### 1.39.2. closedir() - Explications
 
-### 1.39.3. closedir() - Exemple
+La fonction `closedir()` prend un argument :
 
-### 1.39.4. closedir() - Notes
+- `dirp` : Un pointeur de type `DIR *` qui représente le descripteur du répertoire que tu souhaites fermer. Ce descripteur a été obtenu à l'aide de la fonction `opendir()` lors de l'ouverture du répertoire.
+
+La fonction `closedir()` ne renvoie pas de valeur de retour significative. Elle retourne `0` en cas de succès et `-1` en cas d'échec. Si tu souhaites gérer les erreurs, tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
 
 ## 1.40. strerror()
 
 ### 1.40.1. strerror() - Prototype
 
+```c
+#include <string.h>
+
+char *strerror(int errnum);
+```
+
 ### 1.40.2. strerror() - Explications
+
+La fonction `strerror()` prend un argument :
+
+- `errnum` : Le code d'erreur pour lequel tu veux obtenir la description. Ce code d'erreur est généralement stocké dans la variable globale `errno` après l'appel à une fonction qui a échoué.
+
+la fonction `strerror()` renvoie un pointeur vers une chaine de caractères statique contenant la description de l'erreur associée au code `errnum`.
 
 ### 1.40.3. strerror() - Exemple
 
-### 1.40.4. strerror() - Notes
+```c
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+int main() {
+	// Code d'erreur pour la permission refusée
+	int errcode = EACCES;
+	// Obtenir la description de l'erreur associée au code d'erreur
+	const char *errmsg = strerror(errcode);
+
+	printf("Erreur : %s\n", errmsg);
+	return (0);
+}
+```
+
+```text
+Erreur : Permission denied
+```
 
 ## 1.41. perror()
 
 ### 1.41.1. perror() - Prototype
 
+```c
+#include <stdio.h>
+
+void perror(const char *s);
+```
+
 ### 1.41.2. perror() - Explications
+
+La fonction `perror()` prend un argument optionnel :
+
+- `s` : Un pointeur vers une chaine de caractères qui sera affichée avant la description de l'erreur. Cet argument est facultatif, et tu peux le laisser `NULL` si tu ne souhaites pas afficher de message supplémentaire.
+
+La fonction `perror()` n'a pas de valeur de retour.
 
 ### 1.41.3. perror() - Exemple
 
-### 1.41.4. perror() - Notes
+```c
+#include <stdio.h>
+#include <errno.h>
+#include <fcntl.h>
+
+int main() {
+	int fd;
+
+	fd = open("fichier_qui_n_exite_pas.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Erreur lors de l'ouverture du fichier");
+		return (1);
+	}
+	return (0);
+}
+```
+
+```text
+Erreur lors de l'ouverture du fichier: No such file or directory
+```
 
 ## 1.42. isatty()
 
 ### 1.42.1. isatty() - Prototype
 
+```c
+#include <unistd.h>
+
+int isatty(int fd);
+```
+
 ### 1.42.2. isatty() - Explications
+
+La fonction `isatty()` prend un argument :
+
+- `fd` : le descripteur de fichier que tu veux vérifié si'il est associé à un terminal. Un descripteur de fichier est un entier qui représente un fichier ouvert, un fichier standard (par exemple, stdin, stdout, stderr) ou une connexion réseau.
+
+La fonction `isatty` renvoie `1` si le descripteur de fichier `fd` est associé à un terminal interactif, `0` sinon.
 
 ### 1.42.3. isatty() - Exemple
 
-### 1.42.4. isatty() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+int main() {
+	int fd;
+
+	fd = open("exemple.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		printf("Erreur lors de l'ouverture du fichier");
+		return (1);
+	}
+	if (isatty(STDIN_FILENO))
+		printf("Le fd est un terminal interactif.\n");
+	else
+		printf("Le fd n'est pas un terminal interactif.\n");
+	if (isatty(fd))
+		printf("Le fd est un terminal interactif.\n");
+	else
+		printf("Le fd n'est pas un terminal interactif.\n");
+	return (0);
+}
+```
+
+```text
+Le fd est un terminal interactif.
+Le fd n'est pas un terminal interactif.
+```
 
 ## 1.43. ttyname()
 
 ### 1.43.1. ttyname() - Prototype
 
+```c
+#include <unistd.h>
+
+char *ttyname(int fd);
+```
+
 ### 1.43.2. ttyname() - Explications
+
+La fonction `ttyname()` prend un argument :
+
+- `fd` : Le descripteur de fichier pour lequel tu souhaites obtenir le nom du terminal.
+
+La fonction `ttyname()` renvoie un pointeur vers une chaine de caractères contenant le nom du terminal si `fd` est associé à un terminal. Si `fd` n'est pas associé à un terminal, elle renvoie `NULL`.
 
 ### 1.43.3. ttyname() - Exemple
 
-### 1.43.4. ttyname() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+int main()
+{
+	char *termName = ttyname(STDIN_FILENO);
+
+	if (termName != NULL)
+		printf("L'entrée standard est associée au terminal : %s\n", termName);
+	else
+		printf("Le fd n'est pas associé à un terminal.\n");
+	return (0);
+}
+```
+
+```text
+L'entrée standard est associée au terminal : /dev/pts/0
+```
 
 ## 1.44. ttyslot()
 
 ### 1.44.1. ttyslot() - Prototype
 
+```c
+#include <unistd.h>
+
+int ttyslot(void);
+```
+
 ### 1.44.2. ttyslot() - Explications
+
+La fonction `ttyslot()` ne prend aucun argument.
+
+La dfnction `ttyslot()` renvoie un entier qui représente le numéro de l'entrée dans la table des terminaux associée au terminal interactif courant. Si aucun terminal n'est interactif n'est associcié, ou s'il y a une erreur, la fonction renverra la valeur `-1`.
 
 ### 1.44.3. ttyslot() - Exemple
 
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	int slot = ttyslot();
+
+	if (slot != -1)
+		printf("Le numéro de l'entrée dans la table des terminaux est : %d.\n", slot);
+	else
+		printf("Aucun terminal interactif n'est associé ou une erreur c'est produite.\n");
+	return (0);
+}
+```
+
+```text
+Le numéro de l'entrée dans la table des terminaux est : 0.
+```
+
 ### 1.44.4. ttyslot() - Notes
+
+La fonction `ttyslot()` est généralement disponible dabns es anciennes bibliothèque système UNIX et est utilisée pour déterminer le numéro de l'entrée du terminal associée au processus. Le numéro de l'entrée de terminal est utilis pour récupérer les informations sur le terminal à partir du fichier `/etc/ttys`.
+
+Cependant, cette fonction n'est pas standard et n'est pas portable sur toutes les plates-formes. De plus, les système moderne utilisent souvent d'autres mécanismes pour la gestion des terminaux et tty. Pour cette raison, l'utilisation de `ttyslot()` est déconseillée dabns les nouveaux programmes et il est préférable d'utiliser des méthodes plus modernes et portable pour la gestion des terminaux.
+
+Si tu a besoin d'informations sur le terminal, tu devrais plutôt utiliser les fonctions modernes telles qui `tcgetattr()` et `tcsetattr()` pour obtenir et configurer les paramètres du terminal. Ces fonctions sont définies dans l'en-tête `<termios.h>` et offrent une meilleure portabilité et de meilleures fonctionnalités pour la gestion des terminaux.
 
 ## 1.45. ioctl()
 
 ### 1.45.1. ioctl() - Prototype
 
+```c
+#include <sys/ioctl.h>
+
+int ioctl(int fd, unsigned long request, ...);
+```
+
 ### 1.45.2. ioctl() - Explications
+
+La fonction `ioctl()` prend trois arguments principaux :
+
+- `fd` : Le descripteur de fichier associé au périphérique ou à la ressource que tu souhaites contrôler. Ce descripteur doit être ouvert avec les droits appropriés pour que l'appel réussisse.
+- `request` : Une valeur de type `unsigned long` qui représente la commande spécifique au périphérique ou à la ressource que tu souhaites exécuter. Cette valeur varie selon le périphérique ou la ressources, et est généralement définie dans des en-têttes pécifiques au périphérique ou au système.
+- `...` : Des arguments optionnels supplémentaire dépendant de la commande spécifique (`request`). Certaines commandes peuvent nécessiter des argument supplémentaires, tandis que d'autres peuvent ne pas en nécessiter.
+
+La fonction `ioctl()` renvoie une valeur entière, généralement `0` en cas de succès, et `-1` en cas d'échec. Si l'appel échoue, tu peux consulter la variable globale `errno` pour connaitre la nature de l'erreur.
 
 ### 1.45.3. ioctl() - Exemple
 
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+
+int main()
+{
+	int fd = open("exemple.txt", O_RDONLY);
+	int flags; // Pour stocker les indicateur de fichier actuels
+	int ret; // Pour stocker la valeur de retour de ioctl()
+	int non_blocking = 1;
+
+	if (fd == -1)
+	{
+		printf("Erreur lors de l'ouverture du fichier.\n");
+		return (1);
+	}
+	// Activation du mode non-bloquant
+	ret = ioctl(fd, FIONBIO, &non_blocking);
+	if (ret == -1)
+	{
+		printf("Erreur lors de la définition du mode non-bloquant.\n");
+		return(2);
+	}
+	// Vérifier si le mode non-bloquant est activé
+	ret = ioctl(fd, FIONBIO, &flags);
+	if (ret == -1)
+	{
+		printf("Erreur lors de la récupération du mode non-bloquant.\n");
+		return (3);
+	}
+	close(fd);
+	if (flags != -1)
+		printf("Le mode non-bloquant est activé.\n");
+	else
+		printf("Le mode non-bloquant n'est pas activé.\n");
+	return (0);
+}
+```
+
+```text
+Le mode non-bloquant est activé.
+```
+
 ### 1.45.4. ioctl() - Notes
+
+Cette fonction, c'est le bordel. Je n'ai pas bien compris ou l'utiliser dans le projet et pourquoi. Je ne sais pas non plus ou trouver les `request` qui sont propres à chaque périphérique ou ressources. Il va falloir creuser ...
 
 ## 1.46. getenv()
 
 ### 1.46.1. getenv() - Prototype
 
+```c
+#include <stdlib.h>
+
+char *getenv(const char *name);
+```
+
 ### 1.46.2. getenv() - Explications
+
+la fonction `getenv()` prend un argument :
+
+- `name` : C'est une chaine de caractères qui représente le nom de la variable d'environnement dont tu souhaites obtenir la valeur.
+
+La fonction `getenv()` renvoie un pointeur vers une chaine de caractères contenant la valeur de la variable d'environnement spécifiée (`name`). Si la variable d'environnement n'est pas trouvée, la fonction renverra un pointeur NULL.
 
 ### 1.46.3. getenv() - Exemple
 
-### 1.46.4. getenv() - Notes
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	// Récupération de la variable d'environnement PATH
+	char *env_paths = getenv("PATH");
+
+	// Affichage de la variable d'environnement PATH
+	if (env_paths != NULL)
+		printf("PATH :\n%s\n", env_paths);
+	else
+		printf("La variable d'environnement PATH n'existe pas.\n");
+	return (0);
+}
+```
+
+```text
+PATH :
+/home/luca/.vscode-server/bin/2ccd690cbff1569e4a83d7c43d45101f817401dc/bin/remote-cli:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/luca/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/Intel/WiFi/bin/:/mnt/c/Program Files/Common Files/Intel/WirelessCommon/:/mnt/c/Users/lucar/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/lucar/AppData/Local/Programs/oh-my-posh/bin:/mnt/c/Users/lucar/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
+```
 
 ## 1.47. tcsetattr()
 
 ### 1.47.1. tcsetattr() - Prototype
 
+```c
+#include <termios.h>
+
+int tcsetattr(int fd, int optional_action, const struct termios *termios_p);
+```
+
 ### 1.47.2. tcsetattr() - Explications
+
+La fonction `tcsetattr()` prend trois arguments :
+
+- `fd` : Le descripteur de fichier du terminal que tu souhaites configurer. Dans la plupart des cas, cela sera `0` pour l'entrée standard (`stdint`), `1` pour la sortie standard (`stdout`) ou `2` pour la sortie d'erreur (`stderr`). Cependant, il est également possible d'utiliser une descripteur de fichier ouvert pour un terminal spécifique.
+- `optional_actions` : C'est un drapeau qui spécifie quand les changement doivent être appliqués. Il peut prendre l'une des valeur suivant :
+  - `TCSANOW` : Appliquer les changement immédiatement.
+  - `TCSADRAIN` : Attendre que tous les caractères en cours d'écriture soient transmis avant d'appliquer les changements.
+  - `TCSAFLUSH` : Attendre que tous les caractères en cours d'écriture soient transmis, et vider les caractères en cours de lecture avant d'appliquer les changements.
+- `termios_p` : Un pointeur vers une structure `struct termios` contenant les nouveaux attributs que tu souhaites configurer pour le terminal.
+
+La structure `struct termios` contient de nombreux champs qui définissent les attributs du terminal. Par exemple, les champs `c_iflag`, `c_oflag`, `c_cflag`, `c_lflag` définissent les indicateurs de contrôle d'entrée, de sortie, les attributs du terminal, et les indicateurs de mode local, respectivement.
 
 ### 1.47.3. tcsetattr() - Exemple
 
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <termios.h>
+
+int main()
+{
+	struct termios term_settings;
+
+	// Récupération des paramètre actuel du terminal
+	if (tcgetattr(STDIN_FILENO, &term_settings) == -1)
+	{
+		printf("Erreur lors de la récupèreation des paramètre du terminal.\n");
+		return (1);
+	}
+	// Activer le mode cannonique dans les options
+	term_settings.c_lflag |= ICANON;
+	// Application des nouveaux paramètres
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &term_settings) == -1)
+	{
+		printf("Erreur lors de l'appliquation des nouveaux paramètres.\n");
+		return (2);
+	}
+	printf("Le mode canonique du terminal est activé.\n");
+	printf("Appuyez sur 'Entrée' pour soumettre une ligne de texte.\n");
+	// Attendre une entrée de l'utilisateur
+	getchar();
+	// Rétablire les paramètres par défaut du terminal
+	term_settings.c_lflag &= -ICANON;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &term_settings) == -1)
+	{
+		printf("Erreur lros du retablissement des paramètre par défaut du terminal.\n");
+		return (3);
+	}
+	return (0);
+}
+```
+
+```text
+Le mode canonique du terminal est activé.
+Appuyez sur 'Entrée' pour soumettre une ligne de texte.
+Hello team !!
+```
+
 ### 1.47.4. tcsetattr() - Notes
+
+Je n'ai vu que une petite partie de se que peut faire cette fonction , il va falloir creuser...
 
 ## 1.48. tcgetattr()
 
 ### 1.48.1. tcgetattr() - Prototype
 
+```c
+#include <termios.h>
+
+int tcgetattr(int fd, struct termios, *termios_p);
+```
+
 ### 1.48.2. tcgetattr() - Explications
+
+La fonction `tcgetattr()` prendre deux arguments :
+
+- `fd` : Le descripteur de fichier du terminal dont tu souhaites récupérer les paramètre. Dans la plupart des cas, cela sera `0` pour l'entrée standard (`stdin`), `1` pour la sortie standard (`stdout`) ou `2` pour la sortie d'erreur (`stderr`). Cependant, il est également possible d'utiliser un descripteur de fichier ouvert pour un terminal spécifique.
+- `termios_p` : Un pointeur ver une strucure `struct termios` ou les paramètres du terminal seront stockés.
+
+La structure `struct termios` contient de nombreux champs qui définissent les attributs du terminal. Par exemple, les champs `c_iflag`, `c_oflag`, `c_cflag` et `c_lflag` définissenmt les indicateurs de contrôle d'entrée, de sortie, les attributs du terminal, et les indicateur de mode local, respectivement.
 
 ### 1.48.3. tcgetattr() - Exemple
 
-### 1.48.4. tcgetattr() - Notes
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <termios.h>
 
+int main()
+{
+	struct termios term_settings;
+
+	// Récupération des paramètre du terminal
+	if (tcgetattr(STDIN_FILENO, &term_settings) == -1)
+	{
+		printf("Erreur lors de la récupération des paramètres du terminal.\n");
+		return (1);
+	}
+	// Affichage des paramètres
+	printf("Paramètres actuels du terminal :\n");
+	printf("c_iflag: %#x\n", term_settings.c_iflag);
+	printf("c_oflag: %#x\n", term_settings.c_oflag);
+	printf("c_cflag: %#x\n", term_settings.c_cflag);
+	printf("c_lflag: %#x\n", term_settings.c_lflag);
+	printf("c_ispeed: %#x\n", term_settings.c_ispeed);
+	printf("c_ospeed: %#x\n", term_settings.c_ospeed);
+	return (0);
+}
+```
+
+```text
+Paramètres actuels du terminal :
+c_iflag: 0x6d02
+c_oflag: 0x5
+c_cflag: 0x4bf
+c_lflag: 0x8a3a
+c_ispeed: 0xf
+c_ospeed: 0xf
+```
 ## 1.49. tgetent()
 
 ### 1.49.1. tgetent() - Prototype
 
+```c
+#include <term.h>
+
+int tgetent(char *bp, const char *name);
+```
+
 ### 1.49.2. tgetent() - Explications
+
+La fonction `tgetent()` est utilisée pour initialiser la bibliothèque `Curses` avec les informations du terminal spécifié par le nom `name`. Elle remplit le tempon `bp` avec les capacités du terminal, qui seront utilisée par les autres fonctions de la bibliothèque pour contrôler le terminal de manière appropriée.
 
 ### 1.49.3. tgetent() - Exemple
 
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <term.h>
+
+int main()
+{
+	char term_buffer[2048];
+	char *term_name = getenv("TERM");
+
+	if (tgetent(term_buffer, term_name) == -1)
+	{
+		printf("Erreur lors de l'initalisation de Curses.\n");
+		return (1);
+	}
+	printf("Curses initalisée.\n");
+	return (0);
+}
+```
+
+```text
+Curses initalisée.
+```
+
 ### 1.49.4. tgetent() - Notes
+
+Nous utilisons des fonctions de la bibliothèque `Curses`, afin que le linkage se passe bien, il faut compiler avec le flag `-lcurses`.
+
+Ce n'est pas claire si il faut utiliser le header `<term.h>`, `<curses.h>`ou les deux certaine documentations les documentations se contredisent. Sur mon système (Ubuntu), je doit mettre `<term.h>` afin que la compilation se déroule bien. Il faudra voir sur les Mac de cluster.
+
+il n'est pas claire non plus si il faut utiliser `<curses>` ou `<ncurses>`. Sur mon système les deux fonctionne (`-lcurses` et `-lncurses` lors de la compilation) avec `<term.h>`. Il faudra voir sur les Mac de cluster.
 
 ## 1.50. tgetflag()
 
 ### 1.50.1. tgetflag() - Prototype
 
+```c
+#include <term.h>
+
+int tgetflag(char *id);
+```
+
 ### 1.50.2. tgetflag() - Explications
+
+La fonction `tgetflag()` est utilisée pour récupérer la valeur d'un indicateur de terminal spécifié par son identifiant (`id`). Les indicateurs de terminal sont des caractéristiques spécifiques du terminal qui sont stockées dans les informations du terminal chargées par la fonction `tgetent()`.
 
 ### 1.50.3. tgetflag() - Exemple
 
-### 1.50.4. tgetflag() - Notes
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <term.h>
+
+int main()
+{
+	char term_buffer[2048];
+	char *term_name = getenv("TERM");
+
+	if (tgetent(term_buffer, term_name) == -1)
+	{
+		printf("Erreur lors de l'initalisation de Curses.\n");
+		return (1);
+	}
+	printf("Indicateur de terminal pour %s.\n", term_name);
+	printf("Auto wraparound (am): %d\n", tgetflag("am"));
+	printf("Edition de texte (eo): %d\n", tgetflag("eo"));
+	return (0);
+}
+```
+
+```text
+Indicateur de terminal pour xterm-256color.
+Auto wraparound (am): 1
+Edition de texte (eo): 0
+```
 
 ## 1.51. tgetnum()
 
 ### 1.51.1. tgetnum() - Prototype
 
-### 1.51.2. tgetnum() - Explications
+```c
+#include <term.h>
+
+int tgetnum(char *id);
+```
+
+### 1.51.2. tgetnum() - Explication
+
+La fonction `tgetnum()` est utilisée pour récupérer la valeur numérique associée à la capacité du terminal spécifiée par son identifiant (`id`). Les capacités di terminal sont des caractèristiques spécifique du terminal qui sont stockées dans les informations du terminal chargées par la fonction `tgetent()`.
 
 ### 1.51.3. tgetnum() - Exemple
 
-### 1.51.4. tgetnum() - Notes
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <term.h>
+
+int main()
+{
+	char term_buffer[2048];
+	char *term_name = getenv("TERM");
+	int cols = 0;
+	int rows = 0;
+
+	if (tgetent(term_buffer, term_name) == -1)
+	{
+		printf("Erreur lors de l'initalisation de Curses.\n");
+		return (1);
+	}
+	// Récupération du nombre de lignes et de colonnes
+	cols = tgetnum("cols");
+	rows = tgetnum("lines");
+	printf("Le terminal comporte %d colonnes et %d lignes.\n", cols, rows);
+	return (0);
+}
+```
+
+```text
+Le terminal comporte 60 colonnes et 55 lignes.
+```
+
+```text
+Le terminal comporte 125 colonnes et 58 lignes.
+```
+
+Ici, j'ai lancé le programme deux fois en redimensionnant mon terminal entre les deux run . Ceci permet de constater que les valeur varie comme il le faut.
 
 ## 1.52. tgetstr()
 
 ### 1.52.1. tgetstr() - Prototype
 
+```c
+#include <term.h>
+
+char *tgetstr(char *id, char **area);
+```
+
 ### 1.52.2. tgetstr() - Explications
+
+La fonction `tgetstr()` est utilisée pour récupérer la séquence d'échappement (chaine de caractères) associée à la capacité du terminal spécifiée par sont identifiant (`id`). Les capacités du terminal sont des caractéristiques spécifiques du terminal qui sont stockées dans les infoimation du terminal chargées par la fonction `tgetent()`.
+
+La séquence d'échappement retournée par `tgetent()` est généralement une chaine de caractères qui permet de contrôler le terminal pour effectuer des opérations avancées, telle que le déplacement du curseur, l'effacement de l'écran, etc.
 
 ### 1.52.3. tgetstr() - Exemple
 
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <term.h>
+
+int main()
+{
+	char term_buffer[2048];
+	char *term_name = getenv("TERM");
+	char *result;
+
+	if (tgetent(term_buffer, term_name) == -1)
+	{
+		printf("Erreur lors de l'initalisation de Curses.\n");
+		return (1);
+	}
+	result = tgetstr("clear", NULL);
+	if (result != NULL)
+	{
+		printf("%s\n", result);
+		printf("L'écran a été clear.\n");
+	}
+	else
+		printf("La capacité pour effacer l'écran n'est pas disponible pour le terminal %s.\n", term_name);
+	return (0);
+}
+```
+
+```text
+L'écran a été clear.
+```
+
 ### 1.52.4. tgetstr() - Notes
+
+Il existe plusieurs `id` que nous pouvons utiliser pour intéréagir avec le terminal. Ils dépendent du terminal qui est utiliser. Pour les récupérer,nous pouvons utiliser la commande `infocmp $TERM` afin de les connaitre toutes.
+
+Je n'ai pas bien compris comment fonction `char **area`. Visiblement, nous pouvons lui passer un buffer, mais je ne sais pas pourquoi faire .Il va falloir creusé...
 
 ## 1.53. tgoto()
 
 ### 1.53.1. tgoto() - Prototype
 
+```c
+#include <term.h>
+
+char *tgoto(const char *cap, int col, int row);
+```
+
 ### 1.53.2. tgoto() - Explications
+
+La fonction `tgoto()` est utilisée pour construire un séquence d'échappement complète pour déplacer le curseur du terminal à une position spécifique, en utilisant la capacité du terminal spécifiée par `cap`. Cette fonction prend également deux entier `col` et `row` qui représente les coordonnées de la colonne et de léaligne de destination du curseur.
 
 ### 1.53.3. tgoto() - Exemple
 
-### 1.53.4. tgoto() - Notes
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <term.h>
+
+int main()
+{
+	char term_buffer[2048];
+	char *term_name = getenv("TERM");
+	char *move_cursor_seq;
+
+	if (tgetent(term_buffer, term_name) == -1)
+	{
+		printf("Erreur lors de l'initalisation de Curses.\n");
+		return (1);
+	}
+	move_cursor_seq = tgoto(tgetstr("cm", NULL), 10, 5);
+	if (move_cursor_seq != NULL)
+		printf("%s", move_cursor_seq);
+	else
+		printf("La capacité pour déplacer le curseur n'est pas disponible pour ce terminal.\n");
+	return (0);
+}
+```
 
 ## 1.54. tputs()
 
 ### 1.54.1. tputs() - Prototype
 
+```c
+#include <term.h>
+
+int tputs(const char *str, int affcnt, int(*putc)(int));
+```
+
 ### 1.54.2. tputs() - Explications
+
+La fonction `tputs()` envoie la séquence d'échappement spécifiée par la chaine `str` directement au terminal. Cette fonction utilise une fonction de rappel (`putfunc`) pour envoyer chaque caractère de la séquence. Le paramètre `affcnt` est utilisé pour spécifié le nombre de ligne à afficher après l'envoi de la séquence (il est généralement utilisé pour gérer le défilement du terminal).
 
 ### 1.54.3. tputs() - Exemple
 
-### 1.54.4. tputs() - Notes
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <term.h>
+
+int main()
+{
+	char term_buffer[2048];
+	char *term_name = getenv("TERM");
+	// La variable qui va stocker la séquence de charactère pour clear
+	char *clear_screen_seq;
+
+	if (tgetent(term_buffer, term_name) == -1)
+	{
+		printf("Erreur lors de l'initalisation de Curses.\n");
+		return (1);
+	}
+	// Récupération de la séquence de clear
+	clear_screen_seq = tgetstr("clear", NULL);
+	if (clear_screen_seq != NULL)
+	{
+		// Utilisation de la séquence clear
+		tputs(clear_screen_seq, 1, putchar);
+		printf("\nLe terminal a été effacer.\n");
+	}
+	else
+	{
+		printf("Erreur, le terminal ne prend pas en charge la capacité pour effacer l'écran.\n");
+		return (2);
+	}
+	return (0);
+}
+```
+
+```text
+Le terminal a été effacer.
+```
