@@ -1,2 +1,5 @@
 *.o
 tests
+*.out
+*.txt
+.vscode/
