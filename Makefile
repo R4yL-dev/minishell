@@ -7,7 +7,7 @@ OBJS		:= $(SRCS:.c=.o)
 
 CC 			:= gcc
 CFLAGS		:= -Wall -Wextra -Werror -std=gnu89
-CPPFLAGS	:= -I./headers -lreadline
+CPPFLAGS	:= -I./headers -lreadline -lcurses
 
 RM			:= rm -f
 MAKEFLAGS   += --no-print-directory
