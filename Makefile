@@ -2,6 +2,7 @@ NAME		:= minishell
 
 SRCS 		:= \
 	prompt/prompt.c \
+	execmd/execmd.c \
 	utils.c \
 	main.c
 

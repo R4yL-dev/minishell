@@ -6,14 +6,16 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/08/06 22:13:42 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/06 23:00:06 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
+	(void)	argc;
+	(void)	argv;
 	char	*input;
 	char	**splitted_input;
 
@@ -29,6 +31,7 @@ int	main(void)
 			free_split(splitted_input);
 			break ;
 		}
+		execmd(splitted_input, envp);
 		free_split(splitted_input);
 	}
 	clear_history();
