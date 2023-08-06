@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/06 22:01:19 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/06 22:13:52 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@
 # include "libft/libft.h"
 # include "prompt/prompt.h"
 
-void	clean_split(char **splitted_arr);
+void	free_split(char **splitted_arr);
 
 #endif
