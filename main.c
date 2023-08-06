@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/08/06 22:01:56 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/06 22:11:05 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int	main(void)
 	{
 		input = prompt_get();
 		if (input == NULL)
-		{
 			continue ;
-		}
 		splitted_input = ft_split(input, ' ');
 		free(input);
 		if (ft_strncmp(splitted_input[0], "exit", ft_strlen("exit")) == 0)
