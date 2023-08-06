@@ -6,7 +6,7 @@
 #    By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/07 18:09:36 by lray              #+#    #+#              #
-#    Updated: 2023/04/19 16:07:52 by lray             ###   ########.fr        #
+#    Updated: 2023/08/06 19:59:54 by lray             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,24 +56,13 @@ SRCS 		:= \
 	ft_strtrim.c \
 	ft_substr.c \
 	ft_tolower.c \
-	ft_toupper.c \
-	./gnl/get_next_line.c \
-	./gnl/get_next_line_utils.c \
-	./ft_printf/ft_printf.c \
-	./ft_printf/ft_printf_utils.c \
-	./ft_stack/ft_stkclear.c \
-	./ft_stack/ft_stkisempty.c \
-	./ft_stack/ft_stknew.c \
-	./ft_stack/ft_stkpeek.c \
-	./ft_stack/ft_stkpop.c \
-	./ft_stack/ft_stkpush.c \
-	./ft_stack/ft_stksize.c
+	ft_toupper.c
 
 OBJS		:= $(SRCS:.c=.o)
 
 CC 			:= gcc
 CFLAGS		:= -Wall -Wextra -Werror
-CPPFLAGS	:= -I./ -I./gnl/ -I./ft_printf/ -I./ft_stack/
+CPPFLAGS	:= -I./
 
 AR			:= ar
 ARFLAGS		:= -r -c -s
