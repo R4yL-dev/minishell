@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/06 22:01:19 by lray             ###   ########.fr       */
+/*   Created: 2023/08/06 21:58:35 by lray              #+#    #+#             */
+/*   Updated: 2023/08/06 22:01:10 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include <stdio.h>
+void	clean_split(char **splitted_arr)
+{
+	size_t	i;
 
-# include "libft/libft.h"
-# include "prompt/prompt.h"
-
-void	clean_split(char **splitted_arr);
-
-#endif
+	i = 0;
+	while (splitted_arr[i])
+		free(splitted_arr[i++]);
+	free(splitted_arr);
+}

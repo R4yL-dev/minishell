@@ -2,6 +2,7 @@ NAME		:= minishell
 
 SRCS 		:= \
 	prompt/prompt.c \
+	utils.c \
 	main.c
 
 OBJS		:= $(SRCS:.c=.o)

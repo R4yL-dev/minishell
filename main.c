@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/08/06 19:52:01 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/06 22:01:56 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(void)
 {
 	char	*input;
+	char	**splitted_input;
 
 	while (1)
 	{
@@ -23,13 +24,14 @@ int	main(void)
 		{
 			continue ;
 		}
-		if (ft_strncmp(input, "exit", ft_strlen("exit")) == 0)
+		splitted_input = ft_split(input, ' ');
+		free(input);
+		if (ft_strncmp(splitted_input[0], "exit", ft_strlen("exit")) == 0)
 		{
-			free(input);
+			clean_split(splitted_input);
 			break ;
 		}
-
-		free(input);
+		clean_split(splitted_input);
 	}
 	clear_history();
 	return (0);
