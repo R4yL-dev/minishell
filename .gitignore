@@ -4,4 +4,5 @@ tests
 *.out
 *.txt
 .vscode/
+minishell
 playground/
