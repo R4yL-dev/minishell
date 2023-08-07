@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/08/06 22:59:14 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/07 01:56:21 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	execmd(char **cmd, char **envp)
 	else
 		wait(NULL);
 }
+
+//a function who
 
 static int	is_cmd(char *path)
 {
