@@ -9,10 +9,11 @@ SRCS 		:= \
 OBJS		:= $(SRCS:.c=.o)
 
 CC 			:= gcc
-CFLAGS		:= -Wall -Wextra -Werror -std=gnu89
-CPPFLAGS	:= -lreadline -lcurses -Ilibft -Iprompt
+CFLAGS		:= -Wall -Wextra -Werror -std=gnu89 -g
+CPPFLAGS	:= -Ireadline/include/readline/ -Ilibft -Iprompt -lreadline -Lreadline/lib
 
-LIBS		:= ./libft/libft.a
+LIBS		:= \
+	./libft/libft.a
 
 RM			:= rm -f
 MAKEFLAGS   += --no-print-directory
@@ -21,11 +22,11 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	@make -C libft/
-	$(CC) $(OBJS) $(CFLAGS) $(CPPFLAGS) $(LIBS) -g -o $(NAME)
+	$(CC) $(OBJS) $(CFLAGS) $(CPPFLAGS) $(LIBS) -o $(NAME)
 	$(info CREATED $(NAME))
 
 %.o : %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -g -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 	$(info CREATED $@)
 
 clean :
