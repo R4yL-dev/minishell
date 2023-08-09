@@ -65,3 +65,8 @@ LS     GREP
 Dans cet exemple, l'arbre syntaxique montre que la commande est composée de deux parties connectées par un opérateur de pipe (`|`). La partie gauche est la commande `ls -l`, et la partie de droite est la commande `grep "file.txt"`. Chaque commande est elle-même représentée comme un noeud de l'arbre, et les arguments sont également des noeuds de l'arbre.
 
 L'arbre syntaxique varie en fonction de la complexité de la commande et des opérations effectuées. Dans des cas plus complexes, il peut y avoir plusieurs niveaux d'imbrication avec des opérateurs différentsm des commandes imbriquées et d'autre éléments syntaxiques. Chaque élément de l'arbre a un rôle spécifique dans la séquence d'exécution de la commande.
+
+
+## Ressources
+
+- [Let’s Build a Linux Shell — Part III](https://medium.com/swlh/lets-build-a-linux-shell-part-iii-a472c0102849)
