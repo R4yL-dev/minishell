@@ -18,4 +18,4 @@ Token(type=FILE, value="output.txt")
 
 ## Output
 
-![L'arbre mahique !!](assets/arbre_magic.png)
+![L'arbre magique !!](assets/arbre_magic.png)
