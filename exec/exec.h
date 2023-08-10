@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/10 02:15:25 by lray             ###   ########.fr       */
+/*   Created: 2023/08/06 22:18:47 by lray              #+#    #+#             */
+/*   Updated: 2023/08/10 02:30:06 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef EXECMD_H
+# define EXECMD_H
 
-# include <stdio.h>
+# include <sys/wait.h>
 
-# include "lexer/tklist.h"
-
-# include "libft/libft.h"
-# include "prompt/prompt.h"
-# include "lexer/lexer.h"
-# include "exec/exec.h"
-
-void	free_split(char **splitted_arr);
-
+void	exec(char **cmd, char **envp);
 #endif

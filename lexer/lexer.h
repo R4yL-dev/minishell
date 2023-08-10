@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execmd.h                                           :+:      :+:    :+:   */
+/*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 22:18:47 by lray              #+#    #+#             */
-/*   Updated: 2023/08/06 22:59:06 by lray             ###   ########.fr       */
+/*   Created: 2023/08/09 23:26:51 by lray              #+#    #+#             */
+/*   Updated: 2023/08/10 01:54:42 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECMD_H
-# define EXECMD_H
+#ifndef LEXER_H
+# define LEXER_H
 
-# include <sys/wait.h>
+enum	e_token_type
+{
+	TK_COMMAND,
+	TK_ARGUMENT,
+};
 
-void	execmd(char **cmd, char **envp);
+t_tklist	*lexer(char *input);
+char		*trim_and_condense_string(const char *input);
 
 #endif

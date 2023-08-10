@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   tklist.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/10 02:15:25 by lray             ###   ########.fr       */
+/*   Created: 2023/08/10 00:15:28 by lray              #+#    #+#             */
+/*   Updated: 2023/08/10 01:26:08 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef TKLIST_H
+# define TKLIST_H
 
-# include <stdio.h>
+typedef struct s_tklist
+{
+	int					type;
+	char				*value;
+	struct s_tklist		*next;
+}						t_tklist;
 
-# include "lexer/tklist.h"
-
-# include "libft/libft.h"
-# include "prompt/prompt.h"
-# include "lexer/lexer.h"
-# include "exec/exec.h"
-
-void	free_split(char **splitted_arr);
+t_tklist	*tklist_new(char *value, int type);
+void		tklist_add(t_tklist **lst, t_tklist *new);
+t_tklist	*tklist_last(t_tklist *lst);
 
 #endif

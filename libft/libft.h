@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 15:19:17 by luca              #+#    #+#             */
-/*   Updated: 2023/04/19 17:36:19 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/10 02:08:06 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 char	**ft_split(char const *s, char c);
+char	**ft_freesplit(char **arr);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *s, const char *find, size_t slen);
 char	*ft_strdup(const char *s);

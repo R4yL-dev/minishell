@@ -2,7 +2,10 @@ NAME		:= minishell
 
 SRCS 		:= \
 	prompt/prompt.c \
-	execmd/execmd.c \
+	lexer/lexer.c \
+	lexer/trim_and_condense_string.c \
+	lexer/tklist.c \
+	exec/exec.c \
 	utils.c \
 	main.c
 
@@ -10,7 +13,7 @@ OBJS		:= $(SRCS:.c=.o)
 
 CC 			:= gcc
 CFLAGS		:= -Wall -Wextra -Werror -std=gnu89 -g
-CPPFLAGS	:= -Ireadline/include/readline/ -Ilibft -Iprompt -lreadline -Lreadline/lib
+CPPFLAGS	:= -Ireadline/include/readline/ -lreadline -Lreadline/lib -Ilibft -Iprompt -Ilexer
 
 LIBS		:= \
 	./libft/libft.a

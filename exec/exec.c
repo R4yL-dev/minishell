@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execmd.c                                           :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/08/07 01:56:21 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/10 02:53:49 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	is_cmd(char *path);
 
-void	execmd(char **cmd, char **envp)
+void	exec(char **cmd, char **envp)
 {
 	pid_t	pid;
 	char	*tmp;
@@ -36,7 +36,9 @@ void	execmd(char **cmd, char **envp)
 	if (pid == 0)
 		execve(cmd[0], cmd, envp);
 	else
+	{
 		wait(NULL);
+	}
 }
 
 //a function who

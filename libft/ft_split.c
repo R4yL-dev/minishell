@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 17:25:45 by lray              #+#    #+#             */
-/*   Updated: 2023/04/19 17:05:41 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/10 02:07:45 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 
 #include "libft.h"
 
-static char			**ft_free_all(char **arr);
 static unsigned int	count_strs(char const *s, char c);
 static void			init_el(char **str, unsigned int *str_len, char c);
 
@@ -51,7 +50,7 @@ char	**ft_split(char const *s, char c)
 		init_el(&str, &str_len, c);
 		resp[i] = malloc(sizeof(char) * (str_len + 1));
 		if (resp[i] == NULL)
-			return (ft_free_all(resp));
+			return (ft_freesplit(resp));
 		ft_strlcpy(resp[i], str, str_len + 1);
 		i++;
 	}
@@ -59,7 +58,7 @@ char	**ft_split(char const *s, char c)
 	return (resp);
 }
 
-static char	**ft_free_all(char **arr)
+char	**ft_freesplit(char **arr)
 {
 	unsigned int	i;
 
