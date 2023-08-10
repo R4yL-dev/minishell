@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/08/10 02:55:23 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/10 13:26:29 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 //static void	db_show_tklist(t_tklist *tklist);
 
+
+/*
+	TODO:
+		- Ajouter parser
+		- Ajouter exec. Actuellement, c'est une focntion à la zeub pour tester
+*/
 int	main(int argc, char **argv, char **envp)
 {
 	(void)		argc;
@@ -29,8 +35,6 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		//tklist = lexer(input);
 		//db_show_tklist(tklist);
-		// Appeler le parser sur le résultat
-		// Appeler execut sur le résulta du parsing
 		splitted_input = ft_split(input, ' ');
 		exec(splitted_input, envp);
 		free_split(splitted_input);

@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/08/10 02:31:24 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/10 13:23:58 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,19 @@ static t_tklist	*lexer_run(char *input)
 	i = 0;
 	while(splitted_input[i])
 	{
-		if (splitted_input[i][0] == '-')
-		{
-			if (tklist == NULL)
-				tklist = tklist_new(splitted_input[i], TK_ARGUMENT);
-			else
-				tklist_add(&tklist, tklist_new(splitted_input[i], TK_ARGUMENT));
-		}
-		else
+		if (i == 0)
 		{
 			if (tklist == NULL)
 				tklist = tklist_new(splitted_input[i], TK_COMMAND);
 			else
 				tklist_add(&tklist, tklist_new(splitted_input[i], TK_COMMAND));
+		}
+		else
+		{
+			if (tklist == NULL)
+				tklist = tklist_new(splitted_input[i], TK_ARGUMENT);
+			else
+				tklist_add(&tklist, tklist_new(splitted_input[i], TK_ARGUMENT));
 		}
 		i++;
 	}
