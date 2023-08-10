@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   tree.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/10 14:38:38 by lray             ###   ########.fr       */
+/*   Created: 2023/08/10 13:50:53 by lray              #+#    #+#             */
+/*   Updated: 2023/08/10 14:30:35 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef TREE_H
+# define TREE_H
 
-# include <stdio.h>
+# define MAX_CHILDREN 1000
 
-# include "lexer/tklist.h"
-# include "parser/tree.h"
+typedef struct s_tree_node
+{
+	int					type;
+	char				*value;
+	struct s_tree_node	*children[MAX_CHILDREN];
+}	t_tree_node;
 
-# include "libft/libft.h"
-# include "prompt/prompt.h"
-# include "lexer/lexer.h"
-# include "parser/parser.h"
-# include "exec/exec.h"
+t_tree_node	*tree_new(int type, char *value);
+void	tree_add(t_tree_node *parent, t_tree_node *child);
 
-void	free_split(char **splitted_arr);
-
-void	db_show_tklist(t_tklist *tklist);
-void	db_show_tree(t_tree_node *node, int depth);
 
 #endif
