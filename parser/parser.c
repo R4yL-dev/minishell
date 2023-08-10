@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:29:53 by lray              #+#    #+#             */
-/*   Updated: 2023/08/10 14:40:05 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/10 15:30:45 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,5 @@ t_tree_node	*parser(t_tklist *tklist)
 		tree_add(tree, tree_new(head->type, head->value));
 		head = head->next;
 	}
-	db_show_tree(tree, 0);
 	return (tree);
 }

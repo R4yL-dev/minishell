@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/08/10 14:27:58 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/10 15:31:58 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)		envp;
 	char		*input;
 	t_tklist	*tklist;
+	t_tree_node	*tree;
 	//char		**splitted_input;
 
 	while (1)
@@ -33,7 +34,8 @@ int	main(int argc, char **argv, char **envp)
 		if (input == NULL)
 			continue ;
 		tklist = lexer(input);
-		parser(tklist);
+		tree = parser(tklist);
+		db_show_tree(tree, 0);
 /* 		splitted_input = ft_split(input, ' ');
 		exec(splitted_input, envp);
 		free_split(splitted_input); */
