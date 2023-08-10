@@ -5,9 +5,12 @@ SRCS 		:= \
 	lexer/lexer.c \
 	lexer/trim_and_condense_string.c \
 	lexer/tklist.c \
+	parser/parser.c \
+	parser/tree.c \
 	exec/exec.c \
 	utils.c \
-	main.c
+	main.c \
+	debug.c
 
 OBJS		:= $(SRCS:.c=.o)
 
