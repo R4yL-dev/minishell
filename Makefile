@@ -9,6 +9,7 @@ SRCS 		:= \
 	parser/tree.c \
 	parser/tree_utils.c \
 	exec/exec.c \
+	exec/dynarrstr.c \
 	utils.c \
 	main.c \
 	debug.c

@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   dynarrstr.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/11 16:30:13 by lray             ###   ########.fr       */
+/*   Created: 2023/08/11 16:27:12 by lray              #+#    #+#             */
+/*   Updated: 2023/08/11 19:04:51 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef DYNARRSTR_H
+# define DYNARRSTR_H
 
-# include <stdio.h>
 
-# include "lexer/tklist.h"
-# include "parser/tree.h"
+typedef struct s_dynarrstr
+{
+	char	**array;
+	size_t	size;
+}	t_dynarrstr;
 
-# include "libft/libft.h"
-# include "prompt/prompt.h"
-# include "lexer/lexer.h"
-# include "parser/parser.h"
-# include "exec/exec.h"
-# include "exec/dynarrstr.h"
+t_dynarrstr	*dynarrstr_init(t_dynarrstr *dynarr);
+int			dynarrstr_add(t_dynarrstr *dynarr, char *value);
+void		dynarrstr_show(t_dynarrstr *dynarr);
+void		dynarrstr_free(t_dynarrstr *dynarr);
 
-void	free_split(char **splitted_arr);
-
-void	db_show_tklist(t_tklist *tklist);
-void	db_show_tree(t_tree_node *node, int depth);
 
 #endif
