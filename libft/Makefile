@@ -6,7 +6,7 @@
 #    By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/07 18:09:36 by lray              #+#    #+#              #
-#    Updated: 2023/08/06 19:59:54 by lray             ###   ########.fr        #
+#    Updated: 2023/08/11 15:22:28 by lray             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS 		:= \
 	ft_putendl_fd.c \
 	ft_putnbr_fd.c \
 	ft_putstr_fd.c \
+	ft_realloc.c \
 	ft_split.c \
 	ft_strchr.c \
 	ft_strdup.c \
@@ -61,7 +62,7 @@ SRCS 		:= \
 OBJS		:= $(SRCS:.c=.o)
 
 CC 			:= gcc
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -g
 CPPFLAGS	:= -I./
 
 AR			:= ar
