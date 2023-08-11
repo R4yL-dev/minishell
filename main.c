@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/08/11 23:26:46 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/12 00:04:03 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(void)
 		if (input == NULL)
 			continue ;
 		tklist = lexer(input);
+		if (tklist == NULL)
+			continue ;
 		tree = parser(tklist);
 		exec(tree);
 	}
