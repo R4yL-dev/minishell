@@ -6,23 +6,23 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/08/10 15:30:39 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/11 23:27:07 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_tklist	*lexer_run(char *input);
+static t_dyntklist	*lexer_run(char *input);
 static int	is_only_space(char *input);
 
 /*
 	TODO:
 		- Il faut que le lexer gère les erreurs
 */
-t_tklist	*lexer(char *input)
+t_dyntklist	*lexer(char *input)
 {
 	char		*cleaned_input;
-	t_tklist	*tklist;
+	t_dyntklist	*tklist;
 
 	if (is_only_space(input) == 0)
 		return (NULL);
@@ -36,13 +36,14 @@ t_tklist	*lexer(char *input)
 	TODO:
 		handle split error
 */
-static t_tklist	*lexer_run(char *input)
+static t_dyntklist	*lexer_run(char *input)
 {
 	char		**splitted_input;
-	t_tklist	*tklist;
+	t_dyntklist	*tklist;
 	int			i;
 
 	tklist = NULL;
+	tklist = dyntklist_init(tklist);
 	splitted_input = ft_split(input, ' ');
 	if (splitted_input == NULL)
 		return (NULL);
@@ -50,19 +51,9 @@ static t_tklist	*lexer_run(char *input)
 	while(splitted_input[i])
 	{
 		if (i == 0)
-		{
-			if (tklist == NULL)
-				tklist = tklist_new(splitted_input[i], TK_COMMAND);
-			else
-				tklist_add(&tklist, tklist_new(splitted_input[i], TK_COMMAND));
-		}
+			dyntklist_add(tklist, TK_COMMAND, splitted_input[i]);
 		else
-		{
-			if (tklist == NULL)
-				tklist = tklist_new(splitted_input[i], TK_ARGUMENT);
-			else
-				tklist_add(&tklist, tklist_new(splitted_input[i], TK_ARGUMENT));
-		}
+			dyntklist_add(tklist, TK_ARGUMENT, splitted_input[i]);
 		i++;
 	}
 	ft_freesplit(splitted_input);

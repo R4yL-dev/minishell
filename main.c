@@ -6,17 +6,21 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/08/11 20:24:25 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/11 23:26:46 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+	FIXME:
+		- Segfault when input is only space
+*/
 
 int	main(void)
 {
 	char		*input;
-	t_tklist	*tklist;
+	t_dyntklist	*tklist;
 	t_tree_node	*tree;
 
 	while (1)
@@ -26,7 +30,6 @@ int	main(void)
 			continue ;
 		tklist = lexer(input);
 		tree = parser(tklist);
-
 		exec(tree);
 	}
 	clear_history();

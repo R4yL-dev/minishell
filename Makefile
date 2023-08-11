@@ -4,7 +4,8 @@ SRCS 		:= \
 	prompt/prompt.c \
 	lexer/lexer.c \
 	lexer/trim_and_condense_string.c \
-	lexer/tklist.c \
+	lexer/token.c \
+	lexer/dyntklist.c \
 	parser/parser.c \
 	parser/tree.c \
 	parser/tree_utils.c \

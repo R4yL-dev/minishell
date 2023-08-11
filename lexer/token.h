@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/10 13:31:46 by lray              #+#    #+#             */
-/*   Updated: 2023/08/11 23:29:38 by lray             ###   ########.fr       */
+/*   Created: 2023/08/11 22:01:18 by lray              #+#    #+#             */
+/*   Updated: 2023/08/11 23:27:21 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 
-void	db_show_tree(t_tree_node *node, int depth)
+#ifndef TOKEN_H
+# define TOKEN_H
+
+typedef struct s_token
 {
-	int	i;
+	int		type;
+	char	*value;
+}	t_token;
 
-	i = 0;
-	while (i < depth)
-	{
-		printf("  ");
-		i++;
-	}
-	printf("%s\n", node->value);
+t_token	*token_new(int type, char *value);
+void	token_free(t_token *token);
 
-	i = 0;
-	while (i < MAX_CHILDREN && node->children[i] != NULL)
-	{
-		db_show_tree(node->children[i], depth + 1);
-		i++;
-	}
-}
+#endif

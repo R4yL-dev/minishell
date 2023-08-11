@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/10 13:31:46 by lray              #+#    #+#             */
-/*   Updated: 2023/08/11 23:29:38 by lray             ###   ########.fr       */
+/*   Created: 2023/08/11 21:57:17 by lray              #+#    #+#             */
+/*   Updated: 2023/08/11 23:27:23 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	db_show_tree(t_tree_node *node, int depth)
+t_token	*token_new(int type, char *value)
 {
-	int	i;
+	t_token	*token;
 
-	i = 0;
-	while (i < depth)
-	{
-		printf("  ");
-		i++;
-	}
-	printf("%s\n", node->value);
+	token = malloc(sizeof(t_token) * 1);
+	if (token == NULL)
+		return (NULL);
+	token->type = type;
+	token->value = ft_strdup(value);
+	return (token);
+}
 
-	i = 0;
-	while (i < MAX_CHILDREN && node->children[i] != NULL)
+void	token_free(t_token *token)
+{
+	if (token != NULL)
 	{
-		db_show_tree(node->children[i], depth + 1);
-		i++;
+		free(token->value);
+		free(token);
 	}
 }
