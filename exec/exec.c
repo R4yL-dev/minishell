@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/08/11 02:30:47 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/11 02:43:59 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void exec(t_tree_node *tree, char **envp)
 		printf("Unknow cmd\n");
 		return ;
 	}
+
 	pid = fork();
 	if (pid == -1)
 	{
@@ -56,7 +57,7 @@ static char	**tree_to_argv(t_tree_node *tree)
 	nbr_node = tree_count_node(tree);
 	if (nbr_node < 1)
 		return (NULL);
-	resp = malloc(sizeof(char *) * nbr_node + 1);
+	resp = malloc(sizeof(char *) * (nbr_node + 1));
 	if (resp == NULL)
 		return (NULL);
 
@@ -66,7 +67,7 @@ static char	**tree_to_argv(t_tree_node *tree)
 	i++;
 	if (nbr_node > 1)
 	{
-		while (i < nbr_node - 1)
+		while (i < nbr_node)
 		{
 			resp[i] = malloc(sizeof(char) * (ft_strlen(tree->children[i - 1]->value) + 1));
 			resp[i] = ft_strdup(tree->children[i - 1]->value);
