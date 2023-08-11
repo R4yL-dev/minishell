@@ -6,16 +6,11 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/08/12 00:06:12 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/12 00:08:26 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-	FIXME:
-		- Segfault when input is only space
-*/
 
 int	main(void)
 {
