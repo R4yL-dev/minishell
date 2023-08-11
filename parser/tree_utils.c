@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree.h                                             :+:      :+:    :+:   */
+/*   tree_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/10 13:50:53 by lray              #+#    #+#             */
-/*   Updated: 2023/08/10 22:38:12 by lray             ###   ########.fr       */
+/*   Created: 2023/08/10 22:28:18 by lray              #+#    #+#             */
+/*   Updated: 2023/08/10 22:31:55 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TREE_H
-# define TREE_H
+#include "../minishell.h"
 
-# define MAX_CHILDREN 100
-
-typedef struct s_tree_node
+int	tree_count_node(t_tree_node *tree)
 {
-	int					type;
-	char				*value;
-	struct s_tree_node	*children[MAX_CHILDREN];
-}	t_tree_node;
+	int	nbr_node;
+	int	i;
 
-t_tree_node	*tree_new(int type, char *value);
-void	tree_add(t_tree_node *parent, t_tree_node *child);
-
-int	tree_count_node(t_tree_node *tree);
-
-
-#endif
+	nbr_node = 0;
+	i = 0;
+	if (tree != NULL)
+	{
+		nbr_node++;
+		while (tree->children[i])
+		{
+			nbr_node++;
+			i++;
+		}
+	}
+	return (nbr_node);
+}

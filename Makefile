@@ -7,6 +7,7 @@ SRCS 		:= \
 	lexer/tklist.c \
 	parser/parser.c \
 	parser/tree.c \
+	parser/tree_utils.c \
 	exec/exec.c \
 	utils.c \
 	main.c \

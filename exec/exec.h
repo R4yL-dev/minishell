@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:18:47 by lray              #+#    #+#             */
-/*   Updated: 2023/08/10 02:30:06 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/10 22:40:46 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 
 # include <sys/wait.h>
 
-void	exec(char **cmd, char **envp);
+void	exec(t_tree_node *tree, char **envp);
 #endif
