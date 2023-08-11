@@ -6,19 +6,16 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:28:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/11 19:05:37 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/11 20:53:46 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-	1) malloc dynarr (t_dynarrstr * 1)
-	2) malloc dynarr->array (str * 1) => NULL
-	3) malloc dynarr->array[0]
-
+	TODO:
+		- Checker le retour des malloc
 */
-
 t_dynarrstr	*dynarrstr_init(t_dynarrstr *dynarr)
 {
 	if (dynarr == NULL)
@@ -40,6 +37,11 @@ t_dynarrstr	*dynarrstr_init(t_dynarrstr *dynarr)
 	}
 	return (dynarr);
 }
+
+/*
+	TODO:
+		- Absolument illisible, a rework
+*/
 
 int	dynarrstr_add(t_dynarrstr *dynarr, char *value)
 {
