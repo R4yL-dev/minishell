@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/08/13 21:57:17 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/13 22:35:21 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,26 @@
 
 static void	free_line(char *input, t_dyntklist *tklist, t_dyntree *tree);
 
+/*
+	/!\ /!\ /!\
+	Il ne faut jamais oublier de set input, tklist et tree
+		a NULL au début de la main loop.
+	Si il ne sont pas set de la sorte, n'importe quelle commande
+		après une commande inconnue déclanche un segfault.
+	/!\ /!\ /!\
+*/
+
 int	main(void)
 {
 	char		*input;
 	t_dyntklist	*tklist;
 	t_dyntree	*tree;
 
-	input = NULL;
-	tklist = NULL;
-	tree = NULL;
 	while (1)
 	{
+		input = NULL;
+		tklist = NULL;
+		tree = NULL;
 		input = prompt_get();
 		if (input == NULL)
 		{
