@@ -6,13 +6,13 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/08/11 20:24:55 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/13 19:53:15 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_dynarrstr	*exec_make_argv(t_tree_node *tree);
+static t_dynarrstr	*exec_make_argv(t_dyntree *root);
 static int	exec_find_cmd(t_dynarrstr *dynarr);
 static int	is_cmd(char *path);
 
@@ -21,12 +21,12 @@ static int	is_cmd(char *path);
 		. Check PATH to find cmd
 */
 
-void exec(t_tree_node *tree)
+void	exec(t_dyntree *root)
 {
 	t_dynarrstr	*dynarr;
 	pid_t	pid;
 
-	dynarr = exec_make_argv(tree);
+	dynarr = exec_make_argv(root);
 	if (exec_find_cmd(dynarr) == 0)
 	{
 		dynarrstr_free(dynarr);
@@ -46,22 +46,22 @@ void exec(t_tree_node *tree)
 	dynarrstr_free(dynarr);
 }
 
-static t_dynarrstr	*exec_make_argv(t_tree_node *tree)
+static t_dynarrstr	*exec_make_argv(t_dyntree *root)
 {
 	t_dynarrstr	*dynarr;
-	int			i;
+	size_t			i;
 
 	dynarr = NULL;
 	dynarr = dynarrstr_init(dynarr);
-	if (tree && tree->value)
+	if (root && root->value)
 	{
-		dynarrstr_add(dynarr, tree->value);
+		dynarrstr_add(dynarr, root->value);
 		if (dynarr->array)
 		{
 			i = 0;
-			while (tree->children[i])
+			while (i < root->numChildren)
 			{
-				dynarrstr_add(dynarr, tree->children[i]->value);
+				dynarrstr_add(dynarr, root->children[i]->value);
 				i++;
 			}
 		}
