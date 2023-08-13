@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 21:36:38 by lray              #+#    #+#             */
-/*   Updated: 2023/08/11 23:27:15 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/13 23:19:17 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,18 @@ int	dyntklist_add(t_dyntklist *tklist, int type, char *value)
 	int actual_size;
 
 	if (tklist == NULL || value == NULL)
+	{
+		ft_puterror("tklist or value cannot be NULL");
 		return (0);
+	}
 	actual_size = ((int) tklist->size) + 1;
 	tklist->array = ft_realloc(tklist->array, sizeof(t_token) * actual_size, sizeof(t_token) * (actual_size + 1));
-	tklist->array[actual_size - 1]= token_new(type, value);
+	if (tklist->array == NULL)
+	{
+		ft_puterror("Realloc failed");
+		return (0);
+	}
+	tklist->array[actual_size - 1] = token_new(type, value);
 	tklist->array[actual_size] = NULL;
 	tklist->size++;
 	return (1);

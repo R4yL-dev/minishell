@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:18:47 by lray              #+#    #+#             */
-/*   Updated: 2023/08/13 19:06:03 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/14 01:39:20 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include <sys/wait.h>
 
-void	exec(t_dyntree *root);
+int	exec(t_dyntree *root);
 
 #endif

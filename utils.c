@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 21:58:35 by lray              #+#    #+#             */
-/*   Updated: 2023/08/06 22:13:33 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/14 01:39:15 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,10 @@ void	free_split(char **splitted_arr)
 	while (splitted_arr[i])
 		free(splitted_arr[i++]);
 	free(splitted_arr);
+}
+
+void	ft_puterror(char *msg)
+{
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
 }

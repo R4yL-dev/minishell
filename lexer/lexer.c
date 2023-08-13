@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/08/13 19:46:18 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/14 01:41:16 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 static t_dyntklist	*lexer_run(char *input);
 static int	is_only_space(char *input);
 
-/*
-	TODO:
-		- Il faut que le lexer gère les erreurs
-*/
 t_dyntklist	*lexer(char *input)
 {
 	char		*cleaned_input;
@@ -32,10 +28,6 @@ t_dyntklist	*lexer(char *input)
 	return (tklist);
 }
 
-/*
-	TODO:
-		handle split error
-*/
 static t_dyntklist	*lexer_run(char *input)
 {
 	char		**splitted_input;
@@ -44,16 +36,36 @@ static t_dyntklist	*lexer_run(char *input)
 
 	tklist = NULL;
 	tklist = dyntklist_init(tklist);
+	if (tklist == NULL)
+	{
+		perror("Token list initialization failed");
+		return (NULL);
+	}
 	splitted_input = ft_split(input, ' ');
 	if (splitted_input == NULL)
+	{
+		perror("Split failed");
 		return (NULL);
+	}
 	i = 0;
 	while(splitted_input[i])
 	{
 		if (i == 0)
-			dyntklist_add(tklist, TK_COMMAND, splitted_input[i]);
+		{
+			if (dyntklist_add(tklist, TK_COMMAND, splitted_input[i]) == 0)
+			{
+				ft_freesplit(splitted_input);
+				return (NULL);
+			}
+		}
 		else
-			dyntklist_add(tklist, TK_ARGUMENT, splitted_input[i]);
+		{
+			if (dyntklist_add(tklist, TK_ARGUMENT, splitted_input[i]) == 0)
+			{
+				ft_freesplit(splitted_input);
+				return (NULL);
+			}
+		}
 		i++;
 	}
 	ft_freesplit(splitted_input);

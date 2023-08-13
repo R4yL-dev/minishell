@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:28:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/11 22:28:13 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/14 01:38:50 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,29 @@ t_dynarrstr	*dynarrstr_init(t_dynarrstr *dynarr)
 			if (dynarr->array != NULL)
 			{
 				dynarr->array[0] = malloc(sizeof(char));
-				if (dynarr->array[0])
-				{
+				if (dynarr->array[0] != NULL)
 					ft_memset(dynarr->array[0], 0, sizeof(char));
+				else
+				{
+					ft_puterror("Malloc failed");
+					return (NULL);
 				}
 			}
+			else
+			{
+				ft_puterror("Malloc failed");
+				return (NULL);
+			}
+		}
+		else
+		{
+			ft_puterror("Malloc failed");
+			return (NULL);
 		}
 		dynarr->size = 0;
 	}
 	return (dynarr);
 }
-
-/*
-	TODO:
-		- Absolument illisible, a rework
-*/
 
 int	dynarrstr_add(t_dynarrstr *dynarr, char *value)
 {
@@ -51,7 +59,17 @@ int	dynarrstr_add(t_dynarrstr *dynarr, char *value)
 		return (0);
 	actual_size = ((int)dynarr->size) + 1;
 	dynarr->array = ft_realloc(dynarr->array, sizeof(char *) * actual_size, sizeof(char *) * (actual_size + 1));
+	if (dynarr->array == NULL)
+	{
+		ft_puterror("Realloc failed");
+		return (0);
+	}
 	dynarr->array[actual_size - 1] = ft_realloc(dynarr->array[actual_size - 1], 1 * sizeof(char), ((int) ft_strlen(value)) + 1);
+	if (dynarr->array[actual_size - 1] == NULL)
+	{
+		ft_puterror("Realloc failed");
+		return (0);
+	}
 	ft_strlcpy(dynarr->array[actual_size - 1], value, ft_strlen(value) + 1);
 	dynarr->array[actual_size] = NULL;
 	dynarr->size++;

@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/08/13 22:35:21 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/14 01:47:15 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(void)
 	t_dyntklist	*tklist;
 	t_dyntree	*tree;
 
+	printf("\e[1;1H\e[2J");
 	while (1)
 	{
 		input = NULL;
@@ -47,7 +48,16 @@ int	main(void)
 			continue ;
 		}
 		tree = parser(tklist);
-		exec(tree);
+		if (tree == NULL)
+		{
+			free_line(input, tklist, tree);
+			continue ;
+		}
+		if (exec(tree) == 0)
+		{
+			free_line(input, tklist, tree);
+			continue ;
+		}
 		free_line(input, tklist, tree);
 	}
 	clear_history();
