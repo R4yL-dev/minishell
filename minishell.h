@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/13 18:52:06 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/13 22:01:24 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 # include "lexer/token.h"
 # include "lexer/dyntklist.h"
-# include "parser/tree.h"
 # include "parser/dyntree.h"
 # include "exec/dynarrstr.h"
 

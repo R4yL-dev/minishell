@@ -7,9 +7,7 @@ SRCS 		:= \
 	lexer/token.c \
 	lexer/dyntklist.c \
 	parser/parser.c \
-	parser/tree.c \
 	parser/dyntree.c \
-	parser/tree_utils.c \
 	exec/exec.c \
 	exec/dynarrstr.c \
 	utils.c \
