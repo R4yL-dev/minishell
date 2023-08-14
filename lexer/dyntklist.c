@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 21:36:38 by lray              #+#    #+#             */
-/*   Updated: 2023/08/13 23:19:17 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/14 02:10:29 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_dyntklist	*dyntklist_init(t_dyntklist *tklist)
 
 int	dyntklist_add(t_dyntklist *tklist, int type, char *value)
 {
-	int actual_size;
+	int	actual_size;
 
 	if (tklist == NULL || value == NULL)
 	{

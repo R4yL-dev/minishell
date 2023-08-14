@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:28:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/14 01:38:50 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/14 02:06:51 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	dynarrstr_add(t_dynarrstr *dynarr, char *value)
 void	dynarrstr_show(t_dynarrstr *dynarr)
 {
 	int	i;
+
 	if (dynarr != NULL)
 	{
 		printf("dynarr size : %ld\n", dynarr->size);

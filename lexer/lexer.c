@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/08/14 01:41:16 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/14 02:10:06 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_dyntklist	*lexer_run(char *input)
 		return (NULL);
 	}
 	i = 0;
-	while(splitted_input[i])
+	while (splitted_input[i])
 	{
 		if (i == 0)
 		{
