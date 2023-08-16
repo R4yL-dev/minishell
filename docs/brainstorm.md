@@ -66,6 +66,36 @@ Dans cet exemple, l'arbre syntaxique montre que la commande est composée de deu
 
 L'arbre syntaxique varie en fonction de la complexité de la commande et des opérations effectuées. Dans des cas plus complexes, il peut y avoir plusieurs niveaux d'imbrication avec des opérateurs différentsm des commandes imbriquées et d'autre éléments syntaxiques. Chaque élément de l'arbre a un rôle spécifique dans la séquence d'exécution de la commande.
 
+## Ajouter le redirecteur d'entrée
+
+Pour le moment, le programme ne peux exécuter qu'une seul commande avec un nombre n d'argument. je veux ajouter le redirecteur d'entrée afin de commencer a jouer avec les fichier et dup2().
+
+Pour le moment, j'ai indentifier 2 manières d'utiliser le redirecteur d'entrée :
+
+```text
+grep "test" < exemple.txt
+< exemple.txt grep "test"
+```
+
+J'espère qu'il n'y a pas d'autre cas que je n'ai pas identifier.
+
+### Lexer
+
+Pour le moment, le type `TK_REDIRECTION` existe dans l'enum, mais il n'y a aucun traitement pour détécter et taguer ce type.
+
+Il y a deux solutions :
+
+- Soit le premier token est `<` il est forcement suivit de sont "argument"
+- Soit le premier token est autre chose (et dont une commande), suivit d'argumt jusqu'a que le token soit `<` qui sera suivit de sont argument
+
+Bash lève une erreur dans le cas de :
+
+```text
+command <
+```
+
+Dans le cas ou il n'y a pas d'argument, Bash affiche le message d'erreur `bash: syntax error near unexpected token `newline'`. Je ne sais pas si bash détéque que le token n'a pas d'argument ou si il le détécte lors de l'exécution et qui affiche le message d'erreur au moment d ouvrir le fichier.
+
 
 ## Ressources
 
