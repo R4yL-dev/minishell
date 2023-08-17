@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 00:44:36 by mflury           ###   ########.fr       */
+/*   Updated: 2023/08/18 01:17:03 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	exec(t_dyntree *root)
 		return (0);
 	if (exec_find_cmd(dynarr) == 0)
 	{
-		ft_puterror("Commande not found");
+		ft_puterror("Command not found");
 		dynarrstr_free(dynarr);
 		return (0);
 	}
