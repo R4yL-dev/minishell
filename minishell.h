@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
+/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/14 01:39:00 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/18 00:46:33 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "lexer/dyntklist.h"
 # include "parser/dyntree.h"
 # include "exec/dynarrstr.h"
+# include "env/env.h"
 
 # include "libft/libft.h"
 # include "prompt/prompt.h"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
+/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/08/14 01:36:20 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/18 00:44:36 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,22 +84,38 @@ static t_dynarrstr	*exec_make_argv(t_dyntree *root)
 
 static int	exec_find_cmd(t_dynarrstr *dynarr)
 {
-	char	*tmp;
+	char	**paths;
+	int		i;
 
-	tmp = ft_strjoin("/bin/", dynarr->array[0]);
-	if (tmp == NULL)
+	paths = get_path();
+	if (!paths)
 	{
-		ft_puterror("Ft_strjoin failed");
-		return (0);
+		ft_puterror("get_path failed");
+		return (1);
 	}
-	if (is_cmd(tmp) == 0)
+	i = 0;
+	if (is_cmd(dynarr->array[0]) == 1)
 	{
-		free(tmp);
-		return (0);
+		free_path(paths);
+		return (1);
 	}
+	i = 0;
+	// BON GROS LEAKS SA MERE JUSTE EN DESSOUS !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	while (paths[i])
+	{
+		paths[i] = ft_strjoin(paths[i], "/");
+		paths[i] = ft_strjoin(paths[i], dynarr->array[0]);
+		i++;
+	}
+	paths[i] = NULL;
+	i = 0;
+	while (is_cmd(paths[i]) == 0 && paths[i])
+		i++;
+	if (paths[i] == NULL)
+		return (0);
 	free(dynarr->array[0]);
-	dynarr->array[0] = ft_strdup(tmp);
-	free(tmp);
+	dynarr->array[0] = ft_strdup(paths[i]);
+	free_path(paths);
 	return (1);
 }
 

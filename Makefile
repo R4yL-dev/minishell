@@ -10,6 +10,7 @@ SRCS 		:= \
 	parser/dyntree.c \
 	exec/exec.c \
 	exec/dynarrstr.c \
+	env/path.c \
 	utils.c \
 	main.c \
 	debug.c
