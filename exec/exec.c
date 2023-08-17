@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 01:17:03 by mflury           ###   ########.fr       */
+/*   Updated: 2023/08/18 01:43:00 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,12 @@ static t_dynarrstr	*exec_make_argv(t_dyntree *root)
 
 static int	exec_find_cmd(t_dynarrstr *dynarr)
 {
+	char	**tmp;
 	char	**paths;
 	int		i;
 
 	paths = get_path();
+	tmp = get_path();
 	if (!paths)
 	{
 		ft_puterror("get_path failed");
@@ -100,14 +102,16 @@ static int	exec_find_cmd(t_dynarrstr *dynarr)
 		return (1);
 	}
 	i = 0;
-	// BON GROS LEAKS SA MERE JUSTE EN DESSOUS !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	while (paths[i])
 	{
-		paths[i] = ft_strjoin(paths[i], "/");
-		paths[i] = ft_strjoin(paths[i], dynarr->array[0]);
+		free(tmp[i]);
+		tmp[i] = ft_strjoin(paths[i], "/");
+		free(paths[i]);
+		paths[i] = ft_strjoin(tmp[i], dynarr->array[0]);
+		free(tmp[i]);
 		i++;
 	}
-	paths[i] = NULL;
+	free(tmp);
 	i = 0;
 	while (is_cmd(paths[i]) == 0 && paths[i])
 		i++;
@@ -121,7 +125,7 @@ static int	exec_find_cmd(t_dynarrstr *dynarr)
 
 static int	is_cmd(char *path)
 {
-	if (access(path, F_OK) == -1 || access(path, X_OK) == -1)
+	if (access(path, (F_OK | X_OK)) == -1)
 		return (0);
 	return (1);
 }
