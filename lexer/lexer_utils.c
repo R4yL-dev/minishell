@@ -1,22 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/09 23:26:51 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 01:33:13 by lray             ###   ########.fr       */
+/*   Created: 2023/08/18 01:31:05 by lray              #+#    #+#             */
+/*   Updated: 2023/08/18 01:33:20 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#include "../minishell.h"
 
-t_dyntklist	*lexer(char *input);
-char		*trim_and_condense_string(const char *input);
+int	is_only_space(char *input)
+{
+	int	nbr_space;
+	int	i;
 
-int	is_only_space(char *input);
-int	is_redirect(char *token);
+	i = 0;
+	nbr_space = 0;
+	while (input[i])
+	{
+		if (input[i] == ' ')
+			nbr_space++;
+		i++;
+	}
+	if (nbr_space == i)
+		return (0);
+	return (1);
+}
 
-#endif
+int	is_redirect(char *token)
+{
+	if (token && ft_strlen(token) == 1 && \
+		(ft_strncmp(token, "<", 1) == 0 || ft_strncmp(token, ">", 1) == 0))
+		return (1);
+	else
+		return (0);
+}
