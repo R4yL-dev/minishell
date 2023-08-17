@@ -6,17 +6,15 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 01:27:53 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/18 01:34:33 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static t_dyntklist	*lexer_run(char *input);
-static int	is_only_space(char *input);
 static char	**split_input(char *input);
 static t_dyntklist *tokenize(char **splitted_input);
-static int is_redirect(char *token);
 
 t_dyntklist	*lexer(char *input)
 {
@@ -45,24 +43,6 @@ static t_dyntklist	*lexer_run(char *input)
 	return (tklist);
 }
 
-static int	is_only_space(char *input)
-{
-	int	nbr_space;
-	int	i;
-
-	i = 0;
-	nbr_space = 0;
-	while (input[i])
-	{
-		if (input[i] == ' ')
-			nbr_space++;
-		i++;
-	}
-	if (nbr_space == i)
-		return (0);
-	return (1);
-}
-
 static char	**split_input(char *input)
 {
 	char		**splitted_input;
@@ -76,12 +56,6 @@ static char	**split_input(char *input)
 	return (splitted_input);
 }
 
-
-/*
-	TODO:
-		- OK POUR LE MOMENT, j ai fait une batterie de test basique,
-			mais  il faudra encore bien tester car c'est une étape crusiale
-*/
 static t_dyntklist *tokenize(char **splitted_input)
 {
 	t_dyntklist	*tklist;
@@ -129,13 +103,4 @@ static t_dyntklist *tokenize(char **splitted_input)
 			dyntklist_add(tklist, TK_ARGUMENT, splitted_input[i++]);
 	}
 	return (tklist);
-}
-
-static int is_redirect(char *token)
-{
-	if (token && ft_strlen(token) == 1 && \
-		(ft_strncmp(token, "<", 1) == 0 || ft_strncmp(token, ">", 1) == 0))
-		return (1);
-	else
-		return (0);
 }
