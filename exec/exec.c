@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 01:43:00 by mflury           ###   ########.fr       */
+/*   Updated: 2023/08/18 02:15:31 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ static int	exec_find_cmd(t_dynarrstr *dynarr)
 	i = 0;
 	if (is_cmd(dynarr->array[0]) == 1)
 	{
+		free_path(tmp);
 		free_path(paths);
 		return (1);
 	}
