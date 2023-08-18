@@ -50,15 +50,3 @@ char	**get_path(void)
 	free(path);
 	return (paths);
 }
-
-
-// free the paths tab.
-void free_path(char **paths)
-{
-	int i;
-
-	i = 0;
-	while (paths[i])
-		free(paths[i++]);
-	free(paths);
-}

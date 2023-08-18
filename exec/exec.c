@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 02:31:15 by mflury           ###   ########.fr       */
+/*   Updated: 2023/08/18 12:50:27 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ static int	exec_find_cmd(t_dynarrstr *dynarr)
 	i = 0;
 	if (is_cmd(dynarr->array[0]) == 1)
 	{
-		free_path(tmp);
-		free_path(paths);
+		free_split(tmp);
+		free_split(paths);
 		return (1);
 	}
 	i = 0;
@@ -122,7 +122,7 @@ static int	exec_find_cmd(t_dynarrstr *dynarr)
 		return (0);
 	free(dynarr->array[0]);
 	dynarr->array[0] = ft_strdup(paths[i]);
-	free_path(paths);
+	free_split(paths);
 	return (1);
 }
 
