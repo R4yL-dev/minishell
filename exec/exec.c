@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 02:15:31 by mflury           ###   ########.fr       */
+/*   Updated: 2023/08/18 02:31:15 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ static t_dynarrstr	*exec_make_argv(t_dyntree *root)
 	return (dynarr);
 }
 
+// TODO: Check for single and multiple '/' only input.
+// use $PATH to find cmd.
 static int	exec_find_cmd(t_dynarrstr *dynarr)
 {
 	char	**tmp;
