@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 01:34:33 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/18 22:17:10 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static t_dyntklist *tokenize(char **splitted_input)
 	while (is_redirect(splitted_input[i]))
 	{
 		dyntklist_add(tklist, TK_REDIRECTION, splitted_input[i++]);
-		if (splitted_input[i] != NULL)
+		if (splitted_input[i] != NULL && is_redirect(splitted_input[i]) == 0)
 			dyntklist_add(tklist, TK_FILE, splitted_input[i++]);
 		else
 		{
@@ -90,7 +90,7 @@ static t_dyntklist *tokenize(char **splitted_input)
 		if (is_redirect(splitted_input[i]))
 		{
 			dyntklist_add(tklist, TK_REDIRECTION, splitted_input[i++]);
-			if (splitted_input[i] != NULL)
+			if (splitted_input[i] != NULL && is_redirect(splitted_input[i]) == 0)
 				dyntklist_add(tklist, TK_FILE, splitted_input[i++]);
 			else
 			{

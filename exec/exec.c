@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 17:39:11 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/19 00:18:50 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ static int	is_cmd(char *path);
 	TODO:
 		THIS FILE IS HORRIBLE BUT IT WORKS FINE.
 		IT'S MUST BE CLEANED BEFORE IT BECOMES A MONSTER.
+
+		/!\ /!\ /!\ THE MONSTER GROWS!
+
+		THE MONSTER IS OUT OF CONTROL.
+		WE REALLY HAVE TO DO SOMETHING!!! /!\ /!\ /!\
 */
 
 int	exec(t_dyntree *root)
@@ -34,23 +39,107 @@ int	exec(t_dyntree *root)
 	fd_in = STDIN_FILENO;
 	fd_out = STDOUT_FILENO;
 	i = 0;
+	if (ft_strlen(root->value) == 1 && (ft_strncmp(root->value, "<", 1) == 0 || ft_strncmp(root->value, ">", 1) == 0))
+	{
+		if (root->children[i] != NULL)
+		{
+			i++;
+			if (ft_strncmp(root->value, "<", 1) == 0)
+			{
+				fd_in = open_file(root->children[0]->value, O_RDONLY, 0);
+				if (fd_in == -1)
+				{
+					perror("");
+					return (0);
+				}
+			}
+			else
+			{
+				fd_out = open_file(root->children[0]->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				if (fd_out == -1)
+				{
+					perror("");
+					return (0);
+				}
+			}
+			i++;
+			while (i < (int)root->numChildren)
+			{
+				if (ft_strlen(root->children[i]->value) == 1 && (ft_strncmp(root->children[i]->value, "<", 1) == 0 || ft_strncmp(root->children[i]->value, ">", 1) == 0))
+				{
+					i++;
+					if (root->children[i] != NULL)
+					{
+						if (ft_strncmp(root->children[i]->value, "<", 1) == 0)
+						{
+							fd_in = open_file(root->children[i]->value, O_RDONLY, 0);
+							if (fd_in == -1)
+							{
+								perror("");
+								return (0);
+							}
+						}
+						else
+						{
+							fd_out = open_file(root->children[i]->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+							if (fd_out == -1)
+							{
+								perror("");
+								return (0);
+							}
+						}
+					}
+					else
+					{
+						ft_puterror("SYNTAX ERROR 1");
+						return (0);
+					}
+				}
+				else
+				{
+					ft_puterror("SYNTAX ERROR 2");
+					return (0);
+				}
+				return (1);
+			}
+
+		}
+		else
+		{
+			ft_puterror("SYNTAX ERROR 3");
+			return (0);
+		}
+	}
 	while (i < (int)root->numChildren)
-	{	if (root->children[i]->type == TK_REDIRECTION)
+	{
+		if (root->children[i]->type == TK_REDIRECTION)
 		{
 			if (ft_strncmp(root->children[i]->value, "<", 1) == 0)
 			{
 				fd_in = open_file(root->children[i]->children[0]->value, O_RDONLY, 0);
 				if (fd_in == -1)
+				{
+					perror("");
 					return (0);
+				}
 			}
 			else if (ft_strncmp(root->children[i]->value, ">", 1) == 0)
 			{
 				fd_out = open_file(root->children[i]->children[0]->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 				if (fd_out == -1)
+				{
+					perror("");
 					return (0);
+				}
 			}
 		}
 		i++;
+	}
+	// Si pas de TK_COMMAND dans l arbre, il faut return;
+	if (ft_strlen(root->value) == 1 && (ft_strncmp(root->value, "<", 1) == 0 || (ft_strncmp(root->value, ">", 1) == 0)))
+	{
+		//printf("YOYOYOYOYOYO\n");
+		return (0);
 	}
 	dynarr = exec_make_argv(root);
 	if (dynarr == NULL)
@@ -169,10 +258,13 @@ static int	exec_find_cmd(t_dynarrstr *dynarr)
 	}
 	free(tmp);
 	i = 0;
-	while (is_cmd(paths[i]) == 0 && paths[i])
+	while (paths[i] != NULL && is_cmd(paths[i]) == 0)
 		i++;
 	if (paths[i] == NULL)
+	{
+		free_split(paths);
 		return (0);
+	}
 	free(dynarr->array[0]);
 	dynarr->array[0] = ft_strdup(paths[i]);
 	free_split(paths);
