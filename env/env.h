@@ -29,7 +29,7 @@ void 	free_path(char **paths);
 // interpret $VAR in the arguments.
 // void	echo(t_dynarrstr *dynarr);
 
-int is_only_slash(char *str);
-int is_slash(char c);
+// int is_only_slash(char *str);
+// int is_slash(char c);
 
 #endif
