@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
+/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
 /*   Updated: 2023/08/18 17:39:11 by lray             ###   ########.fr       */
@@ -57,7 +57,7 @@ int	exec(t_dyntree *root)
 		return (0);
 	if (exec_find_cmd(dynarr) == 0)
 	{
-		ft_puterror("Commande not found");
+		ft_puterror("Command not found");
 		dynarrstr_free(dynarr);
 		return (0);
 	}
@@ -135,30 +135,53 @@ static t_dynarrstr	*exec_make_argv(t_dyntree *root)
 	return (dynarr);
 }
 
+// TODO: Check for single and multiple '/' only input.
+// use $PATH to find cmd.
 static int	exec_find_cmd(t_dynarrstr *dynarr)
 {
-	char	*tmp;
+	char	**tmp;
+	char	**paths;
+	int		i;
 
-	tmp = ft_strjoin("/bin/", dynarr->array[0]);
-	if (tmp == NULL)
+	paths = get_path();
+	tmp = get_path();
+	if (!paths)
 	{
-		ft_puterror("Ft_strjoin failed");
-		return (0);
+		ft_puterror("get_path failed");
+		return (1);
 	}
-	if (is_cmd(tmp) == 0)
+	i = 0;
+	if (is_cmd(dynarr->array[0]) == 1)
 	{
-		free(tmp);
-		return (0);
+		free_split(tmp);
+		free_split(paths);
+		return (1);
 	}
-	free(dynarr->array[0]);
-	dynarr->array[0] = ft_strdup(tmp);
+	i = 0;
+	while (paths[i])
+	{
+		free(tmp[i]);
+		tmp[i] = ft_strjoin(paths[i], "/");
+		free(paths[i]);
+		paths[i] = ft_strjoin(tmp[i], dynarr->array[0]);
+		free(tmp[i]);
+		i++;
+	}
 	free(tmp);
+	i = 0;
+	while (is_cmd(paths[i]) == 0 && paths[i])
+		i++;
+	if (paths[i] == NULL)
+		return (0);
+	free(dynarr->array[0]);
+	dynarr->array[0] = ft_strdup(paths[i]);
+	free_split(paths);
 	return (1);
 }
 
 static int	is_cmd(char *path)
 {
-	if (access(path, F_OK) == -1 || access(path, X_OK) == -1)
+	if (access(path, (F_OK | X_OK)) == -1)
 		return (0);
 	return (1);
 }
