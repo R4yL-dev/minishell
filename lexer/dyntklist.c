@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 21:36:38 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 13:17:54 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/18 14:48:37 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int dyntklist_delone(t_dyntklist *tklist, int id)
 		i++;
 	}
 	tklist->size--;
-	tklist->array = ft_realloc(tklist->array, sizeof(t_token) * (tklist->size + 1), sizeof(t_token) * tklist->size);
+	if (tklist->size > 0)
+		tklist->array = ft_realloc(tklist->array, sizeof(t_token) * (tklist->size + 1), sizeof(t_token) * tklist->size);
 	if (tklist->array == NULL)
 	{
 		ft_puterror("Realloc failed");
