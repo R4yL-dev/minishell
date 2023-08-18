@@ -6,14 +6,13 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/08/17 01:42:21 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/18 01:34:33 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static t_dyntklist	*lexer_run(char *input);
-static int	is_only_space(char *input);
 static char	**split_input(char *input);
 static t_dyntklist *tokenize(char **splitted_input);
 
@@ -44,24 +43,6 @@ static t_dyntklist	*lexer_run(char *input)
 	return (tklist);
 }
 
-static int	is_only_space(char *input)
-{
-	int	nbr_space;
-	int	i;
-
-	i = 0;
-	nbr_space = 0;
-	while (input[i])
-	{
-		if (input[i] == ' ')
-			nbr_space++;
-		i++;
-	}
-	if (nbr_space == i)
-		return (0);
-	return (1);
-}
-
 static char	**split_input(char *input)
 {
 	char		**splitted_input;
@@ -75,12 +56,6 @@ static char	**split_input(char *input)
 	return (splitted_input);
 }
 
-
-/*
-	TODO:
-		- OK POUR LE MOMENT, j ai fait une batterie de test basique,
-			mais  il faudra encore bien tester car c'est une étape crusiale
-*/
 static t_dyntklist *tokenize(char **splitted_input)
 {
 	t_dyntklist	*tklist;
@@ -90,30 +65,21 @@ static t_dyntklist *tokenize(char **splitted_input)
 	tklist = dyntklist_init(tklist);
 	if (tklist == NULL)
 	{
-		perror("Token list initialization failed");
+		ft_puterror("Token list initialization failed");
 		return (NULL);
 	}
 	i = 0;
-	while (splitted_input[i])
+	while (is_redirect(splitted_input[i]))
 	{
-		if (ft_strlen(splitted_input[i]) == 1 && (ft_strncmp(splitted_input[i], "<", 1) == 0 || ft_strncmp(splitted_input[i], ">", 1) == 0))
-		{
-			dyntklist_add(tklist, TK_REDIRECTION, splitted_input[i]);
-			i++;
-			if (splitted_input[i] != NULL)
-			{
-				dyntklist_add(tklist, TK_FILE, splitted_input[i]);
-				i++;
-			}
-			else
-			{
-				ft_puterror("SYNTAX ERROR !!!");
-				dyntklist_free(tklist);
-				return (NULL);
-			}
-		}
+		dyntklist_add(tklist, TK_REDIRECTION, splitted_input[i++]);
+		if (splitted_input[i] != NULL)
+			dyntklist_add(tklist, TK_FILE, splitted_input[i++]);
 		else
-			break ;
+		{
+			ft_puterror("syntax error");
+			dyntklist_free(tklist);
+			return (NULL);
+		}
 	}
 	if (splitted_input[i] == NULL)
 		return (tklist);
@@ -121,27 +87,20 @@ static t_dyntklist *tokenize(char **splitted_input)
 	i++;
 	while (splitted_input[i])
 	{
-		if (ft_strlen(splitted_input[i]) == 1 && (ft_strncmp(splitted_input[i], "<", 1) == 0 || ft_strncmp(splitted_input[i], ">", 1) == 0))
+		if (is_redirect(splitted_input[i]))
 		{
-			dyntklist_add(tklist, TK_REDIRECTION, splitted_input[i]);
-			i++;
+			dyntklist_add(tklist, TK_REDIRECTION, splitted_input[i++]);
 			if (splitted_input[i] != NULL)
-			{
-				dyntklist_add(tklist, TK_FILE, splitted_input[i]);
-				i++;
-			}
+				dyntklist_add(tklist, TK_FILE, splitted_input[i++]);
 			else
 			{
-				ft_puterror("SYNTAX ERROR !!!");
+				ft_puterror("syntax error");
 				dyntklist_free(tklist);
 				return (NULL);
 			}
 		}
 		else
-		{
-			dyntklist_add(tklist, TK_ARGUMENT, splitted_input[i]);
-			i++;
-		}
+			dyntklist_add(tklist, TK_ARGUMENT, splitted_input[i++]);
 	}
 	return (tklist);
 }
