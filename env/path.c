@@ -12,41 +12,25 @@
 
 #include "../minishell.h"
 
-
-// int	is_slash(char c)
-// {
-// 	if (c == '/')
-// 		return (1);
-// 	return (0);
-// }
-
-// int is_only_slash(char *str)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (is_slash(str[i]) == 0)
-// 			return (0);
-// 		i++;
-// 	}
-// 	return (1);
-// }
-
-// get all the possible path in $PATH,
-// separated in a tab.
 char	**get_path(void)
 {
 	char	*path;
 	char	**paths;
-	
+
 	path = NULL;
 	path = getenv("PATH");
-	if (!path)
+	if (path == NULL)
+	{
+		ft_puterror("Get_env error, $PATH does't exist");
 		return (NULL);
+	}
 	path = ft_strtrim(path, "PATH=");
 	paths = ft_split(path, ':');
+	if (paths == NULL)
+	{
+		ft_puterror("Split error");
+		return (NULL);
+	}
 	free(path);
 	return (paths);
 }
