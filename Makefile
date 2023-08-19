@@ -11,6 +11,8 @@ SRCS 		:= \
 	parser/dyntree.c \
 	exec/exec.c \
 	exec/dynarrstr.c \
+	exec/open_all_fd.c \
+	exec/get_cmd_path.c \
 	env/path.c \
 	utils.c \
 	main.c \
