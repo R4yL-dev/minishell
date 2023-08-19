@@ -18,14 +18,22 @@
 
 ### How does it works:
 
-+ `to be done`
++ Minishell gives you a prompt while waiting for commands.
+
++ It checks if all the passed arguments are valid and makes an `abstract syntax tree` out of them. categorizing them such as `command`, `argument`, `file`, `redirection` and `pipe`.
+
++ Then it runs executables if it can find a valid path to them using the environement variable `$PATH` or by their path dirctly. (eg: `ls` or `/bin/ls` basically giving the same reslut)
+
++ Otherwise, it looks if its a builtins, such as `echo`, `cd`, `pwd`, `export`, `unset`, `env` and `exit`.
+
++ Minishell also have to manage some signals, such as `Ctrl-C`, `Ctrl-D` and `Ctrl-\` that should reproduce bash behavior.
 
 ### Particularities:
 
-+ `to be done`
++ The `readline` function has leaks that we dont have to correct for the project.
 
 ...
 
-> [help markdown readme]
+> help markdown readme
 >
 > https://docs.github.com/fr/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
