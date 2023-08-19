@@ -1,4 +1,4 @@
-# `MiniShell`
+# MiniShell
 
 ### Introduction:
 
@@ -16,7 +16,6 @@
 1. Finally, launch the minishell:
    - `./minishell`
 
-
 ### How does it works:
 
 + `to be done`
@@ -26,3 +25,7 @@
 + `to be done`
 
 ...
+
+help markdown readme:
+
+(https://docs.github.com/fr/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
