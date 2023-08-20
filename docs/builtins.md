@@ -92,7 +92,7 @@
 
 ###### Using `exit` command:
 
-The exit command exits the shell with a STATUS_NB.
+> The exit command exits the shell with a STATUS_NB.
 
 
 
