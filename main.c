@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/08/17 01:40:29 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/19 12:40:31 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ static void	free_line(char *input, t_dyntklist *tklist, t_dyntree *tree);
 	Si il ne sont pas set de la sorte, n'importe quelle commande
 		après une commande inconnue déclanche un segfault.
 	/!\ /!\ /!\
+
+	FIXME:
+		- Lorsque nous entrons un ou des '/', ne reagit pas comme Bash.
 */
 
 int	main(void)
