@@ -6,16 +6,12 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:28:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/14 02:06:51 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/22 16:50:04 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*
-	TODO:
-		- Checker le retour des malloc
-*/
 t_dynarrstr	*dynarrstr_init(t_dynarrstr *dynarr)
 {
 	if (dynarr == NULL)
