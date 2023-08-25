@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 21:58:35 by lray              #+#    #+#             */
-/*   Updated: 2023/08/14 01:39:15 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/23 18:00:19 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,32 @@ void	free_split(char **splitted_arr)
 	while (splitted_arr[i])
 		free(splitted_arr[i++]);
 	free(splitted_arr);
+}
+
+char	**arrcyp(char **arr, int size)
+{
+	char	**new_arr;
+	int		i;
+
+	new_arr = malloc (sizeof(char *) * (size + 1));
+	if (new_arr == NULL)
+	{
+		ft_puterror("Malloc failed");
+		return (NULL);
+	}
+	i = 0;
+	while (i < size)
+	{
+		new_arr[i] = ft_strdup(arr[i]);
+		if (new_arr[i] == NULL)
+		{
+			ft_puterror("Dup failed");
+			return (NULL);
+		}
+		i++;
+	}
+	new_arr[i] = NULL;
+	return (new_arr);
 }
 
 void	ft_puterror(char *msg)
