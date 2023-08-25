@@ -10,6 +10,8 @@ SRCS 		:= \
 	parser/parser.c \
 	parser/dyntree.c \
 	exec/exec.c \
+	exec/pipes_list.c \
+	exec/env_node.c \
 	exec/dynarrstr.c \
 	exec/open_all_fd.c \
 	exec/get_cmd_path.c \
