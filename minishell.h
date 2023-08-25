@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/25 15:37:53 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/25 15:49:45 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	free_split(char **splitted_arr);
  * @param size The size of the array.
  * @return A pointer to the new array of strings, or NULL if any error occurs.
  */
-char **arrcyp(char **arr, int size);
+char **arrcpy(char **arr, int size);
 
 void	ft_puterror(char *msg);
 

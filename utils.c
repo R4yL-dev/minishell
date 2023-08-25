@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 21:58:35 by lray              #+#    #+#             */
-/*   Updated: 2023/08/23 18:00:19 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/25 15:49:31 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_split(char **splitted_arr)
 	free(splitted_arr);
 }
 
-char	**arrcyp(char **arr, int size)
+char	**arrcpy(char **arr, int size)
 {
 	char	**new_arr;
 	int		i;

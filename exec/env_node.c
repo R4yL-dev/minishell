@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:49:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/24 19:20:42 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/25 15:50:24 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env)
 			return (NULL);
 		}
 		head->path = ft_strdup(args->array[0]);
-		head->args = arrcyp(args->array, args->size);
+		head->args = arrcpy(args->array, args->size);
 		dynarrstr_free(args);
 		return (head);
 	}
@@ -71,7 +71,7 @@ t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env)
 			return (NULL);
 		}
 		prev->path = ft_strdup(args->array[0]);
-		prev->args = arrcyp(args->array, args->size);
+		prev->args = arrcpy(args->array, args->size);
 		dynarrstr_free(args);
 		prev->next = env_node_new();
 		prev = prev->next;
@@ -92,7 +92,7 @@ t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env)
 			return (NULL);
 	}
 	prev->path = ft_strdup(args->array[0]);
-	prev->args = arrcyp(args->array, args->size);
+	prev->args = arrcpy(args->array, args->size);
 	dynarrstr_free(args);
 	return (head);
 }
