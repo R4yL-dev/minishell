@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 15:25:36 by lray              #+#    #+#             */
-/*   Updated: 2023/08/19 17:22:40 by lray             ###   ########.fr       */
+/*   Updated: 2023/08/23 22:46:06 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	open_file(char *path, int flag, int file_perm)
 		fd = open(path, flag, file_perm);
 	if (fd == -1)
 	{
-		perror("miniShrek");
+		perror(path);
 		return (-1);
 	}
 	return (fd);
