@@ -6,11 +6,16 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 21:36:38 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 14:48:37 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/05 15:29:37 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/*
+	TODO:
+		- Il faut que je traite les erreurs ici et pas plus tard
+*/
 
 t_dyntklist	*dyntklist_init(t_dyntklist *tklist)
 {
@@ -18,10 +23,16 @@ t_dyntklist	*dyntklist_init(t_dyntklist *tklist)
 	{
 		tklist = malloc(sizeof(t_dyntklist) * 1);
 		if (tklist == NULL)
+		{
+			ft_puterror("Malloc failed");
 			return (NULL);
+		}
 		tklist->array = malloc(sizeof(t_token) * 1);
 		if (tklist->array == NULL)
+		{
+			ft_puterror("Malloc failed");
 			return (NULL);
+		}
 		tklist->array[0] = NULL;
 		tklist->size = 0;
 	}
@@ -85,7 +96,17 @@ void	dyntklist_show(t_dyntklist *tklist)
 		printf("tklist->size : %ld\n", tklist->size);
 		while (tklist->array[i])
 		{
-			printf("tklist->array[%d]->type : %d\n", i, tklist->array[i]->type);
+			printf("tklist->array[%d]->type : ", i);
+			if (tklist->array[i]->type == 0)
+				printf("TK_COMMAND\n");
+			else if (tklist->array[i]->type == 1)
+				printf("TK_ARGUMENT\n");
+			else if (tklist->array[i]->type == 2)
+				printf("TK_FILE\n");
+			else if (tklist->array[i]->type == 3)
+				printf("TK_REDIRECTION\n");
+			else if (tklist->array[i]->type == 4)
+				printf("TK_PIPE\n");
 			printf("tklist->array[%d]->value : %s\n", i, tklist->array[i]->value);
 			i++;
 		}

@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 01:31:05 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 01:33:20 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/05 15:07:11 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ int	is_redirect(char *token)
 	if (token && ft_strlen(token) == 1 && \
 		(ft_strncmp(token, "<", 1) == 0 || ft_strncmp(token, ">", 1) == 0))
 		return (1);
-	else
-		return (0);
+	return (0);
+}
+
+int is_pipe(char *token)
+{
+	if (token && ft_strlen(token) == 1 && ft_strncmp(token, "|", 1) == 0)
+		return (1);
+	return (0);
 }
