@@ -6,11 +6,16 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 21:36:38 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 14:48:37 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/05 11:02:10 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/*
+	TODO:
+		- Il faut que je traite les erreurs ici et pas plus tard
+*/
 
 t_dyntklist	*dyntklist_init(t_dyntklist *tklist)
 {
@@ -18,10 +23,16 @@ t_dyntklist	*dyntklist_init(t_dyntklist *tklist)
 	{
 		tklist = malloc(sizeof(t_dyntklist) * 1);
 		if (tklist == NULL)
+		{
+			ft_puterror("Malloc failed");
 			return (NULL);
+		}
 		tklist->array = malloc(sizeof(t_token) * 1);
 		if (tklist->array == NULL)
+		{
+			ft_puterror("Malloc failed");
 			return (NULL);
+		}
 		tklist->array[0] = NULL;
 		tklist->size = 0;
 	}

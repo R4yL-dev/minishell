@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 22:17:10 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/05 11:02:25 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ static t_dyntklist *tokenize(char **splitted_input)
 	tklist = NULL;
 	tklist = dyntklist_init(tklist);
 	if (tklist == NULL)
-	{
-		ft_puterror("Token list initialization failed");
 		return (NULL);
-	}
 	i = 0;
 	while (is_redirect(splitted_input[i]))
 	{
