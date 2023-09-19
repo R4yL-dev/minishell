@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/09/05 15:41:29 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/15 18:37:01 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,11 @@ static t_dyntklist *tokenize(char **splitted_input)
 		}
 		else if (is_pipe(splitted_input[i]))
 		{
+			if (splitted_input[i + 1] == NULL || is_pipe(splitted_input[i + 1]) == 1)
+			{
+				ft_puterror("Syntax error");
+				return (NULL);
+			}
 			dyntklist_add(tklist, TK_PIPE, "|");
 			i++;
 			continue ;
