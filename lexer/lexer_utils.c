@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 01:31:05 by lray              #+#    #+#             */
-/*   Updated: 2023/09/05 15:07:11 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/19 19:00:26 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,15 @@ int	is_only_space(char *input)
 
 int	is_redirect(char *token)
 {
-	if (token && ft_strlen(token) == 1 && \
-		(ft_strncmp(token, "<", 1) == 0 || ft_strncmp(token, ">", 1) == 0))
-		return (1);
+	if (token)
+	{
+		if (ft_strlen(token) == 1 && ft_strncmp(token, "<", 1) == 0)
+			return (1);
+		else if (ft_strlen(token) == 1 && ft_strncmp(token, ">", 1) == 0)
+			return (1);
+		else if (ft_strlen(token) == 2 && ft_strncmp(token, ">>", 2) == 0)
+			return (1);
+	}
 	return (0);
 }
 
