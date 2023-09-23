@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/09/23 17:19:28 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/23 17:30:51 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_dyntklist	*lexer(char *input)
 	tklist = dyntklist_init(tklist);
 	in_cmd = 0;
 	i = 0;
-	skip_space(input, &i);
 	while (input[i] != '\0')
 	{
 		skip_space(input, &i);
