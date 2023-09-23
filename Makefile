@@ -23,7 +23,7 @@ SRCS 		:= \
 OBJS		:= $(SRCS:.c=.o)
 
 CC 			:= gcc
-CFLAGS		:= -Wall -Wextra -Werror -std=gnu89 -g
+CFLAGS		:= -Wall -Wextra -Werror -std=gnu89 -fsanitize=address -static-libasan -g
 CPPFLAGS	:= -Ireadline/include/readline/ -lreadline -Lreadline/lib -Ilibft -Iprompt -Ilexer
 
 LIBS		:= \
