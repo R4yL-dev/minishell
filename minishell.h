@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/25 15:49:45 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 15:41:27 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "exec/pipes_list.h"
 # include "exec/dynarrstr.h"
 # include "env/env.h"
+# include "vars/var.h"
 
 # include "libft/libft.h"
 # include "prompt/prompt.h"
