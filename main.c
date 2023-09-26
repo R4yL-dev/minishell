@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 20:40:02 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 21:34:52 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static void	free_line(char *input, t_dyntklist *tklist, t_dyntree *tree);
 
 /*
 	FIXME:
-		- Lorsque nous entrons un ou des '/', ne reagit pas comme Bash.
-		- Il faut que lorsque la commande ne soit pas trouvée, un message s'affiche
+		- Bug lorsque l'input est /
+		- Bug lorsque l'input est que des espaces
 */
 
 int	main(int argc, char **argv, char **envp)
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 			free_line(input, tklist, tree);
 			continue ;
 		}
-		exec(tree);
+		exec(tree, grpvar);
 		free_line(input, tklist, tree);
 	}
 	clear_history();

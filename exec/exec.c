@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/09/19 19:29:49 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 20:48:56 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	run_cmd(int *fd_in, int *fd_out, char **argv);
 
-int	exec(t_dyntree *root)
+int	exec(t_dyntree *root, t_grpvar *grpvar)
 {
 	int			num_pipes;
 	int			**pipes_list;
@@ -37,7 +37,7 @@ int	exec(t_dyntree *root)
 		num_pipes = (int)root->numChildren - 1;
 	if (num_pipes > 0)
 		pipes_list = pipes_list_create(num_pipes);
-	head_env = env_node_init(root, pipes_list, num_pipes + 1);
+	head_env = env_node_init(root, pipes_list, num_pipes + 1, grpvar);
 	if (head_env == NULL)
 	{
 		pipes_list_free(pipes_list, num_pipes);

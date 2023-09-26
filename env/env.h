@@ -17,7 +17,7 @@
 
 // put all the possible paths for binaries from $PATH in a tab,
 // return NULL if $PATH is not set, else return the tab.
-char	**get_path(void);
+char	**get_path(t_grpvar *grpvar);
 
 // free the tab for paths tab. PROBABLY A DUPLICATE FUNCTION!
 void 	free_path(char **paths);
