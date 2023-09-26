@@ -6,13 +6,21 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 16:11:12 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 17:40:29 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 18:53:37 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_lstvar	*lstvar_init(void)
+static int	add_envp(t_lstvar *lstvar, char **envp);
+
+/*
+	TODO:
+		- Ajouter une fonction qui permet de supprimer un element
+		- Ajouter la possibiliter de passer un char ** lors de l'init
+*/
+
+t_lstvar	*lstvar_init(char **envp)
 {
 	t_lstvar	*new;
 
@@ -30,6 +38,8 @@ t_lstvar	*lstvar_init(void)
 		ft_puterror("Malloc failed");
 		return (NULL);
 	}
+	if (envp)
+		add_envp(new, envp);
 	return (new);
 }
 
@@ -74,11 +84,35 @@ size_t	lstvar_has(t_lstvar *lstvar, char *name)
 	pos = 0;
 	while (pos < lstvar->num_elements)
 	{
-		if (ft_strncmp(name, lstvar->array[pos]->name, ft_strlen(name)) == 0)
+		if (ft_strncmp(name, lstvar->array[pos]->name, ft_strlen(name)) == 0 &&\
+			ft_strlen(name) == ft_strlen(lstvar->array[pos]->name))
 			return (pos);
 		++pos;
 	}
 	return (-1);
+}
+
+int	lstvar_remove(t_lstvar *lstvar, size_t index)
+{
+	size_t	i;
+
+	printf("index : %ld\n", index);
+	if (lstvar == NULL || (int)index >= (int)lstvar->num_elements)
+	{
+		ft_puterror("Element to be deleted does not exist");
+		return (0);
+	}
+	if ((int)index == -1)
+		return (-1);
+	var_free(lstvar->array[index]);
+	i = index;
+	while (i < lstvar->num_elements - 1)
+	{
+		lstvar->array[i] = lstvar->array[i + 1];
+		++i;
+	}
+	lstvar->num_elements--;
+	return (lstvar->num_elements);
 }
 
 void	lstvar_free(t_lstvar *lstvar)
@@ -104,4 +138,33 @@ void	lstvar_free(t_lstvar *lstvar)
 		free(lstvar);
 		lstvar = NULL;
 	}
+}
+
+static int	add_envp(t_lstvar *lstvar, char **envp)
+{
+	int	i;
+	char	*name;
+	char	*value;
+	char	*equal;
+	(void)	lstvar;
+
+	i = 0;
+	while (envp[i])
+	{
+		equal = ft_strchr(envp[i], '=');
+		if (equal)
+		{
+			*equal = '\0';
+			name = envp[i];
+			value = equal + 1;
+			lstvar_add(lstvar, var_new(name, value));
+		}
+		else
+		{
+			ft_puterror("lstvar initialization has failed with envp");
+			return (0);
+		}
+		++i;
+	}
+	return (1);
 }
