@@ -18,6 +18,7 @@ SRCS 		:= \
 	env/path.c \
 	vars/var.c \
 	vars/lstvar.c \
+	vars/grpvar.c \
 	utils.c \
 	main.c \
 	debug.c

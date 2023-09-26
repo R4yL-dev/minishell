@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 16:11:52 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 19:05:05 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include "env/env.h"
 # include "vars/var.h"
 # include "vars/lstvar.h"
+# include "vars/grpvar.h"
 
 # include "libft/libft.h"
 # include "prompt/prompt.h"
