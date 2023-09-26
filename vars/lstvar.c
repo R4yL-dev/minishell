@@ -6,19 +6,13 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 16:11:12 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 18:53:37 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 19:01:18 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static int	add_envp(t_lstvar *lstvar, char **envp);
-
-/*
-	TODO:
-		- Ajouter une fonction qui permet de supprimer un element
-		- Ajouter la possibiliter de passer un char ** lors de l'init
-*/
 
 t_lstvar	*lstvar_init(char **envp)
 {
@@ -96,7 +90,6 @@ int	lstvar_remove(t_lstvar *lstvar, size_t index)
 {
 	size_t	i;
 
-	printf("index : %ld\n", index);
 	if (lstvar == NULL || (int)index >= (int)lstvar->num_elements)
 	{
 		ft_puterror("Element to be deleted does not exist");
