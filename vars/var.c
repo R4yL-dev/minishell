@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:39:08 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 16:48:08 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 17:31:21 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,10 @@ void	var_free(t_var	*var)
 {
 	if (var)
 	{
-		if (var->name)
-		{
-			free(var->name);
-			var->name = NULL;
-		}
-		if (var->value)
-		{
-			free(var->value);
-			var->value = NULL;
-		}
+		free(var->name);
+		var->name = NULL;
+		free(var->value);
+		var->value = NULL;
 		free(var);
 		var = NULL;
 	}
