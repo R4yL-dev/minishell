@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/09/15 18:36:37 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 20:40:02 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,20 @@ static void	free_line(char *input, t_dyntklist *tklist, t_dyntree *tree);
 		- Il faut que lorsque la commande ne soit pas trouvée, un message s'affiche
 */
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
 	t_dyntklist	*tklist;
 	t_dyntree	*tree;
+	t_grpvar	*grpvar;
+	(void)		argc;
+	(void)		argv;
 
 	printf("\e[1;1H\e[2J");
+	printf("== INIT GROUP VAR ==\n");
+	grpvar = grpvar_init(envp);
+	grpvar_show(grpvar);
+	printf("\n");
 	while (1)
 	{
 		input = NULL;
