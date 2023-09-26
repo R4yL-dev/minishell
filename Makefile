@@ -17,6 +17,7 @@ SRCS 		:= \
 	exec/get_cmd_path.c \
 	env/path.c \
 	vars/var.c \
+	vars/lstvar.c \
 	utils.c \
 	main.c \
 	debug.c
