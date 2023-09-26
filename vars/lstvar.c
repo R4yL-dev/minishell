@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 16:11:12 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 19:01:18 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 20:31:46 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,31 @@ t_lstvar	*lstvar_init(char **envp)
 
 int	lstvar_add(t_lstvar *lstvar, t_var *var)
 {
+	size_t	pos;
+
 	if (lstvar == NULL || var == NULL)
 		return (0);
-	if (lstvar->num_elements == lstvar->capacity)
+	pos = lstvar_has(lstvar, var->name);
+	if ((int)pos == -1)
 	{
-		lstvar->capacity *= 2;
-		lstvar->array = ft_realloc(lstvar->array, lstvar->capacity / 2 * sizeof(t_var), lstvar->capacity * sizeof(t_var));
-		if (!lstvar->array)
+		if (lstvar->num_elements == lstvar->capacity)
 		{
-			ft_puterror("Realloc failed");
-			return (0);
+			lstvar->capacity *= 2;
+			lstvar->array = ft_realloc(lstvar->array, lstvar->capacity / 2 * sizeof(t_var), lstvar->capacity * sizeof(t_var));
+			if (!lstvar->array)
+			{
+				ft_puterror("Realloc failed");
+				return (0);
+			}
 		}
+		lstvar->array[lstvar->num_elements] = var;
+		lstvar->num_elements++;
 	}
-	lstvar->array[lstvar->num_elements] = var;
-	lstvar->num_elements++;
+	else
+	{
+		var_free(lstvar->array[pos]);
+		lstvar->array[pos] = var;
+	}
 	return (1);
 }
 
@@ -93,7 +104,7 @@ int	lstvar_remove(t_lstvar *lstvar, size_t index)
 	if (lstvar == NULL || (int)index >= (int)lstvar->num_elements)
 	{
 		ft_puterror("Element to be deleted does not exist");
-		return (0);
+		return (-1);
 	}
 	if ((int)index == -1)
 		return (-1);
