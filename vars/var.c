@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:39:08 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 17:31:21 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 18:29:02 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,8 @@ void	var_show(t_var *var)
 {
 	if (var)
 	{
-		printf("var name : ");
-		if (var->name)
-			printf("%s", var->name);
-		else
-			printf("(null)");
-		printf(" | value : ");
-		if (var->value)
-			printf("%s", var->value);
-		else
-			printf("(null)");
+		printf("%s=%s\n", var->name, var->value);
 	}
-	printf("\n");
 }
 
 void	var_free(t_var	*var)
