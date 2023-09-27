@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/09/15 18:36:37 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/27 13:33:42 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,24 @@ static void	free_line(char *input, t_dyntklist *tklist, t_dyntree *tree);
 
 /*
 	FIXME:
-		- Lorsque nous entrons un ou des '/', ne reagit pas comme Bash.
-		- Il faut que lorsque la commande ne soit pas trouvée, un message s'affiche
+		- Bug lorsque l'input est /
+		- Bug lorsque l'input est que des espaces
 */
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
 	t_dyntklist	*tklist;
 	t_dyntree	*tree;
+	t_grpvar	*grpvar;
+	(void)		argc;
+	(void)		argv;
 
 	printf("\e[1;1H\e[2J");
+	printf("== INIT GROUP VAR ==\n");
+	grpvar = grpvar_init(envp);
+	grpvar_show(grpvar);
+	printf("\n");
 	while (1)
 	{
 		input = NULL;
@@ -50,10 +57,11 @@ int	main(void)
 			free_line(input, tklist, tree);
 			continue ;
 		}
-		exec(tree);
+		exec(tree, grpvar);
 		free_line(input, tklist, tree);
 	}
 	clear_history();
+	grpvar_free(grpvar);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:48:33 by lray              #+#    #+#             */
-/*   Updated: 2023/08/23 15:44:48 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 20:55:02 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct s_env_node
 	struct s_env_node	*next;
 }	t_env_node;
 
-t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env);
+t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env, t_grpvar *grpvar);
 
 /**
  * @brief Creates a new node for a linked list of environment variables.

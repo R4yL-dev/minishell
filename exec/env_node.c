@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:49:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/25 15:50:24 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 21:32:56 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 static t_dynarrstr	*make_argv(t_dyntree *root);
 
-t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env)
+t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env, t_grpvar *grpvar)
 {
 	t_env_node	*head;
 	t_env_node	*prev;
 	int			i;
 	t_dynarrstr	*args;
+	(void)		grpvar;
 
 	if (num_env < 1)
 		return (NULL);
@@ -33,7 +34,7 @@ t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env)
 			return (NULL);
 		}
 		args = make_argv(root);
-		if (get_cmd_path(args) == 0)
+		if (get_cmd_path(args, grpvar) == 0)
 		{
 			dynarrstr_free(args);
 			env_node_freeall(head);
@@ -64,7 +65,7 @@ t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env)
 			return (NULL);
 		}
 		args = make_argv(root->children[i]);
-		if (get_cmd_path(args) == 0)
+		if (get_cmd_path(args, grpvar) == 0)
 		{
 			dynarrstr_free(args);
 			env_node_freeall(head);
@@ -84,11 +85,11 @@ t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env)
 		return (NULL);
 	}
 	args = make_argv(root->children[i]);
-	if (get_cmd_path(args) == 0)
+	if (get_cmd_path(args, grpvar) == 0)
 	{
 			dynarrstr_free(args);
 			env_node_freeall(head);
-			ft_puterror("Command not found");
+			//ft_puterror("Command not found");
 			return (NULL);
 	}
 	prev->path = ft_strdup(args->array[0]);

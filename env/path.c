@@ -12,25 +12,19 @@
 
 #include "../minishell.h"
 
-char	**get_path(void)
+char	**get_path(t_grpvar *grpvar)
 {
-	char	*path;
 	char	**paths;
+	size_t	pos;
 
-	path = NULL;
-	path = getenv("PATH");
-	if (path == NULL)
-	{
-		ft_puterror("Get_env error, $PATH does't exist");
+	pos = grpvar_has(grpvar, GRPVAR_GLOBAL, "PATH");
+	if ((int)pos == -1)
 		return (NULL);
-	}
-	path = ft_strtrim(path, "PATH=");
-	paths = ft_split(path, ':');
+	paths = ft_split(grpvar->global->array[pos]->value, ':');
 	if (paths == NULL)
 	{
 		ft_puterror("Split error");
 		return (NULL);
 	}
-	free(path);
 	return (paths);
 }

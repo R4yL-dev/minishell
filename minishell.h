@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/25 15:49:45 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/26 20:55:43 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <stdio.h>
 # include <errno.h>
 
+# include "vars/var.h"
+# include "vars/lstvar.h"
+# include "vars/grpvar.h"
 # include "lexer/token.h"
 # include "lexer/dyntklist.h"
 # include "parser/dyntree.h"
