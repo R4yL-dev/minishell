@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 20:55:43 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/27 15:20:55 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include "libft/libft.h"
 # include "prompt/prompt.h"
 # include "lexer/lexer.h"
+# include "expand/expand.h"
 # include "parser/parser.h"
 # include "exec/exec.h"
 
