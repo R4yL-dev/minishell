@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 21:58:35 by lray              #+#    #+#             */
-/*   Updated: 2023/08/25 15:49:31 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/29 19:38:52 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,17 @@ void	ft_puterror(char *msg)
 {
 	write(2, msg, ft_strlen(msg));
 	write(2, "\n", 1);
+}
+
+char	*add_char_to_string(char *str, char c)
+{
+	size_t	len;
+
+	len = ft_strlen(str) + 1;
+	str = ft_realloc(str, len, len + 1);
+	if (!str)
+		return (NULL);
+	str[len - 1] = c;
+	str[len] = '\0';
+	return (str);
 }

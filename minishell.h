@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/09/27 15:20:55 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/29 19:53:59 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include "prompt/prompt.h"
 # include "lexer/lexer.h"
 # include "expand/expand.h"
+# include "expand/replace_var.h"
 # include "parser/parser.h"
 # include "exec/exec.h"
 
@@ -51,6 +52,8 @@ void	free_split(char **splitted_arr);
 char **arrcpy(char **arr, int size);
 
 void	ft_puterror(char *msg);
+
+char	*add_char_to_string(char *str, char c);
 
 void	db_show_tree(t_dyntree *root, int depth);
 

@@ -13,6 +13,7 @@ SRCS 		:= \
 	parser/parser.c \
 	parser/dyntree.c \
 	expand/expand.c \
+	expand/replace_var.c\
 	exec/exec.c \
 	exec/pipes_list.c \
 	exec/env_node.c \
