@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
+/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/09/27 13:33:42 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/01 00:17:45 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,15 @@ int	main(int argc, char **argv, char **envp)
 	grpvar = grpvar_init(envp);
 	grpvar_show(grpvar);
 	printf("\n");
+	input = NULL;
+	set_signals(input);
 	while (1)
 	{
 		input = NULL;
 		tklist = NULL;
 		tree = NULL;
 		input = prompt_get();
+		// set_signals(input);
 		if (input == NULL)
 		{
 			free_line(input, tklist, tree);
