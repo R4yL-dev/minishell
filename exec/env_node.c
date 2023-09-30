@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:49:07 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 21:32:56 by lray             ###   ########.fr       */
+/*   Updated: 2023/09/28 14:27:44 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env, t_grpv
 		dynarrstr_free(args);
 		return (head);
 	}
-
 	prev = head;
 	i = 0;
 	while (i < num_env - 1)
@@ -205,7 +204,7 @@ static t_dynarrstr	*make_argv(t_dyntree *root)
 		i = 0;
 		while (i < root->numChildren)
 		{
-			if (root->children[i]->type == TK_ARGUMENT)
+			if (root->children[i]->type == TK_ARGUMENT && root->children[i]->value[0] != '\0')
 			{
 				if (dynarrstr_add(dynarr, root->children[i]->value) == 0)
 					return (NULL);
