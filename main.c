@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/01 00:17:45 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/01 00:26:02 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	main(int argc, char **argv, char **envp)
 		tklist = NULL;
 		tree = NULL;
 		input = prompt_get();
-		// set_signals(input);
 		if (input == NULL)
 		{
 			free_line(input, tklist, tree);
