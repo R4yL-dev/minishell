@@ -1,213 +1,120 @@
-# Lexer
+# 1. Lexer
 
-Le `lexer` est la première étape qui va être exécutée pour chaque input de l'utilisateur. Le but de cette fonction est de tranformer la chaine de caractère une une liste de `token`. Afin de pouvoir faire au mieux cette tâche, la fonction commence par nettoyer la frappe de l'utilisateur.
+## 1.1. TDM
 
-## Token
+- [1. Lexer](#1-lexer)
+	- [1.1. TDM](#11-tdm)
+	- [1.2. Introduction](#12-introduction)
+	- [1.3. Algorithme de déduction](#13-algorithme-de-déduction)
+	- [1.4. Token](#14-token)
+	- [1.5. Dyntklist](#15-dyntklist)
+	- [1.6. Notes](#16-notes)
 
-Un `token` reprèsente une mot. Il est le résultat du split de l'input de l'utilisateur sur le caractère espace.
 
-En terme de structure, un `token` est de type `t_token` et comporte deux attribut :
+## 1.2. Introduction
 
-- Le `type` sous forme d'`int`.
-- La `value` sous forme de `char *`.
+Le but du `lexer` est de transformer l'input de l'utilisateur en une liste de `token`. Un `token` est l'unité fondamentale de la syntax de `minishell`, il se compose d'un `type` et d'une `value`. Le `lexer` est donc un algorithme qui se charge de déterminer le type de chaque élément de l'input de l'utilisateur. Afin d'organiser les `tokens`, ils peuvent être placé dans une `t_dyntklist`. Cette structure de donnée est en fait un container dynamique pour les `t_token`. Chaque fois qu'un élément est ajouté à la liste, la taille du tableau est augmentée automatiquement afin de pouvoir accueillir la nouvelle variable.
 
-Afin de stocker les tokens dans un tableau dynamique, ils peuvent être ajouter à une liste de type `t_dyntklist`.
+En résument, le `lexer`, reçoit un `char *` (l'input de l’utilisateur) et renvoie un `t_dyntklist *` (une liste de token, ordonné par ordre de découvert).
 
-Le type `t_dyntklist` se compose de deux entrée :
-
-- `array` qui est le tableau de `token` et qui est de type `t_token **`
-- `size` qui est un `size_t` est qui correspond au nombre d'élements dans la liste
-
-### Les types de tokens
-
-Le but du lexer est de divisée la chaine de caractères entrée par l'utilisateur en token. Il doit aussi identifié à quoi correspond chaque token. C'est pourquoi un token est constituer d'un `type`.
-
-Les types sont des entrée dans un `enum` qui se situe dans `token.h`. Les voici :
-
-- `TK_COMMAND`
-- `TK_ARGUMENT`
-- `TK_FILE`
-- `TK_REDIRECTION`
-- `TK_PIPE`
-
-Voici la listes des type de token présent au moment ou j'écris ces lignes. Durant le projet et selon nos besoin, nous allons surement rajouter des types de token.
-
-### Logique d'atribution
-
-Au moment ou j'écris ceci, nous avons un programe qui prend une commande est qui l'exécuter avec un nombre infie de d'argument.
-
-Vu que les fonctionnalités ne sont pas très poussées, la logique d'atribution actuel du type de token est très simple :
+## 1.3. Algorithme de déduction
 
 ```text
-[PARCOURIR] le tableau spliter élément par élément
-	[SI] l'élément est le premier du tableau splitter,
-		[AJOUTER] un nouveau token de type TK_COMMAND
-	[SINON]
-		[AJOUTER] un nouveau token de type TK_ARGUMENT
+Fonction lexer(str)
+    Initialise tklist
+    in_cmd = 0
+    i = 0
+    Tant que str[i] n'est pas '\0'
+        Passer les espaces
+        Si str[i] est '\0'
+            Sortir de la boucle
+        Si str[i] est un redirecteur
+            Si str[i] est un pipe
+                Ajouter un pipe
+                in_cmd = 0
+            Sinon
+                Ajouter un redirecteur
+                Passer les espaces
+                Ajouter un file
+        Sinon Si in_cmd est 0
+            Ajouter commande
+            in_cmd est 1
+        Sinon
+            Ajouter argument
+        i++
+    Retourne tklist
 ```
 
-Cette alghorytme est très simple et dévras évoler et se complexifier au fur et a mésure que nous étandons la capacité de notre programme pour détécter et traiter de nouveau type de token.
+Afin de pouvoir tagué les tokens correctement, l'algorithme de déduction parcoure l'input de l'utilisateur caractère par caractère. Il passe tous les espaces afin de gérer les inputs ou l'utilisateur a multiplié les espace entre les tokens. En suite, il cherche à savoir si le caractère est une redirecteur (<, >, |). Si il est un redirecteur, il regarde si le caractère est un pipe.
 
-### Les fonctions sur les tokens
+Si le caractère est effectivement un pipe, un token de type pipe est ajouté à la tklist. La variable `in_cmd` est set à 0 afin de savoir que nous ne sommes plus entrain d'ajouter des élément à une commande.
+Par contre, si le caractère est un autre redirecteur, le traitement est différent. Le redirecteur est ajouté à `tklist`, les espaces sont passé et le fils est ajouter directement à la liste. Cela vient du fait que plus tard, lorsque le programme voudra réorganiser la liste de tokens en un arbre syntaxique, chaque redirecteur aura forcement comme premier enfant un token de type file. Si un redirecteur n'a pas de file, cela est une `syntax error`.
 
-#### token_new()
+Si le caractère n'est pas un redirecteur et que nous ne sommes pas dans une commande (`in_cmd = 0`), nous ajoutons la commande et nous passons `ìn_cmd` à 1 afin de signifier que nous avons ajouter une commande et que donc, les prochain élément que nous allons ajouter, si il n' est pas un redirecteur, sera un argument.
+
+Sinon, nous ajoutons un argument.
+
+Cette approche permet de prendre en compte les inputs avec ou sans espaces entre les éléments:
+
+- `<in.txt grep foo` `< int.txt grep foo`
+- `ls|wc` `ls | wc`
+- `< <plein d'espace> int.txt <plein d'espace> grep <plein d'espace> foo|wc <plein d'espace> -l` `< int.txt grep foo|wc -l`
+
+## 1.4. Token
+
+Un token se compose d'un `type` et d'une `value` et est de type `t_token`.
 
 ```c
-t_token *token_new(int type, char *value);
-```
-
-Le but de la fonction `token_new()` est de créer un nouveau token. Elle à pour but de résérver la mémoire pour pouvoir stocker le token et l'initialiser avec le `type` et la `value` passés en argument.
-
-La fonction `token_new()` retourn :
-
-- Un token (`t_token *`) em cas de succès.
-- `NULL` en cas d'erreur.
-
-```c
-int	main(void)
+typedef struct s_token
 {
-	t_token	*token;
-
-	token = NULL;
-	token = token_new(TK_COMMAND, "ls");
-	return (0);
-}
+    int     type;
+    char    *value;
+} t_token;
 ```
 
-#### token_free()
+Le type du token est définit dans l'enumerateur `e_token_type` :
 
 ```c
-void token_free(t_token *token);
-```
-
-Le but de la fonction `token_free()` et de nettoyer la mémoire allouée par `token_new()`. Afin de pouvoir passer dans tous les cas un token à la fonction `token_free()`, elle free que si le token est différent de `NULL`. Il faut donc absolument initialise chaque token générer manuellent à `NULL` afin d'éviter les problème de double free.
-
-
-```c
-int	main(void)
+enum e_token_type
 {
-	t_token	*token;
-
-	token = NULL;
-	token = token_new(TK_COMMAND, "ls");
-	token_free(token);
-	return (0);
-}
+    TK_COMMAND,     // == 0
+    TK_ARGUMENT,    // == 1
+    TK_FILE,        // == 2
+    TK_REDIRECTION, // == 3
+    TK_PIPE,        // == 4
+};
 ```
 
-## Dyntklist
+Afin de pouvoir manipuler les tokens, `minishell` implémente deux fonctions :
 
-`t_dyntklist` est un type qui définit une structure. Cette structure est dynamique, c'est à dire que chaque fois que nous voulons ajouter un noueau token à la liste, elle sera automatiquement agrandie pour pouvoir reçevoir le nouvelle élément.
+- `t_token *token_new(int type, char *value)`, cette fonction prend en argument `type` et `value` et retourne un token initialisé en mémoire avec ces valeurs.
+- `void token_free(t_token *token)`, cette fonction prend en argument l'adresse d'un token et libère proprement la mémoire qui lui est associé.
 
-Une `t_dyntklist` continent deux éléments :
+## 1.5. Dyntklist
 
-- `array`, qui est de type `t_token **`.
-- `size`, qui est de type `size_t` et qui corréspond au nombre d'élément dans la liste.
-
-### Les fonctions sur les dyntklist
-
-Afin d'intéréagir avec un `t_dyntklist`, il existe pusieurs fonction. La première est `dyntklist_init()`, elle permet d'allouer l'espace en mémoire pour la liste, ainsi que pour le tableau de token. Une fois que la `t_dyntklist` est initialisée, nous pouvons ajouter de nouveau élément avec `dyntklist_add()`, l'afficher avec `dyntklist_show()` et libérer sa mémoire avec `dyntklist_free()`.
-
-#### dyntklist_init()
+Le type `t_dyntklist()` est une liste dynamique de `t_token`. Le but de ce type est de stocker un nombre indéfini de `t_token` dans une tableau de type `t_token **`. Ce tableau est redimensionné chaque fois qu'un élément est ajouter avec la fonction `dyntklist_add()`. Ce type comporte aussi un `size_t` `size` qui contient le nombre d'élément actuellement dans la liste.
 
 ```c
-t_dyntklist	*dyntklist_init(t_dyntklist *tklist);
-```
-
-Il est important d'initialiser chaque list avec la fonction `dyntklist_init()`. Elle s'occupe de d'allouer la mémoire pour la liste en elle même ainsi que pour le tableau de tokens.
-
-La fonction `dyntklist_init()` retourne :
-
-- Une liste de token (`t_dyntklist *`) en cas de succès.
-- `NULL` en cas d'échec.
-
-```c
-int	main(void)
+typedef struct s_dyntklist
 {
-	t_dyntklist	*tklist;
-
-	tklist = NULL;
-	tklist = dyntklist_init(tklist);
-	return (0);
-}
+    t_token **array;
+    size_t  size;
+}   t_dyntklist;
 ```
 
+Voici les fonctions qui permette de manipuler un `t_dyntklist` :
 
-#### dyntklist_add()
+- `t_dyntklist *dyntklist_init(t_dyntklist *tklist)`, cette fonction alloue la mémoire pour le tableau de `t_token`.
+- `int dyntklist_add(t_dyntklist *tklist, int type, char *value)`, cette fonction prend en argument une `tklist`, un `type` ainsi qu'une `value` afin d'ajouter un nouveau token à la `tklist`.
+- `void dyntklist_show(t_dyntklist *tklist)`, qui affiche le contenu de la `tklist` passée en argument.
+- `int dyntklist_delone(t_dyntklist *tklist, int id)`, fonction qu prend en paramètre une `tklist` et un `id`. Elle supprime de la liste le bon élément et ré-index le tableau.
+- `void dyntklist_free(t_dyntklist *tklist)`, libère proprement la mémoire utilisée par la `tklist` passée en argument.
 
-```c
-int	dyntklist_add(t_dyntklist *tklist, int type, char *value);
-```
+## 1.6. Notes
 
-Une fois que la liste est initialisée, nous devons utiliser la fonction `dyntklist_add()` afin d'ajouter des éléments. Il faut impérativement passer par cette fonction car elle redimention automatiquement le tableau d'élément lors d'un nouvelle ajout.
-
-La fonction `dyntklist_add()` retourne :
-
-- `1` en cas de succès.
-- `0` en cas d'erreur.
-
-```c
-int	main(void)
-{
-	t_dyntklist	*tklist;
-
-	tklist = NULL;
-	tklist = dyntklist_init(tklist);
-	dyntklist_add(tklist, TK_COMMAND, "ls");
-	dyntklist_add(tklist, TK_ARGUMENT, "-l");
-	dyntklist_add(tklist, TK_ARGUMENT, "-a");
-	dyntklist_add(tklist, TK_ARGUMENT, "-t");
-	dyntklist_show(tklist);
-	return (0);
-}
-```
-
-#### dyntklist_show()
-
-```c
-void	dyntklist_show(t_dyntklist *tklist);
-```
-
-la fonction `dyntklist_show()` permet simplement d'afficher touts les éléments d'une liste dynamique.
-
-```c
-int	main(void)
-{
-	t_dyntklist	*tklist;
-
-	tklist = NULL;
-	tklist = dyntklist_init(tklist);
-	dyntklist_add(tklist, TK_COMMAND, "ls");
-	dyntklist_add(tklist, TK_ARGUMENT, "-l");
-	dyntklist_add(tklist, TK_ARGUMENT, "-a");
-	dyntklist_add(tklist, TK_ARGUMENT, "-t");
-	dyntklist_show(tklist);
-	return (0);
-}
-```
-
-#### dyntklist_free()
-
-```c
-void	dyntklist_free(t_dyntklist *tklist);
-```
-
-La fonction `dyntklist_free()` permet de automatiquement libérer toute la mémoire allouée par la liste dynamique.
-Afin que le méchnisme fonctionne et qu'il ne crée pas de bugs, il est important de set `t_dyntklist` à `NULL` lors de sa défintion.
-
-```c
-int	main(void)
-{
-	t_dyntklist	*tklist;
-
-	tklist = NULL;
-	tklist = dyntklist_init(tklist);
-	dyntklist_add(tklist, TK_COMMAND, "ls");
-	dyntklist_add(tklist, TK_ARGUMENT, "-l");
-	dyntklist_add(tklist, TK_ARGUMENT, "-a");
-	dyntklist_add(tklist, TK_ARGUMENT, "-t");
-	dyntklist_show(tklist);
-	dyntklist_free(tklist);
-	return (0);
-}
-```
+- Il faudrait changer le fonctionnement de l'allocation mémoire de `t_dyntklist`. Pour le moment, chaque fois que nous ajoutons une élément à la liste, la fonction `dyntklist_add()` fait appel à la fonction `ft_realloc()`. Cette stratégie d'allocation est très coûteuse en ressource car la fonction `ft_realloc()` fait appel à `malloc()` et copie l'intégralité du contenu de l'ancienne plage mémoire vers la nouvelle.
+Il faudrait utiliser la même stratégie que nous avons utiliser pour `t_dyntree`. C'est à dire, initialiser la liste avec une capacité de 2 élément et vérifier lors de l'ajout d'un nouvel élément que la liste a encore de la place. Si elle n'a plus de place elle double la taille de la liste.
+- Pour le moment, l'algorithme de déduction des tokens cherche à passer les espaces, il faut sûrement aussi prendre en compte les tabulations.
+- Cette version du lexer gère l'implémentation des variable. En effet, sa structure fait qu'il ne traite pas directement les variable. Il définit le token comme pour tous les autres et met dans ça `value`, le nom de la variable avec le `$`. La variable sera traité plus tard lors de l'`expand`.
+- Le `lexer` n'est pas dans ça version définitive car il faudra encore ajouter des cas spécifiques, comme pour les quotes, que nous n'avons pas encore implémenté au moment ou je rédige ce document.
+- Au moment de l'écriture de se document, le lexer ne passe pas la norme. Les fonctions sont beaucoup trop longue. Ce qui veut dire, que pour que le projet passe la norminette, nous devrons sûrement ré-organiser les fonctions en plusieurs sous fonctions et donc plusieurs fichier. La structure de lexer devrait donc changé avec le temps, mais la logique derrière l'algorithme de déduction ne devrait pas changer.
