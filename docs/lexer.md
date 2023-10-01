@@ -88,7 +88,7 @@ typedef struct s_dyntklist
 {
     t_token **array;
     size_t  size;
-}    t_dyntklist;
+}   t_dyntklist;
 ```
 
 Voici les fonctions qui permette de manipuler un `t_dyntklist` :
