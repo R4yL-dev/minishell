@@ -31,9 +31,3 @@
 ### Particularities:
 
 + The `readline` function has leaks that we dont have to correct for the project.
-
-...
-
-> help markdown readme
->
-> https://docs.github.com/fr/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
