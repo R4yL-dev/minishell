@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 22:01:18 by lray              #+#    #+#             */
-/*   Updated: 2023/08/14 02:09:34 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/02 15:22:42 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ enum	e_token_type
 	TK_FILE,
 	TK_REDIRECTION,
 	TK_PIPE,
+	TK_BUILTINS,
 };
 
 t_token	*token_new(int type, char *value);
