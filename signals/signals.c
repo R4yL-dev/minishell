@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 19:19:00 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 00:51:22 by mflury           ###   ########.fr       */
+/*   Created: 2023/09/30 22:06:58 by mflury            #+#    #+#             */
+/*   Updated: 2023/10/01 00:23:43 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*prompt_get(void)
-{
-	char	*input;
+// for the moment we just have a simple "ctrl + c".
 
+// TODO: ADD ctrl + d, ctrl + \ and all the variation modes.
+
+// display a newline. (ctrl + c)
+void	newline(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
 	rl_on_new_line();
-	input = readline("MiniShrek$ ");
-	add_history(input);
-	return (input);
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+// set the signals. (ctrl + c, ctrl + d, ctrl + \)
+void	set_signals(char *input)
+{
+	(void) input;
+	signal(SIGINT, newline);
 }

@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 19:19:00 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 00:51:22 by mflury           ###   ########.fr       */
+/*   Created: 2023/09/30 22:03:07 by mflury            #+#    #+#             */
+/*   Updated: 2023/10/01 00:24:40 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef SIGNALS_H
+# define SIGNALS_H
+
 #include "../minishell.h"
 
-char	*prompt_get(void)
-{
-	char	*input;
+void	set_signals(char *input);
 
-	rl_on_new_line();
-	input = readline("MiniShrek$ ");
-	add_history(input);
-	return (input);
-}
+void	newline(int sig);
+
+#endif
