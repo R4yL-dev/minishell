@@ -58,7 +58,8 @@ int	main(int argc, char **argv, char **envp)
 			free_line(input, tklist, tree);
 			continue ;
 		}
-		exec(tree, grpvar);
+		if (expand(tree, grpvar))
+			exec(tree, grpvar);
 		free_line(input, tklist, tree);
 	}
 	clear_history();

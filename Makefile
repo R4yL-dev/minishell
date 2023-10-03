@@ -1,6 +1,9 @@
 NAME		:= minishell
 
 SRCS 		:= \
+	vars/var.c \
+	vars/lstvar.c \
+	vars/grpvar.c \
 	prompt/prompt.c \
 	lexer/lexer.c \
 	lexer/trim_and_condense_string.c \
@@ -9,6 +12,8 @@ SRCS 		:= \
 	lexer/dyntklist.c \
 	parser/parser.c \
 	parser/dyntree.c \
+	expand/expand.c \
+	expand/replace_var.c\
 	exec/exec.c \
 	exec/pipes_list.c \
 	exec/env_node.c \
@@ -17,9 +22,6 @@ SRCS 		:= \
 	exec/get_cmd_path.c \
 	env/path.c \
 	signals/signals.c \
-	vars/var.c \
-	vars/lstvar.c \
-	vars/grpvar.c \
 	utils.c \
 	main.c \
 	debug.c
@@ -27,7 +29,7 @@ SRCS 		:= \
 OBJS		:= $(SRCS:.c=.o)
 
 CC 			:= gcc
-CFLAGS		:= -Wall -Wextra -Werror -std=gnu89 -fsanitize=address -static-libasan -g
+CFLAGS		:= -Wall -Wextra -Werror -std=gnu89 -fsanitize=address,undefined -static-libasan -g
 CPPFLAGS	:= -Ireadline/include/readline/ -lreadline -Lreadline/lib -Ilibft -Iprompt -Ilexer
 
 LIBS		:= \

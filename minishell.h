@@ -32,6 +32,8 @@
 # include "libft/libft.h"
 # include "prompt/prompt.h"
 # include "lexer/lexer.h"
+# include "expand/expand.h"
+# include "expand/replace_var.h"
 # include "parser/parser.h"
 # include "exec/exec.h"
 
@@ -52,6 +54,8 @@ void	free_split(char **splitted_arr);
 char **arrcpy(char **arr, int size);
 
 void	ft_puterror(char *msg);
+
+char	*add_char_to_string(char *str, char c);
 
 void	db_show_tree(t_dyntree *root, int depth);
 
