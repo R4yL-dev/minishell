@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/09/30 22:04:28 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/02 15:18:22 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include "lexer/lexer.h"
 # include "expand/expand.h"
 # include "expand/replace_var.h"
+# include "expand/replace_builtins.h"
 # include "parser/parser.h"
 # include "exec/exec.h"
 

@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.h                                            :+:      :+:    :+:   */
+/*   replace_builtins.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 22:01:18 by lray              #+#    #+#             */
-/*   Updated: 2023/10/02 15:22:42 by lray             ###   ########.fr       */
+/*   Created: 2023/10/02 15:16:32 by lray              #+#    #+#             */
+/*   Updated: 2023/10/02 15:45:55 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_H
-# define TOKEN_H
+#ifndef REPLACE_BUILTINS_H
+# define REPLACE_BUILTINS_H
 
-typedef struct s_token
-{
-	int		type;
-	char	*value;
-}	t_token;
+# include <sys/types.h>
+# include <dirent.h>
 
-enum	e_token_type
-{
-	TK_COMMAND,
-	TK_ARGUMENT,
-	TK_FILE,
-	TK_REDIRECTION,
-	TK_PIPE,
-	TK_BUILTINS,
-};
-
-t_token	*token_new(int type, char *value);
-void	token_free(t_token *token);
+int	replace_builtins(t_dyntree *root);
 
 #endif
