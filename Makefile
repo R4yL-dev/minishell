@@ -22,6 +22,7 @@ SRCS 		:= \
 	exec/open_all_fd.c \
 	exec/get_cmd_path.c \
 	env/path.c \
+	signals/signals.c \
 	utils.c \
 	main.c \
 	debug.c
