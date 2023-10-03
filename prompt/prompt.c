@@ -18,11 +18,6 @@ char	*prompt_get(void)
 
 	rl_on_new_line();
 	input = readline("MiniShrek$ ");
-	if (input == NULL || ft_strlen(input) == 0)
-	{
-		free(input);
-		return (NULL);
-	}
 	add_history(input);
 	return (input);
 }
