@@ -3,10 +3,10 @@ NAME		:= minishell
 SRCS 		:= \
 	vars/var.c \
 	vars/lstvar.c \
+	vars/lstvar_to_array.c \
 	vars/grpvar.c \
 	prompt/prompt.c \
 	lexer/lexer.c \
-	lexer/trim_and_condense_string.c \
 	lexer/lexer_utils.c \
 	lexer/token.c \
 	lexer/dyntklist.c \
@@ -18,9 +18,11 @@ SRCS 		:= \
 	exec/pipes_list.c \
 	exec/env_node.c \
 	exec/dynarrstr.c \
-	exec/open_all_fd.c \
+	exec/open_file.c \
 	exec/get_cmd_path.c \
-	env/path.c \
+	exec/make_argv.c \
+	exec/get_infd.c \
+	exec/get_outfd.c \
 	utils.c \
 	main.c \
 	debug.c
@@ -28,7 +30,7 @@ SRCS 		:= \
 OBJS		:= $(SRCS:.c=.o)
 
 CC 			:= gcc
-CFLAGS		:= -Wall -Wextra -Werror -std=gnu89 -fsanitize=address,undefined -static-libasan -g
+CFLAGS		:= -Wall -Wextra -Werror -std=gnu89 -fsanitize=address,undefined -static-libasan -fno-omit-frame-pointer -g
 CPPFLAGS	:= -Ireadline/include/readline/ -lreadline -Lreadline/lib -Ilibft -Iprompt -Ilexer
 
 LIBS		:= \
