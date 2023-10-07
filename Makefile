@@ -24,7 +24,6 @@ SRCS 		:= \
 	exec/make_argv.c \
 	exec/get_infd.c \
 	exec/get_outfd.c \
-	env/path.c \
 	signals/signals.c \
 	utils.c \
 	main.c \
