@@ -14,6 +14,7 @@ SRCS 		:= \
 	parser/dyntree.c \
 	expand/expand.c \
 	expand/replace_var.c\
+	expand/replace_builtins.c \
 	exec/exec.c \
 	exec/pipes_list.c \
 	exec/env_node.c \
@@ -23,6 +24,8 @@ SRCS 		:= \
 	exec/make_argv.c \
 	exec/get_infd.c \
 	exec/get_outfd.c \
+	env/path.c \
+	signals/signals.c \
 	utils.c \
 	main.c \
 	debug.c

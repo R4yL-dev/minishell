@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:19:55 by lray              #+#    #+#             */
-/*   Updated: 2023/09/29 19:55:20 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/02 15:46:08 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_dyntree	*expand(t_dyntree *root, t_grpvar *grpvar)
 		return (NULL);
 	if (!valide_tree(root))
 		return (NULL);
+	replace_builtins(root);
 	return (root);
 }
 

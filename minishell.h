@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
+/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
 /*   Updated: 2023/10/07 14:49:57 by lray             ###   ########.fr       */
@@ -26,11 +26,14 @@
 # include "exec/pipes_list.h"
 # include "exec/dynarrstr.h"
 
+#include "signals/signals.h"
+
 # include "libft/libft.h"
 # include "prompt/prompt.h"
 # include "lexer/lexer.h"
 # include "expand/expand.h"
 # include "expand/replace_var.h"
+# include "expand/replace_builtins.h"
 # include "parser/parser.h"
 # include "exec/exec.h"
 

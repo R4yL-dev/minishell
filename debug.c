@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:31:46 by lray              #+#    #+#             */
-/*   Updated: 2023/08/13 19:28:30 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/02 16:09:29 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	db_show_tree(t_dyntree *root, int depth)
 		printf("TK_REDIRECTION");
 	else if (root->type == 4)
 		printf("TK_PIPE");
+	else if (root->type == 5)
+		printf("TK_BUILTINS");
 	else
 		printf("Unknow token");
 	printf(" | node->value : \"%s\" | %ld/%ld\n", root->value, root->numChildren, root->capacity);

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
+/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
 /*   Updated: 2023/10/07 16:09:51 by lray             ###   ########.fr       */
@@ -13,12 +13,7 @@
 #include "minishell.h"
 
 static void	free_line(char *input, t_dyntklist *tklist, t_dyntree *tree);
-
-/*
-	FIXME:
-		- Bug lorsque l'input est /
-		- Bug lorsque l'input est que des espaces
-*/
+static	void clean_quit(char *input, t_dyntklist *tklist, t_dyntree *tree, t_grpvar *grpvar);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -34,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	grpvar = grpvar_init(envp);
 	grpvar_show(grpvar);
 	printf("\n");
+	set_signals(NULL);
 	while (1)
 	{
 		input = NULL;
@@ -41,6 +37,11 @@ int	main(int argc, char **argv, char **envp)
 		tree = NULL;
 		input = prompt_get();
 		if (input == NULL)
+		{
+			printf("exit\n");
+			clean_quit(input, tklist, tree, grpvar);
+		}
+		else if (input[0] == '\0')
 		{
 			free_line(input, tklist, tree);
 			continue ;
@@ -79,4 +80,12 @@ static void	free_line(char *input, t_dyntklist *tklist, t_dyntree *tree)
 	tklist = NULL;
 	dyntree_free(tree);
 	tree = NULL;
+}
+
+static	void clean_quit(char *input, t_dyntklist *tklist, t_dyntree *tree, t_grpvar *grpvar)
+{
+	free_line(input, tklist, tree);
+	grpvar_free(grpvar);
+	clear_history();
+	exit (0);
 }
