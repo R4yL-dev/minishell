@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:29:53 by lray              #+#    #+#             */
-/*   Updated: 2023/09/15 18:35:57 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/07 18:30:45 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ static t_dyntree	*add_cmd_to_root(t_dyntklist *tklist, t_dyntree *root)
 	i = 0;
 	while (i < tklist->size)
 	{
-		if (tklist->array[i]->type == TK_COMMAND)
+		if (tklist->array[i]->type == TK_COMMAND || tklist->array[i]->type == TK_REDIRECTION)
 			dyntree_add(root, dyntree_new(tklist->array[i]->type, tklist->array[i]->value));
 		i++;
 	}
