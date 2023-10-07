@@ -6,17 +6,20 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 22:06:58 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/01 00:23:43 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/04 00:55:27 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// for the moment we just have a simple "ctrl + c".
+// for the moment we just have "ctrl+c" and "ctrl+\", but not heredoc mode.
 
-// TODO: ADD ctrl + d, ctrl + \ and all the variation modes.
+// ctrl+d isnt a signal but a macro that send EOF and works only on an empty line.
+// its treated on the main.
 
-// display a newline. (ctrl + c)
+// TODO: ADD the heredoc variation modes.
+
+// display a newline. (ctrl+c)
 void	newline(int sig)
 {
 	(void)sig;
@@ -26,9 +29,10 @@ void	newline(int sig)
 	rl_redisplay();
 }
 
-// set the signals. (ctrl + c, ctrl + d, ctrl + \)
+// set the signals. (ctrl+c = newline, ctrl+\ = ignored)
 void	set_signals(char *input)
 {
 	(void) input;
 	signal(SIGINT, newline);
+	signal(SIGQUIT, SIG_IGN);
 }
