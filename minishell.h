@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/10/02 15:18:22 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/07 14:49:57 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include "exec/env_node.h"
 # include "exec/pipes_list.h"
 # include "exec/dynarrstr.h"
-# include "env/env.h"
 
 #include "signals/signals.h"
 

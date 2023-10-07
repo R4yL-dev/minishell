@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:54:30 by lray              #+#    #+#             */
-/*   Updated: 2023/08/24 15:42:46 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/05 14:22:28 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	pipes_list_free(int **pipes_list, int num_pipes)
 	i = 0;
 	while (i < num_pipes)
 	{
-
+		close(pipes_list[i][0]);
+		close(pipes_list[i][1]);
 		free(pipes_list[i]);
 		i++;
 	}

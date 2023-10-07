@@ -6,65 +6,104 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:04:59 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 21:31:31 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/07 16:09:39 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	**make_paths(t_dynarrstr *dynarr, t_grpvar *grpvar);
+
+static char	**get_all_paths(t_grpvar *grpvar);
+static char	*is_cmd(char *cmd, char **paths);
+static char	*make_path(char *path, char *cmd);
+static int	end_by_slash(char *path);
 static int	is_an_executable(char *path);
 
-int	get_cmd_path(t_dynarrstr *dynarr, t_grpvar *grpvar)
+char	*get_cmd_path(char *cmd, t_grpvar *grpvar)
 {
 	char	**paths;
-	int		i;
+	char	*res;
 
-	if (is_an_executable(dynarr->array[0]) == 1)
-		return (1);
-	paths = make_paths(dynarr, grpvar);
-	if (!paths)
-	{
-		printf("%s: command not found\n", dynarr->array[0]);
-		return (0);
-	}
-	i = 0;
-	while (paths[i] != NULL && is_an_executable(paths[i]) == 0)
-		i++;
-	if (paths[i] == NULL)
-	{
-		printf("%s: command not found\n", dynarr->array[0]);
+	paths = NULL;
+	res = NULL;
+	if (is_an_executable(cmd))
+		return(ft_strdup(cmd));
+	paths = get_all_paths(grpvar);
+	res = is_cmd(cmd, paths);
+	if (paths)
 		free_split(paths);
-		return (0);
-	}
-	free(dynarr->array[0]);
-	dynarr->array[0] = ft_strdup(paths[i]);
-	free_split(paths);
-	return (1);
+	return (res);
 }
 
-static char	**make_paths(t_dynarrstr *dynarr, t_grpvar *grpvar)
+static char	**get_all_paths(t_grpvar *grpvar)
 {
-	char	**paths;
-	char	**paths_swap;
-	int		i;
+	char	**res;
+	size_t	pos;
 
-	paths = get_path(grpvar);
-	paths_swap = get_path(grpvar);
-	if (paths == NULL || paths_swap == NULL)
+	pos = grpvar_has(grpvar, GRPVAR_GLOBAL, "PATH");
+	if ((int)pos == -1)
 		return (NULL);
-	i = 0;
-	while (paths[i] != NULL)
+	res = ft_split(grpvar->global->array[pos]->value, ':');
+	return (res);
+}
+
+static char	*is_cmd(char *cmd, char **paths)
+{
+	size_t	i_path;
+	char	*path;
+
+	if (cmd == NULL || paths == NULL)
+		return (NULL);
+	i_path = 0;
+	while (paths[i_path])
 	{
-		free(paths_swap[i]);
-		paths_swap[i] = ft_strjoin(paths[i], "/");
-		free(paths[i]);
-		paths[i] = ft_strjoin(paths_swap[i], dynarr->array[0]);
-		free(paths_swap[i]);
-		i++;
+		path = make_path(paths[i_path], cmd);
+		if (is_an_executable(path))
+			return(path);
+		free (path);
+		++i_path;
 	}
-	free(paths_swap);
-	return (paths);
+	return (NULL);
+}
+
+static char	*make_path(char *path, char *cmd)
+{
+	int		end_slash;
+	size_t	len_str;
+	char	*res;
+
+	res = NULL;
+	end_slash = end_by_slash(path);
+	if (end_slash == 0)
+		len_str = ft_strlen(path) + ft_strlen(cmd) + 2;
+	else
+		len_str = ft_strlen(path) + ft_strlen(cmd) + 1;
+	res = malloc(sizeof(char) * len_str);
+	if (!res)
+	{
+		ft_puterror("Malloc failed");
+		return (NULL);
+	}
+	ft_strlcpy(res, path, ft_strlen(path) + 1);
+	if (end_slash == 0)
+	{
+		res[ft_strlen(path)] = '/';
+		res[ft_strlen(path) + 1] = '\0';
+	}
+	ft_strlcat(res, cmd, len_str);
+	return (res);
+}
+
+static int	end_by_slash(char *path)
+{
+	size_t	path_len;
+
+	if (path == NULL)
+		return (0);
+	path_len = ft_strlen(path);
+	if (path[path_len - 1] == '/')
+		return (1);
+	return (0);
 }
 
 static int	is_an_executable(char *path)

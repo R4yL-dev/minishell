@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 16:11:12 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 20:31:46 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/07 15:12:10 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_lstvar	*lstvar_init(char **envp)
 		ft_puterror("Malloc failed");
 		return (NULL);
 	}
-	if (envp)
+	if (envp && envp[0])
 		add_envp(new, envp);
 	return (new);
 }

@@ -6,96 +6,11 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:49:07 by lray              #+#    #+#             */
-/*   Updated: 2023/09/28 14:27:44 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/05 15:03:45 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static t_dynarrstr	*make_argv(t_dyntree *root);
-
-t_env_node	*env_node_init(t_dyntree *root, int **pipes_list, int num_env, t_grpvar *grpvar)
-{
-	t_env_node	*head;
-	t_env_node	*prev;
-	int			i;
-	t_dynarrstr	*args;
-	(void)		grpvar;
-
-	if (num_env < 1)
-		return (NULL);
-	head = NULL;
-	head = env_node_new();
-	if (root->type == TK_COMMAND)
-	{
-		if (open_all_fd(root, &head->fd_in, &head->fd_out) == 0)
-		{
-			env_node_freeall(head);
-			return (NULL);
-		}
-		args = make_argv(root);
-		if (get_cmd_path(args, grpvar) == 0)
-		{
-			dynarrstr_free(args);
-			env_node_freeall(head);
-			return (NULL);
-		}
-		head->path = ft_strdup(args->array[0]);
-		head->args = arrcpy(args->array, args->size);
-		dynarrstr_free(args);
-		return (head);
-	}
-	prev = head;
-	i = 0;
-	while (i < num_env - 1)
-	{
-		if (i != 0)
-		{
-			prev->fd_in = pipes_list[i - 1][0];
-			prev->fd_out = pipes_list[i][1];
-		}
-		else
-		{
-			prev->fd_out = pipes_list[i][1];
-		}
-		if (open_all_fd(root->children[i], &prev->fd_in, &prev->fd_out) == 0)
-		{
-			env_node_freeall(head);
-			return (NULL);
-		}
-		args = make_argv(root->children[i]);
-		if (get_cmd_path(args, grpvar) == 0)
-		{
-			dynarrstr_free(args);
-			env_node_freeall(head);
-			return (NULL);
-		}
-		prev->path = ft_strdup(args->array[0]);
-		prev->args = arrcpy(args->array, args->size);
-		dynarrstr_free(args);
-		prev->next = env_node_new();
-		prev = prev->next;
-		i++;
-	}
-	prev->fd_in = pipes_list[i - 1][0];
-	if (open_all_fd(root->children[i], &prev->fd_in, &prev->fd_out) == 0)
-	{
-		env_node_freeall(head);
-		return (NULL);
-	}
-	args = make_argv(root->children[i]);
-	if (get_cmd_path(args, grpvar) == 0)
-	{
-			dynarrstr_free(args);
-			env_node_freeall(head);
-			//ft_puterror("Command not found");
-			return (NULL);
-	}
-	prev->path = ft_strdup(args->array[0]);
-	prev->args = arrcpy(args->array, args->size);
-	dynarrstr_free(args);
-	return (head);
-}
 
 t_env_node	*env_node_new(void)
 {
@@ -111,8 +26,37 @@ t_env_node	*env_node_new(void)
 	new_node->args = NULL;
 	new_node->fd_in = STDIN_FILENO;
 	new_node->fd_out = STDOUT_FILENO;
+	new_node->pipe_in = -1;
+	new_node->pipe_out = -1;
 	new_node->next = NULL;
 	return (new_node);
+}
+
+t_env_node	*env_node_add(t_env_node *head, t_env_node *new)
+{
+	t_env_node	*ptr;
+
+	if (head == NULL)
+		head = env_node_new();
+	if (new == NULL)
+		new = env_node_new();
+	ptr = head;
+	while (ptr->next != NULL)
+		ptr = ptr->next;
+	ptr->next = new;
+	return (head);
+}
+
+t_env_node	*env_node_getlast(t_env_node *head)
+{
+	t_env_node	*ptr;
+
+	if (head == NULL)
+		return (NULL);
+	ptr = head;
+	while (ptr->next != NULL)
+		ptr = ptr->next;
+	return (ptr);
 }
 
 int	env_node_count(t_env_node *head)
@@ -140,13 +84,25 @@ void	env_node_show(t_env_node *head)
 	node = head;
 	while (node != NULL)
 	{
-		printf("path : %s\n", node->path);
-		i = 0;
+		printf("path : ");
+		if (node->path)
+			printf("%s\n", node->path);
+		else
+			printf("(null)\n");
+
 		printf("Argument :\n");
-		while (node->args[i])
-			printf("\t%s\n", node->args[i++]);
+		if (node->args)
+		{
+			i = 0;
+			while (node->args[i])
+				printf("\t%s\n", node->args[i++]);
+		}
+		else
+			printf("(null)\n");
 		printf("fd_in : %d\n", node->fd_in);
 		printf("fd_out : %d\n", node->fd_out);
+		printf("pipe_in : %d\n", node->pipe_in);
+		printf("pipe_out : %d\n", node->pipe_out);
 		printf("next : %p\n\n", node->next);
 		node = node->next;
 	}
@@ -166,6 +122,14 @@ void	env_node_free(t_env_node *node)
 			free_split(node->args);
 			node->args = NULL;
 		}
+		if (node->fd_in > 2)
+			close(node->fd_in);
+		if (node->fd_out > 2)
+			close(node->fd_out);
+		if (node->pipe_in > 2)
+			close(node->pipe_in);
+		if (node->pipe_out > 2)
+			close(node->pipe_out);
 		free(node);
 		node = NULL;
 	}
@@ -186,33 +150,4 @@ void	env_node_freeall(t_env_node *head)
 		free(head);
 		head = NULL;
 	}
-}
-
-static t_dynarrstr	*make_argv(t_dyntree *root)
-{
-	t_dynarrstr	*dynarr;
-	size_t		i;
-
-	dynarr = NULL;
-	dynarr = dynarrstr_init(dynarr);
-	if (dynarr == NULL)
-		return (NULL);
-	if (root && root->value)
-	{
-		if (dynarrstr_add(dynarr, root->value) == 0)
-			return (NULL);
-		i = 0;
-		while (i < root->numChildren)
-		{
-			if (root->children[i]->type == TK_ARGUMENT && root->children[i]->value[0] != '\0')
-			{
-				if (dynarrstr_add(dynarr, root->children[i]->value) == 0)
-					return (NULL);
-			}
-			i++;
-		}
-	}
-	else
-		return (NULL);
-	return (dynarr);
 }

@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/01 00:26:02 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/07 16:09:51 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,13 @@ int	main(int argc, char **argv, char **envp)
 			free_line(input, tklist, tree);
 			continue ;
 		}
-		if (expand(tree, grpvar))
-			exec(tree, grpvar);
+		tree = expand(tree, grpvar);
+		if (tree == NULL)
+		{
+			free_line(input, tklist, tree);
+			continue ;
+		}
+		exec(tree, grpvar);
 		free_line(input, tklist, tree);
 	}
 	clear_history();
