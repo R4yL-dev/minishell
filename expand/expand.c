@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:19:55 by lray              #+#    #+#             */
-/*   Updated: 2023/10/02 15:46:08 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/07 18:44:15 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,22 @@ static int	valide_tree(t_dyntree *root)
 			return (0);
 		}
 	}
-	if (root->type == TK_COMMAND)
+	else if (root->type == TK_PIPE)
+	{
+		if (root->numChildren < 2)
+		{
+			ft_puterror("ambiguous redirect");
+			return (0);
+		}
+	}
+	else if (root->type == TK_COMMAND)
 	{
 		if (root->value[0] == '\0')
+			return (0);
+	}
+	else if (root->type == TK_REDIRECTION)
+	{
+		if (root->numChildren < 1 || root->children[0]->type != TK_FILE)
 			return (0);
 	}
 	i = 0;
