@@ -6,13 +6,13 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:29:45 by lray              #+#    #+#             */
-/*   Updated: 2023/08/13 19:35:09 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/07 21:08:14 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-t_dyntree	*parser(t_dyntklist *tklist);
+int	parser(t_ctx *ctx);
 
 #endif

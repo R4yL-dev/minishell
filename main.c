@@ -3,89 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 16:09:51 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/08 13:55:43 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_line(char *input, t_dyntklist *tklist, t_dyntree *tree);
-static	void clean_quit(char *input, t_dyntklist *tklist, t_dyntree *tree, t_grpvar *grpvar);
-
 int	main(int argc, char **argv, char **envp)
 {
-	char		*input;
-	t_dyntklist	*tklist;
-	t_dyntree	*tree;
-	t_grpvar	*grpvar;
 	(void)		argc;
 	(void)		argv;
+	t_ctx		*ctx;
 
-	printf("\e[1;1H\e[2J");
-	printf("== INIT GROUP VAR ==\n");
-	grpvar = grpvar_init(envp);
-	grpvar_show(grpvar);
-	printf("\n");
+	ctx = NULL;
+	ctx = ctx_init(ctx, envp);
 	set_signals(NULL);
+	grpvar_show(ctx->grpvar);
+	printf("\n");
 	while (1)
 	{
-		input = NULL;
-		tklist = NULL;
-		tree = NULL;
-		input = prompt_get();
-		if (input == NULL)
+		ctx_free_line(ctx);
+		ctx->input = prompt_get();
+		if (ctx->input == NULL)
 		{
+			clear_history();
+			ctx_free(ctx);
 			printf("exit\n");
-			clean_quit(input, tklist, tree, grpvar);
+			exit (1);
 		}
-		else if (input[0] == '\0')
-		{
-			free_line(input, tklist, tree);
+		else if (ctx->input[0] == '\0')
 			continue ;
-		}
-		tklist = lexer(input);
-		if (tklist == NULL)
-		{
-			free_line(input, tklist, tree);
+		if (lexer(ctx) == 0)
 			continue ;
-		}
-		tree = parser(tklist);
-		if (tree == NULL)
-		{
-			free_line(input, tklist, tree);
+		if (parser(ctx) == 0)
 			continue ;
-		}
-		tree = expand(tree, grpvar);
-		if (tree == NULL)
-		{
-			free_line(input, tklist, tree);
+		if (expand(ctx) == 0)
 			continue ;
-		}
-		exec(tree, grpvar);
-		free_line(input, tklist, tree);
+		exec(ctx);
 	}
-	clear_history();
-	grpvar_free(grpvar);
 	return (0);
 }
 
-static void	free_line(char *input, t_dyntklist *tklist, t_dyntree *tree)
-{
-	free(input);
-	input = NULL;
-	dyntklist_free(tklist);
-	tklist = NULL;
-	dyntree_free(tree);
-	tree = NULL;
-}
-
-static	void clean_quit(char *input, t_dyntklist *tklist, t_dyntree *tree, t_grpvar *grpvar)
-{
-	free_line(input, tklist, tree);
-	grpvar_free(grpvar);
-	clear_history();
-	exit (0);
-}

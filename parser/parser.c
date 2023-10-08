@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:29:53 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 18:30:45 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/08 13:50:56 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,41 +17,31 @@ static int			has_token_type(t_dyntklist *tklist, int token_type);
 static int	add_to_cmd(t_dyntklist *tklist, t_dyntree *root, int pos);
 static t_dyntree	*add_cmd_to_root(t_dyntklist *tklist, t_dyntree *root);
 
-t_dyntree	*parser(t_dyntklist *tklist)
+int	parser(t_ctx *ctx)
 {
-	t_dyntree	*root;
 	size_t		i;
 	int			last_pipe;
 
-	root = NULL;
-	root = exctract_root(tklist);
-
-	if (root->type == TK_COMMAND || root->type == TK_REDIRECTION)
+	ctx->tree = exctract_root(ctx->tklist);
+	if (ctx->tree->type == TK_COMMAND || ctx->tree->type == TK_REDIRECTION)
+		add_to_cmd(ctx->tklist, ctx->tree, 0);
+	else if (ctx->tree->type == TK_PIPE)
 	{
-		add_to_cmd(tklist, root, 0);
-	}
-	else if (root->type == TK_PIPE)
-	{
-		add_cmd_to_root(tklist, root);
+		add_cmd_to_root(ctx->tklist, ctx->tree);
 		i = 0;
 		last_pipe = 0;
-		while (i < root->numChildren)
+		while (i < ctx->tree->numChildren)
 		{
-			last_pipe = add_to_cmd(tklist, root->children[i], last_pipe) + 1;
-			if (last_pipe == -1)
-			{
-				printf("ERREUR\n");
-				break ;
-			}
+			last_pipe = add_to_cmd(ctx->tklist, ctx->tree->children[i], last_pipe) + 1;
 			++i;
 		}
 	}
 	else
 	{
 		ft_puterror("Unknow root");
-		return (NULL);
+		return (0);
 	}
-	return (root);
+	return (1);
 }
 
 static t_dyntree	*exctract_root(t_dyntklist *tklist)
