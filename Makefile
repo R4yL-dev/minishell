@@ -1,6 +1,7 @@
 NAME		:= minishell
 
 SRCS 		:= \
+	ctx/ctx.c \
 	vars/var.c \
 	vars/lstvar.c \
 	vars/lstvar_to_array.c \
