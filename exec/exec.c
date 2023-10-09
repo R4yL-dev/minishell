@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 16:09:41 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/07 21:12:30 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static	t_env_node	*make_env_node(t_dyntree *root, t_grpvar *grpvar, t_env_node *
 static int	exec_env_list(t_grpvar *grpvar,t_env_node *head);
 static void	run_cmd(t_grpvar *grpvar, t_env_node *p_env, int fd_in, int fd_out);
 
-int	exec(t_dyntree *root, t_grpvar *grpvar)
+int	exec(t_ctx *ctx)
 {
 	t_env_node	*envlist;
 
 	envlist = NULL;
-	envlist = make_env_list(root, grpvar, envlist);
-	exec_env_list(grpvar, envlist);
+	envlist = make_env_list(ctx->tree, ctx->grpvar, envlist);
+	exec_env_list(ctx->grpvar, envlist);
 	env_node_freeall(envlist);
 	return (1);
 }

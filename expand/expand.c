@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:19:55 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 18:44:15 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/07 21:10:51 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 static int	valide_tree(t_dyntree *root);
 
-t_dyntree	*expand(t_dyntree *root, t_grpvar *grpvar)
+int	expand(t_ctx *ctx)
 {
-	if (!root || !grpvar)
-		return (NULL);
-	if (!replace_var(root, grpvar))
-		return (NULL);
-	if (!valide_tree(root))
-		return (NULL);
-	replace_builtins(root);
-	return (root);
+	if (!ctx->tree || !ctx->grpvar)
+		return (0);
+	if (!replace_var(ctx->tree, ctx->grpvar))
+		return (0);
+	if (!valide_tree(ctx->tree))
+		return (0);
+	replace_builtins(ctx->tree);
+	return (1);
 }
 
 static int	valide_tree(t_dyntree *root)

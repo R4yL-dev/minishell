@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:18:47 by lray              #+#    #+#             */
-/*   Updated: 2023/10/03 22:51:27 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/07 21:13:00 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <sys/wait.h>
 
-int			exec(t_dyntree *root, t_grpvar *grpvar);
+int			exec(t_ctx *ctx);
 char		*get_cmd_path(char *cmd, t_grpvar *grpvar);
 t_dynarrstr	*make_argv(t_dyntree *root);
 int			open_file_rd(char *path);

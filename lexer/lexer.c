@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/09/23 17:30:51 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/07 21:55:07 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,51 +18,51 @@ static int	add_file(char *input, t_dyntklist *tklist, int *i);
 static int	add_cmd(char *input, t_dyntklist *tklist, int *i);
 static int	add_arg(char *input, t_dyntklist *tklist, int *i);
 
-t_dyntklist	*lexer(char *input)
+int	lexer(t_ctx *ctx)
 {
 	int i;
 	int in_cmd;
-	t_dyntklist	*tklist;
 
-	tklist = NULL;
-	tklist = dyntklist_init(tklist);
+	ctx->tklist = dyntklist_init(ctx->tklist);
+	if (ctx->tklist == NULL)
+		return (0);
 	in_cmd = 0;
 	i = 0;
-	while (input[i] != '\0')
+	while (ctx->input[i] != '\0')
 	{
-		skip_space(input, &i);
-		if (input[i] == '\0')
+		skip_space(ctx->input, &i);
+		if (ctx->input[i] == '\0')
 			break ;
-		if (is_redirect(input[i]))
+		if (is_redirect(ctx->input[i]))
 		{
-			if (is_pipe(input[i]))
+			if (is_pipe(ctx->input[i]))
 			{
-				dyntklist_add(tklist, TK_PIPE, "|");
+				dyntklist_add(ctx->tklist, TK_PIPE, "|");
 				in_cmd = 0;
 			}
 			else
 			{
-				if (add_redirect(input, tklist, &i) == 0)
-					return (NULL);
-				skip_space(input, &i);
-				if (add_file(input, tklist, &i) == 0)
-					return (NULL);
+				if (add_redirect(ctx->input, ctx->tklist, &i) == 0)
+					return (0);
+				skip_space(ctx->input, &i);
+				if (add_file(ctx->input, ctx->tklist, &i) == 0)
+					return (0);
 			}
 		}
 		else if (in_cmd == 0)
 		{
-			if (add_cmd(input, tklist, &i) == 0)
-				return (NULL);
+			if (add_cmd(ctx->input, ctx->tklist, &i) == 0)
+				return (0);
 			in_cmd = 1;
 		}
 		else
 		{
-			if (add_arg(input, tklist, &i) == 0)
-				return (NULL);
+			if (add_arg(ctx->input, ctx->tklist, &i) == 0)
+				return (0);
 		}
 		i++;
 	}
-	return (tklist);
+	return (1);
 }
 
 static void	skip_space(char *input, int *i)
