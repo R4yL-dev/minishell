@@ -11,6 +11,7 @@ SRCS 		:= \
 	lexer/lexer_utils.c \
 	lexer/token.c \
 	lexer/dyntklist.c \
+	lexer/dyntklist_split.c \
 	parser/parser.c \
 	parser/dyntree.c \
 	expand/expand.c \
