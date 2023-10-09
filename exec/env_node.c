@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:49:07 by lray              #+#    #+#             */
-/*   Updated: 2023/10/05 15:03:45 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/09 14:08:34 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,17 +137,14 @@ void	env_node_free(t_env_node *node)
 
 void	env_node_freeall(t_env_node *head)
 {
-	t_env_node	*next;
+	t_env_node	*p_env;
+	t_env_node	*p_next;
 
-	if (head != NULL)
+	p_env = head;
+	while (p_env != NULL)
 	{
-		while (head != NULL)
-		{
-			next = head->next;
-			env_node_free(head);
-			head = next;
-		}
-		free(head);
-		head = NULL;
+		p_next = p_env->next;
+		env_node_free(p_env);
+		p_env = p_next;
 	}
 }

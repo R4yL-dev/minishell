@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 21:12:30 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/09 14:21:00 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static	t_env_node	*make_env_list(t_dyntree *root, t_grpvar *grpvar, t_env_node *
 			}
 			i_child++;
 		}
+		pipes_list_free(pipes_list, (int)root->numChildren - 1);
 	}
 	else
 	{
@@ -88,7 +89,8 @@ static	t_env_node	*make_env_node(t_dyntree *root, t_grpvar *grpvar, t_env_node *
 		argv = make_argv(root);
 		if (argv == NULL)
 			return (NULL);
-		last_el->args = argv->array;
+		last_el->args = arrcpy(argv->array, (int)argv->size);
+		dynarrstr_free(argv);
 		last_el->fd_in = get_infd(root);
 		last_el->fd_out = get_outfd(root);
 		last_el->pipe_in = pipe_in;

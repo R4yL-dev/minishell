@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 16:11:12 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 15:12:10 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/09 14:09:57 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void	lstvar_free(t_lstvar *lstvar)
 				while (i < lstvar->num_elements)
 				{
 					var_free(lstvar->array[i]);
+					lstvar->array[i] = NULL;
 					++i;
 				}
 			}
