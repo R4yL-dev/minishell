@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:29:53 by lray              #+#    #+#             */
-/*   Updated: 2023/10/08 13:50:56 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/09 18:43:48 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,19 @@ static t_dyntree	*exctract_root(t_dyntklist *tklist)
 
 	root = NULL;
 	i =  0;
-	if (has_token_type(tklist, TK_PIPE))
+	if (has_token_type(tklist, TK_PIPE) != -1)
 	{
 		while (tklist->array[i]->type != TK_PIPE)
 			i++;
 		root = dyntree_new(TK_PIPE, "|");
 	}
-	else if (has_token_type(tklist, TK_COMMAND))
+	else if (has_token_type(tklist, TK_COMMAND) != -1)
 	{
 		while (tklist->array[i]->type != TK_COMMAND)
 			i++;
 		root = dyntree_new(tklist->array[i]->type, tklist->array[i]->value);
 	}
-	else if (has_token_type(tklist, TK_REDIRECTION))
+	else if (has_token_type(tklist, TK_REDIRECTION) != -1)
 	{
 		while (tklist->array[i]->type != TK_REDIRECTION)
 			i++;
@@ -74,18 +74,18 @@ static t_dyntree	*exctract_root(t_dyntklist *tklist)
 
 static int	has_token_type(t_dyntklist *tklist, int token_type)
 {
-	int	i;
+	int	pos;
 
 	if (tklist == NULL || tklist->array == NULL || token_type < 0)
-		return (0);
-	i = 0;
-	while (tklist->array[i])
+		return (-1);
+	pos = 0;
+	while (tklist->array[pos])
 	{
-		if (tklist->array[i]->type == token_type)
-			return (1);
-		i++;
+		if (tklist->array[pos]->type == token_type)
+			return (pos);
+		pos++;
 	}
-	return (0);
+	return (-1);
 }
 
 static int	add_to_cmd(t_dyntklist *tklist, t_dyntree *root, int pos)
@@ -125,23 +125,38 @@ static int	add_to_cmd(t_dyntklist *tklist, t_dyntree *root, int pos)
 			}
 		}
 		else
-		{
 			++i;
-		}
 	}
 	return (i);
 }
 
 static t_dyntree	*add_cmd_to_root(t_dyntklist *tklist, t_dyntree *root)
 {
-	size_t	i;
+	t_dyntklist **res;
+	int			i;
+	int			pos;
 
+	res = dyntklist_split(tklist);
 	i = 0;
-	while (i < tklist->size)
+	while (res[i])
 	{
-		if (tklist->array[i]->type == TK_COMMAND || tklist->array[i]->type == TK_REDIRECTION)
-			dyntree_add(root, dyntree_new(tklist->array[i]->type, tklist->array[i]->value));
-		i++;
+		pos = has_token_type(res[i], TK_COMMAND);
+		if (pos != -1)
+		{
+			dyntree_add(root, dyntree_new(res[i]->array[pos]->type, res[i]->array[pos]->value));
+			++i;
+			continue ;
+		}
+		pos = has_token_type(res[i], TK_REDIRECTION);
+		if (pos != -1)
+		{
+			dyntree_add(root, dyntree_new(res[i]->array[pos]->type, res[i]->array[pos]->value));
+			++i;
+			continue ;
+		}
+		else
+			return (NULL);
 	}
+	dyntklist_split_free(res);
 	return (root);
 }
