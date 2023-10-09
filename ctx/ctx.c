@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:30:19 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 21:56:57 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/09 13:25:00 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,27 @@ void	ctx_free(t_ctx *ctx)
 	if (ctx != NULL)
 	{
 		if (ctx->grpvar)
+		{
 			grpvar_free(ctx->grpvar);
+			ctx->grpvar = NULL;
+		}
 		if (ctx->input)
 		{
 			free(ctx->input);
 			ctx->input = NULL;
 		}
 		if (ctx->tklist)
+		{
 			dyntklist_free(ctx->tklist);
+			ctx->tklist = NULL;
+		}
 		if (ctx->tree)
+		{
 			dyntree_free(ctx->tree);
+			ctx->tree = NULL;
+		}
+		free(ctx);
+		ctx = NULL;
 	}
 }
 
