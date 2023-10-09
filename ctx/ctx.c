@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:30:19 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 13:25:00 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/09 20:37:07 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,15 @@ t_ctx	*ctx_init(t_ctx *ctx, char **envp)
 			return (NULL);
 		}
 		ctx->grpvar = NULL;
+		ctx->lstbltins = NULL;
 		ctx->input = NULL;
 		ctx->tklist = NULL;
 		ctx->tree = NULL;
 		ctx->grpvar = grpvar_init(envp);
 		if (ctx->grpvar == NULL)
+			return (NULL);
+		ctx->lstbltins = lstbuiltins_init(ctx->lstbltins);
+		if (!ctx->lstbltins)
 			return (NULL);
 		return (ctx);
 	}
@@ -43,6 +47,11 @@ void	ctx_free(t_ctx *ctx)
 		{
 			grpvar_free(ctx->grpvar);
 			ctx->grpvar = NULL;
+		}
+		if (ctx->lstbltins)
+		{
+			lstbuiltins_freeall(ctx->lstbltins);
+			ctx->lstbltins = NULL;
 		}
 		if (ctx->input)
 		{

@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:24:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 21:15:32 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/09 20:37:18 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 
 typedef struct s_ctx
 {
-	struct s_grpvar		*grpvar;
-	char				*input;
-	struct s_dyntklist	*tklist;
-	struct s_dyntree	*tree;
+	struct s_grpvar			*grpvar;
+	struct s_lstbuiltins	*lstbltins;
+	char					*input;
+	struct s_dyntklist		*tklist;
+	struct s_dyntree		*tree;
 }	t_ctx;
 
 t_ctx	*ctx_init(t_ctx *ctx, char **envp);
