@@ -6,6 +6,10 @@ SRCS 		:= \
 	vars/lstvar.c \
 	vars/lstvar_to_array.c \
 	vars/grpvar.c \
+	builtins/lstbuiltins.c \
+	builtins/lstbuiltins_has.c \
+	builtins/lstbuiltins_exec.c \
+	builtins/test.c \
 	prompt/prompt.c \
 	lexer/lexer.c \
 	lexer/lexer_utils.c \
