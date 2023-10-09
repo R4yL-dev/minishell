@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/08 13:55:43 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/09 14:17:20 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	main(int argc, char **argv, char **envp)
 	ctx = NULL;
 	ctx = ctx_init(ctx, envp);
 	set_signals(NULL);
-	grpvar_show(ctx->grpvar);
-	printf("\n");
 	while (1)
 	{
 		ctx_free_line(ctx);
