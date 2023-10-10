@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 14:21:00 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/10 16:21:16 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static	t_env_node	*make_env_list(t_dyntree *root, t_grpvar *grpvar, t_env_node *envlist);
 static	t_env_node	*make_env_node(t_dyntree *root, t_grpvar *grpvar, t_env_node *envlist, int pipe_in, int pipe_out);
-static int	exec_env_list(t_grpvar *grpvar,t_env_node *head);
+static int	exec_env_list(t_grpvar *grpvar,t_env_node *head, t_ctx *ctx);
 static void	run_cmd(t_grpvar *grpvar, t_env_node *p_env, int fd_in, int fd_out);
 
 int	exec(t_ctx *ctx)
@@ -23,7 +23,7 @@ int	exec(t_ctx *ctx)
 
 	envlist = NULL;
 	envlist = make_env_list(ctx->tree, ctx->grpvar, envlist);
-	exec_env_list(ctx->grpvar, envlist);
+	exec_env_list(ctx->grpvar, envlist, ctx);
 	env_node_freeall(envlist);
 	return (1);
 }
@@ -80,6 +80,7 @@ static	t_env_node	*make_env_node(t_dyntree *root, t_grpvar *grpvar, t_env_node *
 	last_el = env_node_getlast(envlist);
 	if (root->type == TK_COMMAND)
 	{
+		last_el->type = TK_COMMAND;
 		last_el->path = get_cmd_path(root->value, grpvar);
 		if (!last_el->path)
 		{
@@ -96,10 +97,25 @@ static	t_env_node	*make_env_node(t_dyntree *root, t_grpvar *grpvar, t_env_node *
 		last_el->pipe_in = pipe_in;
 		last_el->pipe_out = pipe_out;
 	}
+	else if (root->type == TK_BUILTINS)
+	{
+		last_el->type = TK_BUILTINS;
+		last_el->path = ft_strdup(root->value);
+		argv = make_argv(root);
+		if (argv == NULL)
+			return (NULL);
+		last_el->args = arrcpy(argv->array, (int)argv->size);
+		dynarrstr_free(argv);
+		last_el->fd_in = get_infd(root);
+		last_el->fd_out = get_outfd(root);
+		last_el->pipe_in = pipe_in;
+		last_el->pipe_out = pipe_out;
+	}
 	else if (root->type == TK_REDIRECTION)
 	{
+		last_el->type = TK_REDIRECTION;
 		last_el->path = NULL;
-		last_el->path = NULL;
+		last_el->args = NULL;
 		last_el->fd_in = get_infd(root);
 		last_el->fd_out = get_outfd(root);
 		last_el->pipe_in = pipe_in;
@@ -108,7 +124,7 @@ static	t_env_node	*make_env_node(t_dyntree *root, t_grpvar *grpvar, t_env_node *
 	return (envlist);
 }
 
-static int	exec_env_list(t_grpvar *grpvar,t_env_node *head)
+static int	exec_env_list(t_grpvar *grpvar,t_env_node *head, t_ctx *ctx)
 {
 	t_env_node	*p_env;
 	pid_t		pid;
@@ -121,11 +137,6 @@ static int	exec_env_list(t_grpvar *grpvar,t_env_node *head)
 	p_env = head;
 	while (p_env)
 	{
-		if (p_env->path == NULL)
-		{
-			p_env = p_env->next;
-			continue ;
-		}
 		fd_in = 0;
 		fd_out = 1;
 		if (p_env->fd_in != 0)
@@ -144,16 +155,47 @@ static int	exec_env_list(t_grpvar *grpvar,t_env_node *head)
 		}
 		else if (p_env->fd_out == 1 && p_env->pipe_out != -1)
 			fd_out = p_env->pipe_out;
-		pid = fork();
-		if (pid == 0)
-			run_cmd(grpvar, p_env, fd_in, fd_out);
-		else
+		if (p_env->type == TK_COMMAND)
 		{
-			waitpid(pid, &status, 0);
+			pid = fork();
+			if (pid == 0)
+				run_cmd(grpvar, p_env, fd_in, fd_out);
+			else
+			{
+				waitpid(pid, &status, 0);
+				if (fd_in != 0)
+					close(fd_in);
+				if (fd_out != 1)
+					close(fd_out);
+			}
+		}
+		else if (p_env->type == TK_BUILTINS)
+		{
+			int in;
+			int out;
+
 			if (fd_in != 0)
-				close(fd_in);
+			{
+				in = dup(STDIN_FILENO);
+				dup2(fd_in, STDIN_FILENO);
+			}
 			if (fd_out != 1)
+			{
+
+				out = dup(STDOUT_FILENO);
+				dup2(fd_out, STDOUT_FILENO);
+			}
+			lstbuiltins_exec(ctx->lstbltins, p_env->path, p_env->args, ctx);
+			if (fd_in != 0)
+			{
+				close(fd_in);
+				dup2(in, STDIN_FILENO);
+			}
+			if (fd_out != 1)
+			{
 				close(fd_out);
+				dup2(out, STDOUT_FILENO);
+			}
 		}
 		p_env = p_env->next;
 	}
