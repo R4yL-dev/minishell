@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   replace_builtins.h                                 :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 15:16:32 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 20:50:41 by lray             ###   ########.fr       */
+/*   Created: 2023/10/09 19:59:04 by lray              #+#    #+#             */
+/*   Updated: 2023/10/09 20:14:09 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REPLACE_BUILTINS_H
-# define REPLACE_BUILTINS_H
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-# include <sys/types.h>
-# include <dirent.h>
-
-int	replace_builtins(t_dyntree *root, t_ctx *ctx);
+int	builtin_test(char **argv, t_ctx *ctx);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:19:55 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 21:10:51 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/09 20:49:55 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	expand(t_ctx *ctx)
 		return (0);
 	if (!valide_tree(ctx->tree))
 		return (0);
-	replace_builtins(ctx->tree);
+	replace_builtins(ctx->tree, ctx);
 	return (1);
 }
 

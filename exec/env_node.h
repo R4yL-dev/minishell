@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:48:33 by lray              #+#    #+#             */
-/*   Updated: 2023/10/05 15:00:39 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/09 21:00:45 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 typedef struct s_env_node
 {
+	int					type;
 	char				*path;
 	char				**args;
 	int					fd_in;

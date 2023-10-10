@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   replace_builtins.h                                 :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 15:16:32 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 20:50:41 by lray             ###   ########.fr       */
+/*   Created: 2023/10/09 19:57:29 by lray              #+#    #+#             */
+/*   Updated: 2023/10/09 20:14:20 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REPLACE_BUILTINS_H
-# define REPLACE_BUILTINS_H
+#include "../minishell.h"
 
-# include <sys/types.h>
-# include <dirent.h>
-
-int	replace_builtins(t_dyntree *root, t_ctx *ctx);
-
-#endif
+int	builtin_test(char **argv, t_ctx *ctx)
+{
+	(void)	argv;
+	(void)	ctx;
+	printf("JE SUIS LA BUILTIN TEST !!!\n");
+	return (1);
+}
