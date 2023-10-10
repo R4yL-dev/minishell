@@ -1,20 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 19:59:04 by lray              #+#    #+#             */
-/*   Updated: 2023/10/10 17:25:09 by mflury           ###   ########.fr       */
+/*   Created: 2023/10/10 17:23:16 by mflury            #+#    #+#             */
+/*   Updated: 2023/10/10 18:03:37 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "../minishell.h"
 
-int	builtin_test(char **argv, t_ctx *ctx);
+int	builtin_echo(char **argv, t_ctx *ctx)
+{
+	int i;
 
-int	builtin_echo(char **argv, t_ctx *ctx);
-
-#endif
+	(void)ctx;
+	i = 1;
+	if (!argv)
+		return (1);
+	else if (ft_strncmp(argv[1], "-n\0", 3) != 0 || argv[1] == NULL)
+	{
+		while (argv[i])
+		{
+			printf("%s", argv[i++]);
+			if (argv[i])
+				printf(" ");
+		}
+		printf("\n");
+	}
+	else
+	{
+		i = 2;
+		while (argv[i])
+			printf("%s", argv[i++]);
+	}
+	return (0);
+}
