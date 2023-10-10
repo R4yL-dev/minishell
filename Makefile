@@ -11,6 +11,7 @@ SRCS 		:= \
 	builtins/lstbuiltins_exec.c \
 	builtins/test.c \
 	builtins/echo.c \
+	builtins/pwd.c \
 	builtins/exit.c \
 	prompt/prompt.c \
 	lexer/lexer.c \

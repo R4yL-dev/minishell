@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 19:59:04 by lray              #+#    #+#             */
-/*   Updated: 2023/10/10 21:20:21 by mflury           ###   ########.fr       */
+/*   Created: 2023/10/10 21:18:02 by mflury            #+#    #+#             */
+/*   Updated: 2023/10/10 23:33:32 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "../minishell.h"
 
-int	builtin_test(char **argv, t_ctx *ctx);
+int	builtin_pwd(char **argv, t_ctx *ctx)
+{
+	(void)argv;
+	int	pos;
 
-int	builtin_echo(char **argv, t_ctx *ctx);
-
-int	builtin_pwd(char **argv, t_ctx *ctx);
-
-int	builtin_exit(char **argv, t_ctx *ctx);
-
-#endif
+	pos = grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, "PWD");
+	if (pos == -1)
+		return (1);
+	printf("%s\n", ctx->grpvar->global->array[pos]->value);
+	return (0);
+}
