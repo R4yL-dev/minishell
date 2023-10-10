@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
+/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 14:17:20 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/10 19:17:44 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,7 @@ int	main(int argc, char **argv, char **envp)
 		ctx_free_line(ctx);
 		ctx->input = prompt_get();
 		if (ctx->input == NULL)
-		{
-			clear_history();
-			ctx_free(ctx);
-			printf("exit\n");
-			exit (1);
-		}
+			builtin_exit(NULL, ctx);
 		else if (ctx->input[0] == '\0')
 			continue ;
 		if (lexer(ctx) == 0)
