@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 21:18:02 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/10 22:22:07 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/10 23:33:32 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,11 @@
 int	builtin_pwd(char **argv, t_ctx *ctx)
 {
 	(void)argv;
-	int	i;
-	t_grpvar *tmp;
+	int	pos;
 
-	i = 0;
-	tmp = ctx->grpvar;
-	if (!tmp->global)
+	pos = grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, "PWD");
+	if (pos == -1)
 		return (1);
-	while (ft_strncmp(tmp->global->array[i]->name, "PWD", 3) != 0 && tmp->global->array[i])
-		i++;
-	if (!tmp->global->array[i])
-		return (1);
-	printf("%s\n", tmp->global->array[i]->value);
+	printf("%s\n", ctx->grpvar->global->array[pos]->value);
 	return (0);
 }
