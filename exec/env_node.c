@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:49:07 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 14:08:34 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/09 21:03:37 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_env_node	*env_node_new(void)
 		ft_puterror("Malloc failed");
 		return (NULL);
 	}
+	new_node->type = -1;
 	new_node->path = NULL;
 	new_node->args = NULL;
 	new_node->fd_in = STDIN_FILENO;
@@ -84,6 +85,7 @@ void	env_node_show(t_env_node *head)
 	node = head;
 	while (node != NULL)
 	{
+		printf("type : %d\n", node->type);
 		printf("path : ");
 		if (node->path)
 			printf("%s\n", node->path);
