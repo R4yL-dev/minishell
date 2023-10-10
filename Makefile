@@ -10,6 +10,7 @@ SRCS 		:= \
 	builtins/lstbuiltins_has.c \
 	builtins/lstbuiltins_exec.c \
 	builtins/test.c \
+	builtins/echo.c \
 	prompt/prompt.c \
 	lexer/lexer.c \
 	lexer/lexer_utils.c \
