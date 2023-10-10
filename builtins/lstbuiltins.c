@@ -6,6 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 19:32:21 by lray              #+#    #+#             */
+
 /*   Updated: 2023/10/10 21:17:43 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -35,6 +36,7 @@ t_lstbuiltins *lstbuiltins_init(t_lstbuiltins *head)
 	head = lstbuiltins_new("test", builtin_test);
 	lstbuiltins_add(head, lstbuiltins_new("echo", builtin_echo));
 	lstbuiltins_add(head, lstbuiltins_new("pwd", builtin_pwd));
+	lstbuiltins_add(head, lstbuiltins_new("exit", builtin_exit));
 	return (head);
 }
 
