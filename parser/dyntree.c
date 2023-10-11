@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 18:09:29 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 21:39:32 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/11 13:45:57 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,38 @@ int	dyntree_add(t_dyntree *parent, t_dyntree *child)
 	}
 	parent->children[parent->numChildren++] = child;
 	return (1);
+}
+
+void	dyntree_show(t_dyntree *root, int depth)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < (size_t)depth)
+	{
+		printf("  ");
+		i++;
+	}
+	printf("node->type : ");
+	if (root->type == 0)
+		printf("TK_COMMAND");
+	else if (root->type == 1)
+		printf("TK_ARGUMENT");
+	else if (root->type == 2)
+		printf("TK_FILE");
+	else if (root->type == 3)
+		printf("TK_REDIRECTION");
+	else if (root->type == 4)
+		printf("TK_PIPE");
+	else if (root->type == 5)
+		printf("TK_BUILTINS");
+	else
+		printf("Unknow token");
+	printf(" | node->value : \"%s\" | %ld/%ld\n", root->value, root->numChildren, root->capacity);
+
+	i = 0;
+	while (i < root->numChildren)
+		dyntree_show(root->children[i++], depth + 1);
 }
 
 void	dyntree_free(t_dyntree *node)

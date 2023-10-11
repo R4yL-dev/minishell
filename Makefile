@@ -35,8 +35,7 @@ SRCS 		:= \
 	exec/get_outfd.c \
 	signals/signals.c \
 	utils.c \
-	main.c \
-	debug.c
+	main.c
 
 OBJS		:= $(SRCS:.c=.o)
 

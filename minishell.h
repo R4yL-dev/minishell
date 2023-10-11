@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 20:14:13 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/11 13:47:01 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,5 @@ char **arrcpy(char **arr, int size);
 void	ft_puterror(char *msg);
 
 char	*add_char_to_string(char *str, char c);
-
-void	db_show_tree(t_dyntree *root, int depth);
 
 #endif
