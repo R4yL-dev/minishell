@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   showctx.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 19:59:04 by lray              #+#    #+#             */
-/*   Updated: 2023/10/11 14:30:47 by lray             ###   ########.fr       */
+/*   Created: 2023/10/11 14:28:36 by lray              #+#    #+#             */
+/*   Updated: 2023/10/11 14:29:52 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "../minishell.h"
 
-int	builtin_showctx(char **argv, t_ctx *ctx);
-int	builtin_echo(char **argv, t_ctx *ctx);
-int	builtin_pwd(char **argv, t_ctx *ctx);
-int	builtin_exit(char **argv, t_ctx *ctx);
+int	builtin_showctx(char **argv, t_ctx *ctx)
+{
+	(void)	argv;
 
-#endif
+	ctx_show(ctx);
+	return (1);
+}

@@ -9,7 +9,7 @@ SRCS 		:= \
 	builtins/lstbuiltins.c \
 	builtins/lstbuiltins_has.c \
 	builtins/lstbuiltins_exec.c \
-	builtins/test.c \
+	builtins/showctx.c \
 	builtins/echo.c \
 	builtins/pwd.c \
 	builtins/exit.c \
