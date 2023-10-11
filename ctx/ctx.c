@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:30:19 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 20:37:07 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/11 14:21:42 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,22 @@ t_ctx	*ctx_init(t_ctx *ctx, char **envp)
 		return (ctx);
 	}
 	return (NULL);
+}
+
+void	ctx_show(t_ctx *ctx)
+{
+	grpvar_show(ctx->grpvar);
+	printf("\n");
+	lstbuiltins_show(ctx->lstbltins);
+	printf("\n");
+	printf("= Input SHOW =\n");
+	printf("-> input : %s\n", ctx->input);
+	printf("\n");
+	dyntklist_show(ctx->tklist);
+	printf("\n");
+	printf("= DYNTREE SHOW =\n");
+	dyntree_show(ctx->tree, 0);
+	printf("\n");
 }
 
 void	ctx_free(t_ctx *ctx)
