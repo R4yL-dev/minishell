@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 19:02:28 by lray              #+#    #+#             */
-/*   Updated: 2023/09/26 20:31:12 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/11 13:57:01 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,18 @@ void	grpvar_show(t_grpvar *grpvar)
 {
 	if (grpvar)
 	{
-		if (grpvar->local)
-		{
-			printf("=== LOCAL ===\n");
-			lstvar_show(grpvar->local);
-			printf("Total local var : %ld\n", grpvar->local->num_elements);
-		}
+		printf("= GRPVAR SHOW =\n");
 		if (grpvar->global)
 		{
-			printf("=== GLOBAL ===\n");
+			printf("== GLOBAL ==\n");
 			lstvar_show(grpvar->global);
-			printf("Total global var : %ld\n", grpvar->global->num_elements);
+			printf("Number of global variable : %ld\n", grpvar->global->num_elements);
+		}
+		if (grpvar->local)
+		{
+			printf("== LOCAL ==\n");
+			lstvar_show(grpvar->local);
+			printf("Number of local variable : %ld\n", grpvar->local->num_elements);
 		}
 	}
 }
