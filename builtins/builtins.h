@@ -13,7 +13,7 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-int	builtin_test(char **argv, t_ctx *ctx);
+int	builtin_showctx(char **argv, t_ctx *ctx);
 int	builtin_echo(char **argv, t_ctx *ctx);
 int	builtin_pwd(char **argv, t_ctx *ctx);
 int	builtin_exit(char **argv, t_ctx *ctx);

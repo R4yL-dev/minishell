@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 21:36:38 by lray              #+#    #+#             */
-/*   Updated: 2023/09/05 15:29:37 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/11 14:20:05 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,24 +92,11 @@ void	dyntklist_show(t_dyntklist *tklist)
 
 	if (tklist != NULL && tklist->array)
 	{
+		printf("= DYNTKLIST SHOW =\n");
 		i = 0;
-		printf("tklist->size : %ld\n", tklist->size);
 		while (tklist->array[i])
-		{
-			printf("tklist->array[%d]->type : ", i);
-			if (tklist->array[i]->type == 0)
-				printf("TK_COMMAND\n");
-			else if (tklist->array[i]->type == 1)
-				printf("TK_ARGUMENT\n");
-			else if (tklist->array[i]->type == 2)
-				printf("TK_FILE\n");
-			else if (tklist->array[i]->type == 3)
-				printf("TK_REDIRECTION\n");
-			else if (tklist->array[i]->type == 4)
-				printf("TK_PIPE\n");
-			printf("tklist->array[%d]->value : %s\n", i, tklist->array[i]->value);
-			i++;
-		}
+			token_show(tklist->array[i++]);
+		printf("Number of token in tklist : %ld\n", tklist->size);
 	}
 }
 
