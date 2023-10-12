@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/10/12 00:04:32 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/12 14:21:01 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	add_to_tklist(char *input, int *i, t_dyntklist *tklist, int tktype);
 static char	*value_init(char *value);
 static char	*value_add(char *value, size_t *value_len, char c);
 static int	is_quote(char c);
-static char	*make_quoted_value(char *value, char *input, int *i, size_t *value_len);
 
 int	lexer(t_ctx *ctx)
 {
@@ -129,21 +128,31 @@ static int	add_to_tklist(char *input, int *i, t_dyntklist *tklist, int tktype)
 {
 	char	*value;
 	size_t	value_len;
+	char	quote;
 
+	quote = 0;
 	value = NULL;
 	value_len = 0;
 	value = value_init(value);
 	if (!value)
 		return (0);
-	if (is_quote(input[*i]))
-		value = make_quoted_value(value, input, i, &value_len);
-	else
+	while (input[*i])
 	{
-		while (input[*i] != '\0' && input[*i] != ' ' && !is_redirect(input[*i]))
+		if (quote == 0)
+		{
+			if (input[*i] == ' ' || is_redirect(input[*i]))
+				break ;
+			value = value_add(value, &value_len, input[*i]);
+			if (is_quote(input[*i]))
+				quote = input[*i];
+		}
+		else
 		{
 			value = value_add(value, &value_len, input[*i]);
-			(*i)++;
+			if (input[*i] == quote)
+				quote = 0;
 		}
+		(*i)++;
 	}
 	dyntklist_add(tklist, tktype, value);
 	free (value);
@@ -180,31 +189,4 @@ static int	is_quote(char c)
 	if (c == '\'' || c == '"')
 		return (1);
 	return (0);
-}
-
-static char	*make_quoted_value(char *value, char *input, int *i, size_t *value_len)
-{
-	char	quote;
-	int		in_quote;
-
-	quote = input[*i];
-	in_quote = -1;
-	while (input[*i])
-	{
-		value = value_add(value, value_len, input[*i]);
-		if (input[*i] == quote)
-			in_quote *= -1;
-		if (in_quote == -1)
-		{
-			if (is_quote(input[(*i + 1)]) == 0)
-			{
-				(*i)++;
-				break ;
-			}
-			else
-				quote = input[*i + 1];
-		}
-		(*i)++;
-	}
-	return (value);
 }
