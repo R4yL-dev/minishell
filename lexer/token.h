@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 22:01:18 by lray              #+#    #+#             */
-/*   Updated: 2023/10/02 15:22:42 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/11 14:16:06 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ enum	e_token_type
 };
 
 t_token	*token_new(int type, char *value);
+void	token_show(t_token *token);
 void	token_free(t_token *token);
 
 #endif

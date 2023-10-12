@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 19:28:13 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 20:35:02 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/11 13:40:41 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ void			lstbuiltins_free(t_lstbuiltins *node);
 void			lstbuiltins_freeall(t_lstbuiltins *head);
 
 t_lstbuiltins	*lstbuiltins_has(t_lstbuiltins *head, char *name);
-int	lstbuiltins_exec(t_lstbuiltins *head, char *name, char **argv, t_ctx *ctx);
+int				lstbuiltins_exec(t_lstbuiltins *head, char *name, char **argv, t_ctx *ctx);
 
 #endif

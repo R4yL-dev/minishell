@@ -33,7 +33,7 @@ t_lstbuiltins	*lstbuiltins_new(char *name, int (*func)(char **argv, t_ctx *ctx))
 
 t_lstbuiltins *lstbuiltins_init(t_lstbuiltins *head)
 {
-	head = lstbuiltins_new("test", builtin_test);
+	head = lstbuiltins_new("showctx", builtin_showctx);
 	lstbuiltins_add(head, lstbuiltins_new("echo", builtin_echo));
 	lstbuiltins_add(head, lstbuiltins_new("pwd", builtin_pwd));
 	lstbuiltins_add(head, lstbuiltins_new("exit", builtin_exit));
@@ -69,11 +69,12 @@ void	lstbuiltins_show(t_lstbuiltins *head)
 	if (!head)
 		return ;
 	p_lst = head;
+	printf("= LSTBUILTINS SHOW =\n");
 	while (p_lst)
 	{
-		printf("Builtins name : %s\n", p_lst->name);
-		printf("Builtins function : %p\n", p_lst->func);
-		printf("Builtins next : %p\n", p_lst->next);
+		printf("-> Builtins %s\n", p_lst->name);
+		printf("\tFunction address : %p\n", p_lst->func);
+		printf("\tNext builtin address: %p\n", p_lst->next);
 		p_lst = p_lst->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 18:11:07 by lray              #+#    #+#             */
-/*   Updated: 2023/08/16 15:04:58 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/11 13:46:11 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_dyntree
 
 t_dyntree	*dyntree_new(int type, char *value);
 int			dyntree_add(t_dyntree *parent, t_dyntree *child);
+void		dyntree_show(t_dyntree *root, int depth);
 void		dyntree_free(t_dyntree *node);
 
 #endif

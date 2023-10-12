@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:24:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 20:37:18 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/11 13:46:55 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ typedef struct s_ctx
 }	t_ctx;
 
 t_ctx	*ctx_init(t_ctx *ctx, char **envp);
+void	ctx_show(t_ctx *ctx);
 void	ctx_free(t_ctx *ctx);
 void	ctx_free_line(t_ctx *ctx);
-
 
 #endif
