@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 19:59:04 by lray              #+#    #+#             */
-/*   Updated: 2023/10/13 00:07:38 by mflury           ###   ########.fr       */
+/*   Created: 2023/10/12 23:59:21 by mflury            #+#    #+#             */
+/*   Updated: 2023/10/13 00:48:17 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "../minishell.h"
 
-int	builtin_showctx(char **argv, t_ctx *ctx);
-int	builtin_echo(char **argv, t_ctx *ctx);
-int	builtin_pwd(char **argv, t_ctx *ctx);
-int	builtin_exit(char **argv, t_ctx *ctx);
-int	builtin_clear(char **argv, t_ctx *ctx);
-int	builtin_env(char **argv, t_ctx *ctx);
+int	builtin_env(char **argv, t_ctx *ctx)
+{
+	int	pos;
+	(void)argv;
 
-#endif
+	pos = 0;
+	if(!ctx->grpvar->global->array)
+		return (1);
+	while (pos < (int)ctx->grpvar->global->num_elements)
+	{
+		printf("%s=%s\n", ctx->grpvar->global->array[pos]->name, ctx->grpvar->global->array[pos]->value);
+		pos++;
+	}
+	return (0);
+}
