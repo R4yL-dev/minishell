@@ -6,56 +6,35 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 02:30:09 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/13 06:33:47 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/13 18:04:02 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// le changement de dir marche, pas la valeur de pwd apres:
-// pwd before works.
-// before/after via getcwd() works.
-// pwd after doesnt work... FML!
-//
-// MiniShrek$ pwd
-// /mnt/c/Users/FizzY WizzY/Desktop/Code/42_projects/42_30_minishell/EL_MINISHREK
-// MiniShrek$ cd
-// before cd: /mnt/c/Users/FizzY WizzY/Desktop/Code/42_projects/42_30_minishell/EL_MINISHREK
-// after cd: /home/fizzywizzy
-// MiniShrek$ pwd
-// ���@"
-// MiniShrek$ 
-
 int	builtin_cd(char **argv, t_ctx *ctx)
 {
-	char	*path_home;
-	char	buf[256];
+	char	*buf;
 	int		pos;
-	getcwd(buf, sizeof(buf));
-	pos = 0;
-	while (ft_strncmp(ctx->grpvar->global->array[pos]->name, "HOME", 4) != 0)
-		pos++;
-	path_home = ctx->grpvar->global->array[pos]->value;
-	pos = 0;
-	while (ft_strncmp(ctx->grpvar->global->array[pos]->name, "PWD", 3) != 0)
-		pos++;
-	if (!argv[1])
+	
+	buf = NULL;
+	pos = grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, "HOME");
+	if (pos == -1)
+		printf ("cant find home\n");
+	if (!argv[1] || (argv[1][0] == '~' && argv[1][1] == '\0'))
 	{
-		printf("before cd: %s\n", buf);
-		if (chdir(path_home) == -1)
+		if (chdir(ctx->grpvar->global->array[pos]->value) == -1)
 			printf("cd failed\n");
-		getcwd(buf, 256);
-		printf("after cd: %s\n", buf);
-		ctx->grpvar->global->array[pos]->value = buf;
+		buf = getcwd(NULL, 0);
+		grpvar_add(ctx->grpvar, GRPVAR_GLOBAL, "PWD", buf);
 	}
 	else
 	{
-		printf("before cd: %s\n", buf);
 		if (chdir(argv[1]) == -1)
 			printf("cd failed\n");
-		getcwd(buf, 256);
-		printf("after cd: %s\n", buf);
-		ctx->grpvar->global->array[pos]->value = buf;
+		buf = getcwd(NULL, 0);
+		grpvar_add(ctx->grpvar, GRPVAR_GLOBAL, "PWD", buf);
 	}
+	free(buf);
 	return (0);
 }
