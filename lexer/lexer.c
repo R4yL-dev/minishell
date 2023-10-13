@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 21:55:07 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/12 14:21:01 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,21 @@
 
 static void	skip_space(char *input, int *i);
 static int	add_redirect(char *input, t_dyntklist *tklist, int *i);
-static int	add_file(char *input, t_dyntklist *tklist, int *i);
-static int	add_cmd(char *input, t_dyntklist *tklist, int *i);
-static int	add_arg(char *input, t_dyntklist *tklist, int *i);
+static int	add_to_tklist(char *input, int *i, t_dyntklist *tklist, int tktype);
+static char	*value_init(char *value);
+static char	*value_add(char *value, size_t *value_len, char c);
+static int	is_quote(char c);
 
 int	lexer(t_ctx *ctx)
 {
 	int i;
 	int in_cmd;
 
+	in_cmd = 0;
+	i = 0;
 	ctx->tklist = dyntklist_init(ctx->tklist);
 	if (ctx->tklist == NULL)
 		return (0);
-	in_cmd = 0;
-	i = 0;
 	while (ctx->input[i] != '\0')
 	{
 		skip_space(ctx->input, &i);
@@ -39,28 +40,28 @@ int	lexer(t_ctx *ctx)
 			{
 				dyntklist_add(ctx->tklist, TK_PIPE, "|");
 				in_cmd = 0;
+				++i;
 			}
 			else
 			{
 				if (add_redirect(ctx->input, ctx->tklist, &i) == 0)
 					return (0);
 				skip_space(ctx->input, &i);
-				if (add_file(ctx->input, ctx->tklist, &i) == 0)
+				if (add_to_tklist(ctx->input, &i, ctx->tklist, TK_FILE) == 0)
 					return (0);
 			}
 		}
 		else if (in_cmd == 0)
 		{
-			if (add_cmd(ctx->input, ctx->tklist, &i) == 0)
+			if (add_to_tklist(ctx->input, &i, ctx->tklist, TK_COMMAND) == 0)
 				return (0);
 			in_cmd = 1;
 		}
 		else
 		{
-			if (add_arg(ctx->input, ctx->tklist, &i) == 0)
+			if (add_to_tklist(ctx->input, &i, ctx->tklist, TK_ARGUMENT) == 0)
 				return (0);
 		}
-		i++;
 	}
 	return (1);
 }
@@ -123,93 +124,69 @@ static int	add_redirect(char *input, t_dyntklist *tklist, int *i)
 	}
 }
 
-static int	add_file(char *input, t_dyntklist *tklist, int *i)
+static int	add_to_tklist(char *input, int *i, t_dyntklist *tklist, int tktype)
 {
 	char	*value;
 	size_t	value_len;
+	char	quote;
 
+	quote = 0;
 	value = NULL;
-	value = malloc(sizeof(char) * 1);
-	if (value == NULL)
-	{
-		ft_puterror("Malloc failed");
+	value_len = 0;
+	value = value_init(value);
+	if (!value)
 		return (0);
-	}
-	value[0] = '\0';
-	while (input[*i] != '\0' && input[*i] != ' ' && !is_redirect(input[*i]))
+	while (input[*i])
 	{
-		value_len = ft_strlen(value) + 1;
-		value = ft_realloc(value, value_len * sizeof(char), value_len + 1 * sizeof(char));
-		if (value == NULL)
+		if (quote == 0)
 		{
-			ft_puterror("Realloc failed");
-			return (0);
+			if (input[*i] == ' ' || is_redirect(input[*i]))
+				break ;
+			value = value_add(value, &value_len, input[*i]);
+			if (is_quote(input[*i]))
+				quote = input[*i];
 		}
-		ft_strlcat(value, &input[*i], value_len + 1);
+		else
+		{
+			value = value_add(value, &value_len, input[*i]);
+			if (input[*i] == quote)
+				quote = 0;
+		}
 		(*i)++;
 	}
-	(*i)--;
-	dyntklist_add(tklist, TK_FILE, value);
-	free(value);
+	dyntklist_add(tklist, tktype, value);
+	free (value);
 	return (1);
 }
 
-static int	add_cmd(char *input, t_dyntklist *tklist, int *i)
+static char	*value_init(char *value)
 {
-	char	*value;
-	size_t	value_len;
-
-	value = malloc(sizeof(char) * 1);
-	if (value == NULL)
+	value = malloc(sizeof(char));
+	if (!value)
 	{
 		ft_puterror("Malloc failed");
-		return (0);
+		return (NULL);
 	}
 	value[0] = '\0';
-	while (input[*i] != '\0' && input[*i] != ' ' && !is_redirect(input[*i]))
-	{
-		value_len = ft_strlen(value) + 1;
-		value = ft_realloc(value, value_len * sizeof(char), value_len + 1 * sizeof(char));
-		if (value == NULL)
-		{
-			ft_puterror("Realloc failed");
-			return (0);
-		}
-		ft_strlcat(value, &input[*i], value_len + 1);
-		(*i)++;
-	}
-	(*i)--;
-	dyntklist_add(tklist, TK_COMMAND, value);
-	free(value);
-	return (1);
+	return (value);
 }
 
-static int	add_arg(char *input, t_dyntklist *tklist, int *i)
+static char	*value_add(char *value, size_t *value_len, char c)
 {
-	char	*value;
-	size_t	value_len;
-
-	value = malloc(sizeof(char) * 1);
+	(*value_len)++;
+	value = ft_realloc(value, sizeof(char) * (*value_len), sizeof(char) * ((*value_len) + 1));
 	if (value == NULL)
 	{
-		ft_puterror("Malloc failed");
+		ft_puterror("Realloc failed");
 		return (0);
 	}
-	*value = '\0';
-	while (input[*i] != '\0' && input[*i] != ' ' && !is_redirect(input[*i]))
-	{
-		value_len = ft_strlen(value) + 1;
-		value = ft_realloc(value, value_len * sizeof(char), value_len + 1 * sizeof(char));
-		if (value == NULL)
-		{
-			ft_puterror("Realloc failed");
-			return (0);
-		}
-		ft_strlcat(value, &input[*i], value_len + 1);
-		(*i)++;
-	}
-	(*i)--;
-	dyntklist_add(tklist, TK_ARGUMENT, value);
-	free(value);
-	return (1);
+	ft_strlcat(value, &c, (*value_len) + 1);
+	return (value);
+}
+
+static int	is_quote(char c)
+{
+	if (c == '\'' || c == '"')
+		return (1);
+	return (0);
 }
