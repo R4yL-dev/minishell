@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/10 16:21:16 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/14 14:52:19 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static	t_env_node	*make_env_node(t_dyntree *root, t_grpvar *grpvar, t_env_node *
 		if (!last_el->path)
 		{
 			ft_puterror("command not found");
+			env_node_freeall(envlist);
 			return (NULL);
 		}
 		argv = make_argv(root);
