@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:04:59 by lray              #+#    #+#             */
-/*   Updated: 2023/10/14 15:49:16 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/14 20:06:37 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,7 @@ static int	is_an_executable(char *path)
 	struct stat	sb;
 
 	if (stat(path, &sb) == -1)
-	{
-		ft_puterror("Stat failed");
 		return (0);
-	}
 	if (S_ISDIR(sb.st_mode))
 		return (0);
 	if (access(path, (F_OK | X_OK)) == -1)
