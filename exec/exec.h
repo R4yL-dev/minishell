@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:18:47 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 21:13:00 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/14 15:48:08 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXEC_H
 
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 int			exec(t_ctx *ctx);
 char		*get_cmd_path(char *cmd, t_grpvar *grpvar);
