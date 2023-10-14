@@ -2,42 +2,57 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   replace_var.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
+/*                                                   +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 19:49:33 by lray              #+#    #+#             */
-/*   Updated: 2023/09/29 19:54:55 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/13 10:57:07 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	is_var(t_dyntree *root);
+static int is_quote(char c);
+static char *make_varname(char *varname, char *value, size_t i);
 static char	*init_varname(char *varname);
-static char	*make_varname(char *varname, t_dyntree *root, size_t *i_str);
-static int	update_root_value(t_dyntree *root, t_grpvar *grpvar, size_t i_str, size_t i_var);
-static int	update_root_null(t_dyntree *root, size_t i_str);
+static char *add_char(char *varname, char c);
+static char *add_dollar(char *varname);
+char *search_and_replace(char *value, char *varname, char *res, size_t *i);
 
 int	replace_var(t_dyntree *root, t_grpvar *grpvar)
 {
-	size_t	i_str;
-	size_t	i_var;
 	size_t	i_child;
+	size_t	i_str;
+	char	quote;
 	char	*varname;
+	int		pos;
 
-	if (is_var(root))
+	varname = NULL;
+	quote = 0;
+	i_str = 0;
+	if (root->type == TK_COMMAND || root->type == TK_ARGUMENT || root->type == TK_FILE)
 	{
-		varname = NULL;
-		varname = init_varname(varname);
-		i_str = 1;
-		if (root->value[i_str] != '\0' || ft_isalnum(root->value[i_str]))
+		while (root->value[i_str] != '\0')
 		{
-			varname = make_varname(varname, root, &i_str);
-			i_var = grpvar_has(grpvar, GRPVAR_GLOBAL, varname);
-			if ((int)i_var >= 0)
-				update_root_value(root, grpvar, i_str, i_var);
-			else
-				update_root_null(root, i_str);
+			if (is_quote(root->value[i_str]))
+			{
+				if (quote == 0)
+					quote = root->value[i_str];
+				else if (root->value[i_str] == quote)
+					quote = 0;
+			}
+			if ((quote == 0 || quote == '"') && root->value[i_str] == '$')
+			{
+				varname = make_varname(varname, root->value, i_str);
+				pos = grpvar_has(grpvar, GRPVAR_GLOBAL, varname);
+				varname = add_dollar(varname);
+				if (pos == -1)
+					root->value = search_and_replace(root->value, varname, NULL, &i_str);
+				else
+					root->value = search_and_replace(root->value, varname, grpvar->global->array[pos]->value, &i_str);
+				free(varname);
+			}
+			i_str++;
 		}
 	}
 	i_child = 0;
@@ -47,16 +62,30 @@ int	replace_var(t_dyntree *root, t_grpvar *grpvar)
 	return (1);
 }
 
-static int	is_var(t_dyntree *root)
+static int is_quote(char c)
 {
-	if (root->value[0] == '$')
+	if (c == '\'' || c == '"')
 		return (1);
 	return (0);
 }
 
+static char *make_varname(char *varname, char *value, size_t i)
+{
+	i++;
+	varname = init_varname(varname);
+	if (!varname)
+		return (NULL);
+	while (value[i] != '\0' && (ft_isalnum(value[i]) || value[i] == '_'))
+	{
+		varname = add_char(varname, value[i]);
+		i++;
+	}
+	return varname;
+}
+
 static char	*init_varname(char *varname)
 {
-	varname = malloc(sizeof(char) * 1);
+	varname = malloc(sizeof(char));
 	if (!varname)
 	{
 		ft_puterror("Malloc failed");
@@ -66,55 +95,62 @@ static char	*init_varname(char *varname)
 	return (varname);
 }
 
-static char	*make_varname(char *varname, t_dyntree *root, size_t *i_str)
+static char *add_char(char *varname, char c)
 {
-	while (root->value[*i_str] != '\0' && ft_isalnum(root->value[*i_str]))
+	size_t len;
+
+	len = ft_strlen(varname) + 1;
+	varname = ft_realloc(varname, sizeof(char) * len, sizeof(char) * (len + 1));
+	if (!varname)
 	{
-		varname = add_char_to_string(varname, root->value[*i_str]);
-		if (!varname)
-			return (NULL);
-		(*i_str)++;
+		ft_puterror("Realloc failed");
+		return (NULL);
 	}
+	ft_strlcat(varname, &c, len + 1);
 	return (varname);
 }
 
-static int	update_root_value(t_dyntree *root, t_grpvar *grpvar, size_t i_str, size_t i_var)
+static char *add_dollar(char *varname)
 {
-	int		len_endstr;
-	int		len_var;
-	char	*new_value;
+	size_t len;
 
-	if (!root || !grpvar)
-		return (0);
-	len_endstr = (int)ft_strlen(root->value + i_str);
-	len_var = (int)ft_strlen(grpvar->global->array[i_var]->value);
-	new_value = malloc(sizeof(char) * (len_endstr + len_var + 1));
-	if (!new_value)
+	len = ft_strlen(varname) + 1;
+	varname = ft_realloc(varname, sizeof(char) * len, sizeof(char) * (len + 1));
+	if (!varname)
 	{
-		ft_puterror("Malloc failed");
-		return (0);
+		ft_puterror("Realloc failed");
+		return (NULL);
 	}
-	ft_strlcpy(new_value, grpvar->global->array[i_var]->value, len_var + 1);
-	ft_strlcat(new_value, root->value + i_str, len_endstr + len_var + 1);
-	free(root->value);
-	root->value = ft_strdup(new_value);
-	free(new_value);
-	return (1);
+	ft_memmove(varname + 1, varname, len);
+	varname[0] = '$';
+	return (varname);
 }
 
-static int	update_root_null(t_dyntree *root, size_t i_str)
+char	*search_and_replace(char *value, char *varname, char *res, size_t *i)
 {
-	char	*new_value;
+	size_t len_value;
+	size_t len_varname;
+	size_t len_res;
+	size_t len_new;
 
-	new_value = malloc(sizeof(char) * ft_strlen(root->value + i_str) + 1);
-	if (!new_value)
+	len_value = ft_strlen(value);
+	len_varname = ft_strlen(varname);
+	if (!res)
+		len_res = 0;
+	else
+		len_res = ft_strlen(res);
+	len_new = len_value - len_varname + len_res;
+	value = ft_realloc(value, sizeof(char) * (len_value + 1), sizeof(char) * (len_new + 1));
+	if (len_new > len_value)
 	{
-		ft_puterror("Malloc failed");
-		return (0);
+		ft_memmove(value + *i + (len_new - len_value), value + *i, len_new + 1);
+		ft_memcpy(value + *i, res, len_res);
 	}
-	ft_strlcpy(new_value, root->value + i_str, ft_strlen(root->value));
-	free(root->value);
-	root->value = ft_strdup(new_value);
-	free(new_value);
-	return (1);
+	else
+	{
+		ft_memcpy(value + *i, res, len_res);
+		ft_memmove(value + (*i) + len_res, value + (*i) + len_varname, len_value - len_varname + 1);
+	}
+	(*i) = len_res - 1;
+	return (value);
 }

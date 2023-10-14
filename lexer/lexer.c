@@ -88,11 +88,6 @@ static int	add_redirect(char *input, t_dyntklist *tklist, int *i)
 		ft_puterror("Syntax error");
 		return (0);
 	}
-	else if (is_redirect(input[(*i) + 2]))
-	{
-		ft_puterror("Syntax error");
-		return (0);
-	}
 	else if (input[*i] == input[(*i) + 1])
 	{
 		value = malloc(sizeof(char) * 3);
