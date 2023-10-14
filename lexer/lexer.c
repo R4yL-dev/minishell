@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/10/12 14:21:01 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/14 14:29:19 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,6 @@ static int	add_redirect(char *input, t_dyntklist *tklist, int *i)
 		return (0);
 	}
 	else if (input[*i] != input[(*i) + 1] && is_redirect(input[(*i) + 1]))
-	{
-		ft_puterror("Syntax error");
-		return (0);
-	}
-	else if (is_redirect(input[(*i) + 2]))
 	{
 		ft_puterror("Syntax error");
 		return (0);
