@@ -101,12 +101,14 @@ static char *add_char(char *varname, char c)
 
 	len = ft_strlen(varname) + 1;
 	varname = ft_realloc(varname, sizeof(char) * len, sizeof(char) * (len + 1));
+	varname[len] = '\0';
 	if (!varname)
 	{
 		ft_puterror("Realloc failed");
 		return (NULL);
 	}
-	ft_strlcat(varname, &c, len + 1);
+
+	varname = add_char_to_string(varname, c);
 	return (varname);
 }
 
