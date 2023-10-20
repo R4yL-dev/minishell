@@ -17,7 +17,7 @@ static char *make_varname(char *varname, char *value, size_t i);
 static char	*init_varname(char *varname);
 static char *add_char(char *varname, char c);
 static char *add_dollar(char *varname);
-char *search_and_replace(char *value, char *varname, char *res, size_t *i);
+char *search_and_replace(char **value, char *varname, char *res, size_t *i);
 
 int	replace_var(t_dyntree *root, t_grpvar *grpvar)
 {
@@ -47,11 +47,13 @@ int	replace_var(t_dyntree *root, t_grpvar *grpvar)
 				pos = grpvar_has(grpvar, GRPVAR_GLOBAL, varname);
 				varname = add_dollar(varname);
 				if (pos == -1)
-					root->value = search_and_replace(root->value, varname, NULL, &i_str);
+					root->value = search_and_replace(&root->value, varname, NULL, &i_str);
 				else
-					root->value = search_and_replace(root->value, varname, grpvar->global->array[pos]->value, &i_str);
+					root->value = search_and_replace(&root->value, varname, grpvar->global->array[pos]->value, &i_str);
 				free(varname);
 			}
+			if (root->value[i_str] == '\0')
+				break ;
 			i_str++;
 		}
 	}
@@ -101,12 +103,14 @@ static char *add_char(char *varname, char c)
 
 	len = ft_strlen(varname) + 1;
 	varname = ft_realloc(varname, sizeof(char) * len, sizeof(char) * (len + 1));
+	varname[len] = '\0';
 	if (!varname)
 	{
 		ft_puterror("Realloc failed");
 		return (NULL);
 	}
-	ft_strlcat(varname, &c, len + 1);
+
+	varname = add_char_to_string(varname, c);
 	return (varname);
 }
 
@@ -126,31 +130,45 @@ static char *add_dollar(char *varname)
 	return (varname);
 }
 
-char	*search_and_replace(char *value, char *varname, char *res, size_t *i)
+char *search_and_replace(char **value, char *varname, char *res, size_t *i)
 {
 	size_t len_value;
 	size_t len_varname;
 	size_t len_res;
 	size_t len_new;
 
-	len_value = ft_strlen(value);
+	len_value = ft_strlen(*value);
 	len_varname = ft_strlen(varname);
 	if (!res)
 		len_res = 0;
 	else
 		len_res = ft_strlen(res);
 	len_new = len_value - len_varname + len_res;
-	value = ft_realloc(value, sizeof(char) * (len_value + 1), sizeof(char) * (len_new + 1));
+	if (len_new == 0)
+	{
+		*value[*i] = '\0';
+		return (*value);
+	}
 	if (len_new > len_value)
 	{
-		ft_memmove(value + *i + (len_new - len_value), value + *i, len_new + 1);
-		ft_memcpy(value + *i, res, len_res);
+		*value = ft_realloc(*value, sizeof(char) * len_value + 1, sizeof(char) * len_new + 1);
+		if (*value == NULL)
+		{
+			ft_puterror("Realloc failed");
+			return (NULL);
+		}
 	}
-	else
-	{
-		ft_memcpy(value + *i, res, len_res);
-		ft_memmove(value + (*i) + len_res, value + (*i) + len_varname, len_value - len_varname + 1);
-	}
-	(*i) = len_res - 1;
-	return (value);
+	if (len_res == 0)
+		ft_memmove(*value + *i, *value + *i + len_varname, len_new + 1);
+	else if (len_res > len_varname)
+		ft_memmove(*value + *i + (len_res - len_varname), *value + *i, len_new + 1);
+	else if (len_res < len_varname)
+		ft_memmove(*value + *i + len_res - (len_varname - len_res) + 1, *value + *i + len_res + 1, len_new + 1);
+	if (len_res > 0)
+		ft_memcpy(*value + *i, res, len_res);
+	if (len_res > 0)
+		(*i) = len_res - 1;
+	else if (*i > 0)
+		(*i)--;
+	return (*value);
 }

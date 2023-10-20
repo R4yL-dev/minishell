@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/10/14 14:42:18 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/18 18:13:52 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ static int	add_to_tklist(char *input, int *i, t_dyntklist *tklist, int tktype)
 	char	quote;
 
 	quote = 0;
-	value = NULL;
 	value_len = 0;
+	value = NULL;
 	value = value_init(value);
 	if (!value)
 		return (0);
@@ -168,16 +168,20 @@ static char	*value_init(char *value)
 	return (value);
 }
 
-static char	*value_add(char *value, size_t *value_len, char c)
+static char *value_add(char *value, size_t *value_len, char c)
 {
 	(*value_len)++;
 	value = ft_realloc(value, sizeof(char) * (*value_len), sizeof(char) * ((*value_len) + 1));
+	value[(*value_len)] = '\0';
 	if (value == NULL)
 	{
 		ft_puterror("Realloc failed");
-		return (0);
+		return (NULL);
 	}
-	ft_strlcat(value, &c, (*value_len) + 1);
+	if (value[0] == '\0')
+		value = ft_memcpy(value, &c, (*value_len));
+	else
+		value = add_char_to_string(value, c);
 	return (value);
 }
 
