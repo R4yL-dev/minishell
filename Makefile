@@ -13,6 +13,7 @@ SRCS 		:= \
 	builtins/echo.c \
 	builtins/pwd.c \
 	builtins/exit.c \
+	builtins/unset.c \
 	builtins/clear.c \
 	prompt/prompt.c \
 	lexer/lexer.c \
