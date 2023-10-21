@@ -27,7 +27,7 @@ SRCS 		:= \
 	expand/replace_builtins.c \
 	exec/exec.c \
 	exec/pipes_list.c \
-	exec/env_node.c \
+	exec/env.c \
 	exec/dynarrstr.c \
 	exec/open_file.c \
 	exec/get_cmd_path.c \
