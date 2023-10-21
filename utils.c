@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 21:58:35 by lray              #+#    #+#             */
-/*   Updated: 2023/10/14 15:04:37 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/21 16:11:32 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,16 @@ int	str_is_only_space(char *str)
 		++i;
 	}
 	return (1);
+}
+
+void	arr_show(char **arr)
+{
+	size_t	i;
+
+	i = 0;
+	if (arr)
+	{
+		while (arr[i])
+			printf("%s\n", arr[i++]);
+	}
 }
