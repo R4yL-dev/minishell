@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/10/14 15:05:02 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/21 16:38:11 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include "lexer/token.h"
 # include "lexer/dyntklist.h"
 # include "parser/dyntree.h"
-# include "exec/env_node.h"
+# include "exec/env.h"
 # include "exec/pipes_list.h"
 # include "exec/dynarrstr.h"
 
@@ -61,5 +61,7 @@ void	ft_puterror(char *msg);
 char	*add_char_to_string(char *str, char c);
 
 int		str_is_only_space(char *str);
+
+void	arr_show(char **arr);
 
 #endif

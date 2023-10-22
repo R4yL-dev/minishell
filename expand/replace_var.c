@@ -59,8 +59,10 @@ int	replace_var(t_dyntree *root, t_grpvar *grpvar)
 	}
 	i_child = 0;
 	while (i_child < root->numChildren)
+	{
 		if (!replace_var(root->children[i_child++], grpvar))
 			return (0);
+	}
 	return (1);
 }
 
