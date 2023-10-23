@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/10/21 16:38:11 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/23 15:19:08 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,7 @@ char	*add_char_to_string(char *str, char c);
 int		str_is_only_space(char *str);
 
 void	arr_show(char **arr);
+
+int		ft_abs(int n);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 21:58:35 by lray              #+#    #+#             */
-/*   Updated: 2023/10/21 16:11:32 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/23 15:18:33 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,11 @@ void	arr_show(char **arr)
 		while (arr[i])
 			printf("%s\n", arr[i++]);
 	}
+}
+
+int	ft_abs(int n)
+{
+	if (n < 0)
+		n *= -1;
+	return (n);
 }
