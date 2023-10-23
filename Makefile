@@ -34,6 +34,7 @@ SRCS 		:= \
 	exec/make_argv.c \
 	exec/get_infd.c \
 	exec/get_outfd.c \
+	exec/make_heredoc.c \
 	signals/signals.c \
 	utils.c \
 	main.c
