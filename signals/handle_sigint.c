@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
+/*   handle_sigint.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/30 22:03:07 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/24 16:49:16 by lray             ###   ########.fr       */
+/*   Created: 2023/10/23 17:47:15 by lray              #+#    #+#             */
+/*   Updated: 2023/10/23 17:59:00 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
-# define SIGNALS_H
-
 #include "../minishell.h"
 
-#include <signal.h>
-#include <sys/ioctl.h>
+void	handle_sigint(int sig)
+{
+	(void)	sig;
 
-#define SIGMODE_NORMAL 0
-#define SIGMODE_HEREDOC 1
-
-int		set_sigmode(sigset_t *sigset, int mode);
-
-void	handle_sigint(int sig);
-void	handle_sigint_heredoc(int sig);
-void	handle_sigquit(int sig);
-void	handle_sigquit_heredoc(int sig);
-
-#endif
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
