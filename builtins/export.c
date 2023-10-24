@@ -6,69 +6,98 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 01:51:07 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/16 14:58:39 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/25 01:22:36 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// SEGV ON LINE 43 FML I CANT MAKE IT WORK T_T...
-
 int	builtin_export(char **argv, t_ctx *ctx)
 {
-	(void)argv;
-	char	**list_names;
-	char	tmp[100];
-	int		i;
-	int		j;
+	int	i;
+	char *name;
+	char *trim;
+
 	i = 0;
-	// make a list of all var names: (seems ok)
-	list_names = malloc(ctx->grpvar->global->num_elements * sizeof(char *));
-	while (i < (int)ctx->grpvar->global->num_elements - 1)
+	name = NULL;
+	trim = NULL;
+	if (argv[1])
 	{
-		list_names[i] = malloc(100 * sizeof(char));
-		ft_bzero(list_names[i], 100);
-		ft_strlcpy(list_names[i], ctx->grpvar->global->array[i]->name, ft_strlen(ctx->grpvar->global->array[i]->name) + 1);
-		i++;
+		while (argv[1][i] != '=')
+			i++;
+		name = ft_calloc(i + 1, sizeof(char));
+		ft_strlcat(name, argv[1], i + 1);
+		trim = ft_calloc(i + 1, sizeof(char));
+		trim = ft_strjoin(name, "=");
+		grpvar_add(ctx->grpvar, GRPVAR_GLOBAL, name, ft_strtrim(argv[1], trim));
 	}
-	// sort name in alpha order: (idk if it works cant make it run)
-	i = 0;
-	 while (i < (int)ctx->grpvar->global->num_elements)
-    {
-		j = 0;
-        while (j + 1 < (int)ctx->grpvar->global->num_elements - 1)
-        {
-			printf("J: %s\nJ + 1: %s\n", list_names[j], list_names[j + 1]);
-            if (ft_strncmp(list_names[j], list_names[j + 1], ft_strlen(list_names[j]) + ft_strlen(list_names[j + 1])+ 1) > 0)
-            {
-                ft_strlcpy(tmp, list_names[j], ft_strlen(list_names[j]));
-				ft_strlcpy(list_names[j], list_names[j + 1], ft_strlen(list_names[j + 1]));
-                list_names[j] = list_names[j + 1];
-                ft_strlcpy(list_names[j + 1], tmp, ft_strlen(tmp));
-				list_names[j + 1] = tmp;
-            }
-			j++;
-        }
-		i++;
-    }
-	// check sorted list:
-	i = 0;
-	while (i < (int)ctx->grpvar->global->num_elements - 1)
-	{
-		printf("%s\n", list_names[i]);
-		i++;
-	}
-	// call all the var one by one from list:
-	i = 0;
-	j = 0;
-	while (i < (int)ctx->grpvar->global->num_elements - 1)
-	{
-		j = (int)grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, list_names[i]);
-		printf("%s=%s\n", ctx->grpvar->global->array[j]->name, ctx->grpvar->global->array[j]->value);
-		i++;
-	}
+	// printf("%s", name);
+	lstvar_show(ctx->grpvar->global);
 	return (0);
 }
+
+
+
+
+
+
+// SEGV ON LINE 50 FML I CANT MAKE IT WORK T_T...
+
+// int	builtin_export(char **argv, t_ctx *ctx)
+// {
+// 	(void)argv;
+// 	char	**list_names;
+// 	char	tmp[100];
+// 	int		i;
+// 	int		j;
+// 	i = 0;
+// 	// make a list of all var names: (seems ok)
+// 	list_names = malloc(ctx->grpvar->global->num_elements * sizeof(char *));
+// 	while (i < (int)ctx->grpvar->global->num_elements - 1)
+// 	{
+// 		list_names[i] = malloc(100 * sizeof(char));
+// 		ft_bzero(list_names[i], 100);
+// 		ft_strlcpy(list_names[i], ctx->grpvar->global->array[i]->name, ft_strlen(ctx->grpvar->global->array[i]->name) + 1);
+// 		i++;
+// 	}
+// 	// sort name in alpha order: (idk if it works cant make it run)
+// 	i = 0;
+// 	 while (i < (int)ctx->grpvar->global->num_elements)
+//     {
+// 		j = 0;
+//         while (j + 1 < (int)ctx->grpvar->global->num_elements - 1)
+//         {
+// 			printf("J: %s\nJ + 1: %s\n", list_names[j], list_names[j + 1]);
+//             if (ft_strncmp(list_names[j], list_names[j + 1], ft_strlen(list_names[j]) + ft_strlen(list_names[j + 1])+ 1) > 0)
+//             {
+//                 ft_strlcpy(tmp, list_names[j], ft_strlen(list_names[j]));
+// 				ft_strlcpy(list_names[j], list_names[j + 1], ft_strlen(list_names[j + 1]));
+//                 list_names[j] = list_names[j + 1];
+//                 ft_strlcpy(list_names[j + 1], tmp, ft_strlen(tmp));
+// 				list_names[j + 1] = tmp;
+//             }
+// 			j++;
+//         }
+// 		i++;
+//     }
+// 	// check sorted list:
+// 	i = 0;
+// 	while (i < (int)ctx->grpvar->global->num_elements - 1)
+// 	{
+// 		printf("%s\n", list_names[i]);
+// 		i++;
+// 	}
+// 	// call all the var one by one from list:
+// 	i = 0;
+// 	j = 0;
+// 	while (i < (int)ctx->grpvar->global->num_elements - 1)
+// 	{
+// 		j = (int)grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, list_names[i]);
+// 		printf("%s=%s\n", ctx->grpvar->global->array[j]->name, ctx->grpvar->global->array[j]->value);
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 
 
