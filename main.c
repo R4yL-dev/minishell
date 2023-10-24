@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/10 19:17:44 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/24 16:34:16 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	g_in_heredoc = 0;
+
 int	main(int argc, char **argv, char **envp)
 {
-	(void)		argc;
-	(void)		argv;
-	t_ctx		*ctx;
+	(void)				argc;
+	(void)				argv;
+	t_ctx				*ctx;
 
 	ctx = NULL;
 	ctx = ctx_init(ctx, envp);
-	set_signals(NULL);
 	while (1)
 	{
 		ctx_free_line(ctx);
