@@ -6,16 +6,16 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/22 02:51:10 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/23 22:12:19 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_env	*make_env(t_dyntree *root, t_grpvar *grpvar, int pipe_in, int pipe_out);
-static t_env	*set_env_cmd(t_env *env ,t_dyntree *root, t_grpvar *grpvar, int pipe_in, int pipe_out);
-static t_env	*set_env_builtins(t_env *env, t_dyntree *root, int pipe_in, int pipe_out);
-static t_env	*set_env_redirection(t_env *env, t_dyntree *root, int pipe_in, int pipe_out);
+static t_env	*make_env(t_dyntree *root, t_ctx *ctx, int pipe_in, int pipe_out);
+static t_env	*set_env_cmd(t_env *env ,t_dyntree *root, t_ctx *ctx, int pipe_in, int pipe_out);
+static t_env	*set_env_builtins(t_env *env, t_dyntree *root, t_ctx *ctx, int pipe_in, int pipe_out);
+static t_env	*set_env_redirection(t_env *env, t_dyntree *root, t_ctx *ctx, int pipe_in, int pipe_out);
 static int		exec_env(t_ctx *ctx, t_env *env, pid_t *pid, int **pipes_list, int nbr_pipes);
 static t_env	*select_fd(t_env *env);
 static void		run_cmd(t_env *env, t_grpvar *grpvar);
@@ -42,11 +42,11 @@ int	exec(t_ctx *ctx)
 		while (i_child < ctx->tree->numChildren)
 		{
 			if (i_child == 0)
-				env = make_env(ctx->tree->children[i_child], ctx->grpvar, -1, pipes_list[i_child][1]);
+				env = make_env(ctx->tree->children[i_child], ctx, -1, pipes_list[i_child][1]);
 			else if ((int)i_child == (int)ctx->tree->numChildren - 1)
-				env = make_env(ctx->tree->children[i_child], ctx->grpvar, pipes_list[(int)i_child - 1][0], -1);
+				env = make_env(ctx->tree->children[i_child], ctx, pipes_list[(int)i_child - 1][0], -1);
 			else
-				env = make_env(ctx->tree->children[i_child], ctx->grpvar, pipes_list[(int)i_child - 1][0], pipes_list[i_child][1]);
+				env = make_env(ctx->tree->children[i_child], ctx, pipes_list[(int)i_child - 1][0], pipes_list[i_child][1]);
 			if (env == NULL)
 			{
 				++i_child;
@@ -63,7 +63,7 @@ int	exec(t_ctx *ctx)
 	else
 	{
 		pids = make_pids(pids, 1);
-		env = make_env(ctx->tree, ctx->grpvar, -1, -1);
+		env = make_env(ctx->tree, ctx, -1, -1);
 		if (env == NULL)
 		{
 			free(pids);
@@ -77,29 +77,29 @@ int	exec(t_ctx *ctx)
 	return (1);
 }
 
-static t_env	*make_env(t_dyntree *root, t_grpvar *grpvar, int pipe_in, int pipe_out)
+static t_env	*make_env(t_dyntree *root, t_ctx *ctx, int pipe_in, int pipe_out)
 {
 	t_env	*env;
 
 	env = env_new();
 	if (root->type == TK_COMMAND)
-		env = set_env_cmd(env, root, grpvar, pipe_in, pipe_out);
+		env = set_env_cmd(env, root, ctx, pipe_in, pipe_out);
 	else if (root->type == TK_BUILTINS)
-		env = set_env_builtins(env, root, pipe_in, pipe_out);
+		env = set_env_builtins(env, root, ctx, pipe_in, pipe_out);
 	else if (root->type == TK_REDIRECTION)
-		env = set_env_redirection(env, root, pipe_in, pipe_out);
+		env = set_env_redirection(env, root, ctx, pipe_in, pipe_out);
 	if (env == NULL)
 		return (NULL);
 	return (env);
 }
 
-static t_env	*set_env_cmd(t_env *env ,t_dyntree *root, t_grpvar *grpvar, int pipe_in, int pipe_out)
+static t_env	*set_env_cmd(t_env *env ,t_dyntree *root, t_ctx *ctx, int pipe_in, int pipe_out)
 {
 	t_dynarrstr	*argv;
 
 	argv = NULL;
 	env->type = TK_COMMAND;
-	env->path = get_cmd_path(root->value, grpvar);
+	env->path = get_cmd_path(root->value, ctx->grpvar);
 	if (!env->path)
 	{
 		ft_puterror("command not found");
@@ -114,14 +114,14 @@ static t_env	*set_env_cmd(t_env *env ,t_dyntree *root, t_grpvar *grpvar, int pip
 	}
 	env->args = arrcpy(argv->array, (int)argv->size);
 	dynarrstr_free(argv);
-	env->fd_in = get_infd(root);
+	env->fd_in = get_infd(root, ctx);
 	env->fd_out = get_outfd(root);
 	env->pipe_in = pipe_in;
 	env->pipe_out = pipe_out;
 	return (env);
 }
 
-static t_env	*set_env_builtins(t_env *env, t_dyntree *root, int pipe_in, int pipe_out)
+static t_env	*set_env_builtins(t_env *env, t_dyntree *root, t_ctx *ctx, int pipe_in, int pipe_out)
 {
 	t_dynarrstr	*argv;
 
@@ -136,19 +136,19 @@ static t_env	*set_env_builtins(t_env *env, t_dyntree *root, int pipe_in, int pip
 	}
 	env->args = arrcpy(argv->array, (int)argv->size);
 	dynarrstr_free(argv);
-	env->fd_in = get_infd(root);
+	env->fd_in = get_infd(root, ctx);
 	env->fd_out = get_outfd(root);
 	env->pipe_in = pipe_in;
 	env->pipe_out = pipe_out;
 	return (env);
 }
 
-static t_env	*set_env_redirection(t_env *env, t_dyntree *root, int pipe_in, int pipe_out)
+static t_env	*set_env_redirection(t_env *env, t_dyntree *root, t_ctx *ctx, int pipe_in, int pipe_out)
 {
 	env->type = TK_REDIRECTION;
 	env->path = NULL;
 	env->args = NULL;
-	env->fd_in = get_infd(root);
+	env->fd_in = get_infd(root, ctx);
 	env->fd_out = get_outfd(root);
 	env->pipe_in = pipe_in;
 	env->pipe_out = pipe_out;
