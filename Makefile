@@ -35,7 +35,11 @@ SRCS 		:= \
 	exec/get_infd.c \
 	exec/get_outfd.c \
 	exec/make_heredoc.c \
-	signals/signals.c \
+	signals/set_sigmode.c \
+	signals/handle_sigint.c \
+	signals/handle_sigint_heredoc.c \
+	signals/handle_sigquit.c \
+	signals/handle_sigquit_heredoc.c \
 	utils.c \
 	main.c
 
