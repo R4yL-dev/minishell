@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/26 18:17:58 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/26 21:16:25 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ static t_env	*set_env_cmd(t_env *env ,t_dyntree *root, t_ctx *ctx, int pipe_in, 
 	env->path = get_cmd_path(root->value, ctx->grpvar);
 	if (!env->path)
 	{
+		ctx->ret_code = 127;
 		ft_puterror("command not found");
 		env_free(env);
 		return (NULL);
