@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 19:02:28 by lray              #+#    #+#             */
-/*   Updated: 2023/10/11 13:57:01 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/26 11:11:56 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_grpvar	*grpvar_init(char **envp)
 
 int	grpvar_add(t_grpvar *grpvar, int lstvar, char *name, char *value)
 {
-	if (!grpvar || !name || !value)
+	if (!grpvar || !name)
 	{
 		ft_puterror("grpvar, name and value cannot be NULL");
 		return (0);
@@ -42,10 +42,21 @@ int	grpvar_add(t_grpvar *grpvar, int lstvar, char *name, char *value)
 	}
 	if (lstvar == GRPVAR_GLOBAL)
 	{
-		if (!lstvar_add(grpvar->global, var_new(name, value)))
+		if (value == NULL)
 		{
-			ft_puterror("Error adding variable to grpvar->global");
-			return (0);
+			if (!lstvar_add(grpvar->global, var_new(name, "")))
+			{
+				ft_puterror("Error adding variable to grpvar->global");
+				return (0);
+			}
+		}
+		else
+		{
+			if (!lstvar_add(grpvar->global, var_new(name, value)))
+			{
+				ft_puterror("Error adding variable to grpvar->global");
+				return (0);
+			}
 		}
 	}
 	else
