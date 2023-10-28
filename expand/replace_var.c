@@ -12,21 +12,23 @@
 
 #include "../minishell.h"
 
-static int is_quote(char c);
-static char *make_varname(char *varname, char *value, size_t i);
+static int	is_quote(char c);
+static char	*make_varname(char *varname, char *value, size_t i);
 static char	*init_varname(char *varname);
-static char *add_char(char *varname, char c);
-static char *add_dollar(char *varname);
-char *search_and_replace(char **value, char *varname, char *res, size_t *i);
+static char	*add_char(char *varname, char c);
+static char	*add_dollar(char *varname);
+static char	*search_and_replace(char **value, char *varname, char *res, size_t *i);
 
-int	replace_var(t_dyntree *root, t_grpvar *grpvar)
+int	replace_var(t_dyntree *root, t_ctx *ctx)
 {
 	size_t	i_child;
 	size_t	i_str;
 	char	quote;
 	char	*varname;
 	int		pos;
+	char	*res;
 
+	res = NULL;
 	varname = NULL;
 	quote = 0;
 	i_str = 0;
@@ -41,15 +43,23 @@ int	replace_var(t_dyntree *root, t_grpvar *grpvar)
 				else if (root->value[i_str] == quote)
 					quote = 0;
 			}
+			if ((quote == 0 || quote == '"') && (root->value[i_str] == '$' && root->value[i_str + 1] == '?'))
+			{
+				res = ft_itoa(ctx->ret_code);
+				if (!res)
+					return (0);
+				search_and_replace(&root->value, "$?", res, &i_str);
+				free(res);
+			}
 			if ((quote == 0 || quote == '"') && root->value[i_str] == '$')
 			{
 				varname = make_varname(varname, root->value, i_str);
-				pos = grpvar_has(grpvar, GRPVAR_GLOBAL, varname);
+				pos = grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, varname);
 				varname = add_dollar(varname);
 				if (pos == -1)
 					root->value = search_and_replace(&root->value, varname, NULL, &i_str);
 				else
-					root->value = search_and_replace(&root->value, varname, grpvar->global->array[pos]->value, &i_str);
+					root->value = search_and_replace(&root->value, varname, ctx->grpvar->global->array[pos]->value, &i_str);
 				free(varname);
 			}
 			if (root->value[i_str] == '\0')
@@ -60,7 +70,7 @@ int	replace_var(t_dyntree *root, t_grpvar *grpvar)
 	i_child = 0;
 	while (i_child < root->numChildren)
 	{
-		if (!replace_var(root->children[i_child++], grpvar))
+		if (!replace_var(root->children[i_child++], ctx))
 			return (0);
 	}
 	return (1);
@@ -132,7 +142,7 @@ static char *add_dollar(char *varname)
 	return (varname);
 }
 
-char *search_and_replace(char **value, char *varname, char *res, size_t *i)
+static char	*search_and_replace(char **value, char *varname, char *res, size_t *i)
 {
 	size_t len_value;
 	size_t len_varname;

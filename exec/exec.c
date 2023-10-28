@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/23 22:12:19 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/26 21:16:25 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_env	*select_fd(t_env *env);
 static void		run_cmd(t_env *env, t_grpvar *grpvar);
 static void		run_builtins(t_env *env, t_ctx *ctx);
 static pid_t	*make_pids(pid_t *pids, int num_pids);
-static void		wait_all(pid_t *pids, int num_cmd);
+static void		wait_all(pid_t *pids, int num_cmd, t_ctx *ctx);
 static void		close_unused_pipes(int **pipes_list, int nbr_pipes, int pipe_in, int pipe_out);
 
 int	exec(t_ctx *ctx)
@@ -56,7 +56,7 @@ int	exec(t_ctx *ctx)
 			env_free(env);
 			++i_child;
 		}
-		wait_all(pids, ctx->tree->numChildren);
+		wait_all(pids, ctx->tree->numChildren, ctx);
 		free(pids);
 		pipes_list_free(pipes_list, (int)ctx->tree->numChildren -1);
 	}
@@ -70,7 +70,7 @@ int	exec(t_ctx *ctx)
 			return (0);
 		}
 		exec_env(ctx, env, &pids[0], NULL, 0);
-		wait_all(pids, 1);
+		wait_all(pids, 1, ctx);
 		env_free(env);
 		free(pids);
 	}
@@ -102,6 +102,7 @@ static t_env	*set_env_cmd(t_env *env ,t_dyntree *root, t_ctx *ctx, int pipe_in, 
 	env->path = get_cmd_path(root->value, ctx->grpvar);
 	if (!env->path)
 	{
+		ctx->ret_code = 127;
 		ft_puterror("command not found");
 		env_free(env);
 		return (NULL);
@@ -253,14 +254,18 @@ static pid_t *make_pids(pid_t *pids, int num_pids)
 	return (pids);
 }
 
-static void	wait_all(pid_t *pids, int num_cmd)
+static void	wait_all(pid_t *pids, int num_cmd, t_ctx *ctx)
 {
 	int	i;
+	int	status;
 
+	status = -1;
 	i = 0;
 	while (i < num_cmd)
 	{
-		waitpid(pids[i], NULL, 0);
+		waitpid(pids[i], &status, 0);
+		if (WIFEXITED(status))
+			ctx->ret_code = WEXITSTATUS(status);
 		++i;
 	}
 }

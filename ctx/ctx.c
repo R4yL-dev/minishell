@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:30:19 by lray              #+#    #+#             */
-/*   Updated: 2023/10/23 18:50:43 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/26 18:07:35 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_ctx	*ctx_init(t_ctx *ctx, char **envp)
 		ctx->lstbltins = lstbuiltins_init(ctx->lstbltins);
 		if (!ctx->lstbltins)
 			return (NULL);
+		ctx->ret_code = 0;
 		set_sigmode(&ctx->sigset, SIGMODE_NORMAL);
 		return (ctx);
 	}
@@ -53,6 +54,8 @@ void	ctx_show(t_ctx *ctx)
 	printf("\n");
 	printf("= DYNTREE SHOW =\n");
 	dyntree_show(ctx->tree, 0);
+	printf("\n");
+	printf("Return code : %d\n", ctx->ret_code);
 	printf("\n");
 }
 
