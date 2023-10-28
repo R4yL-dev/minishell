@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:11:04 by lray              #+#    #+#             */
-/*   Updated: 2023/10/24 17:16:47 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/29 00:26:00 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static char	*make_filename(void);
 static int	get_randnum(void);
+static void	put_to_fd(int fd, char *input);
 
 char	*make_heredoc(char *deli)
 {
@@ -21,7 +22,6 @@ char	*make_heredoc(char *deli)
 	int		fd;
 	char	*input;
 
-	input = NULL;
 	filename = make_filename();
 	fd = open_file_wr(filename);
 	while (g_in_heredoc)
@@ -29,7 +29,7 @@ char	*make_heredoc(char *deli)
 		input = readline("> ");
 		if (input == NULL)
 		{
-			ft_puterror("\nminishell: warning: here-document delimited by end-of-file");
+			ft_puterror("\nminishell: warn: here-doc delimited by end-of-file");
 			free(input);
 			break ;
 		}
@@ -38,8 +38,7 @@ char	*make_heredoc(char *deli)
 			free(input);
 			break ;
 		}
-		write(fd, input, ft_strlen(input));
-		write(fd, "\n", 1);
+		put_to_fd(fd, input);
 		free(input);
 	}
 	close(fd);
@@ -91,4 +90,10 @@ static int	get_randnum(void)
 	}
 	res = ft_abs(res);
 	return (res);
+}
+
+static void	put_to_fd(int fd, char *input)
+{
+	write(fd, input, ft_strlen(input));
+	write(fd, "\n", 1);
 }

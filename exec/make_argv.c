@@ -6,13 +6,13 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 19:58:19 by lray              #+#    #+#             */
-/*   Updated: 2023/10/03 20:14:06 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/29 00:25:54 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_dynarrstr *make_argv(t_dyntree *root)
+t_dynarrstr	*make_argv(t_dyntree *root)
 {
 	t_dynarrstr	*res;
 	size_t		i_child;

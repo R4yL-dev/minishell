@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:24:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/26 18:06:24 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/28 23:01:06 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../minishell.h"
 
-#include <signal.h>
+# include <signal.h>
 
 typedef struct s_ctx
 {
@@ -25,6 +25,7 @@ typedef struct s_ctx
 	char					*input;
 	struct s_dyntklist		*tklist;
 	struct s_dyntree		*tree;
+	struct s_env			*env;
 	int						ret_code;
 }	t_ctx;
 

@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:30:19 by lray              #+#    #+#             */
-/*   Updated: 2023/10/26 18:07:35 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/28 23:03:11 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_ctx	*ctx_init(t_ctx *ctx, char **envp)
 		ctx->lstbltins = lstbuiltins_init(ctx->lstbltins);
 		if (!ctx->lstbltins)
 			return (NULL);
+		ctx->env = NULL;
 		ctx->ret_code = 0;
 		set_sigmode(&ctx->sigset, SIGMODE_NORMAL);
 		return (ctx);
@@ -87,6 +88,11 @@ void	ctx_free(t_ctx *ctx)
 		{
 			dyntree_free(ctx->tree);
 			ctx->tree = NULL;
+		}
+		if (ctx->env)
+		{
+			env_free(ctx->env);
+			ctx->env = NULL;
 		}
 		free(ctx);
 		ctx = NULL;
