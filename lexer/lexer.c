@@ -6,14 +6,14 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:26:56 by lray              #+#    #+#             */
-/*   Updated: 2023/10/18 18:13:52 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/26 20:51:35 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static void	skip_space(char *input, int *i);
-static int	add_redirect(char *input, t_dyntklist *tklist, int *i);
+static int	add_redirect(t_ctx *ctx, t_dyntklist *tklist, int *i);
 static int	add_to_tklist(char *input, int *i, t_dyntklist *tklist, int tktype);
 static char	*value_init(char *value);
 static char	*value_add(char *value, size_t *value_len, char c);
@@ -44,7 +44,7 @@ int	lexer(t_ctx *ctx)
 			}
 			else
 			{
-				if (add_redirect(ctx->input, ctx->tklist, &i) == 0)
+				if (add_redirect(ctx, ctx->tklist, &i) == 0)
 					return (0);
 				skip_space(ctx->input, &i);
 				if (add_to_tklist(ctx->input, &i, ctx->tklist, TK_FILE) == 0)
@@ -74,21 +74,23 @@ static void	skip_space(char *input, int *i)
 		(*i)++;
 }
 
-static int	add_redirect(char *input, t_dyntklist *tklist, int *i)
+static int	add_redirect(t_ctx *ctx, t_dyntklist *tklist, int *i)
 {
 	char *value;
 
-	if (input[(*i) + 1] == '\0')
+	if (ctx->input[(*i) + 1] == '\0')
 	{
+		ctx->ret_code = 2;
 		ft_puterror("Syntax error");
 		return (0);
 	}
-	else if (input[*i] != input[(*i) + 1] && is_redirect(input[(*i) + 1]))
+	else if (ctx->input[*i] != ctx->input[(*i) + 1] && is_redirect(ctx->input[(*i) + 1]))
 	{
+		ctx->ret_code = 2;
 		ft_puterror("Syntax error");
 		return (0);
 	}
-	else if (input[*i] == input[(*i) + 1])
+	else if (ctx->input[*i] == ctx->input[(*i) + 1])
 	{
 		value = malloc(sizeof(char) * 3);
 		if (value == NULL)
@@ -96,8 +98,8 @@ static int	add_redirect(char *input, t_dyntklist *tklist, int *i)
 			ft_puterror("Malloc failed");
 			return (0);
 		}
-		value[0] = input[*i];
-		value[1] = input[*i];
+		value[0] = ctx->input[*i];
+		value[1] = ctx->input[*i];
 		value[2] = '\0';
 		dyntklist_add(tklist, TK_REDIRECTION, value);
 		free(value);
@@ -112,7 +114,7 @@ static int	add_redirect(char *input, t_dyntklist *tklist, int *i)
 			ft_puterror("Malloc failed");
 			return (0);
 		}
-		value[0] = input[*i];
+		value[0] = ctx->input[*i];
 		value[1] = '\0';
 		dyntklist_add(tklist, TK_REDIRECTION, value);
 		free(value);

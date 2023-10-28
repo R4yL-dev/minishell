@@ -35,6 +35,7 @@ t_ctx	*ctx_init(t_ctx *ctx, char **envp)
 		if (!ctx->lstbltins)
 			return (NULL);
 		ctx->env = NULL;
+		ctx->ret_code = 0;
 		set_sigmode(&ctx->sigset, SIGMODE_NORMAL);
 		return (ctx);
 	}
@@ -54,6 +55,8 @@ void	ctx_show(t_ctx *ctx)
 	printf("\n");
 	printf("= DYNTREE SHOW =\n");
 	dyntree_show(ctx->tree, 0);
+	printf("\n");
+	printf("Return code : %d\n", ctx->ret_code);
 	printf("\n");
 }
 

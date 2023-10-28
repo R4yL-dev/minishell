@@ -26,6 +26,7 @@ typedef struct s_ctx
 	struct s_dyntklist		*tklist;
 	struct s_dyntree		*tree;
 	struct s_env			*env;
+	int						ret_code;
 }	t_ctx;
 
 t_ctx	*ctx_init(t_ctx *ctx, char **envp);

@@ -24,10 +24,15 @@ int	main(int argc, char **argv, char **envp)
 	ctx = ctx_init(ctx, envp);
 	while (1)
 	{
+		ctx->ret_code = 0;
 		ctx_free_line(ctx);
 		ctx->input = prompt_get();
 		if (ctx->input == NULL)
+		{
+			ctx->ret_code = 0;
 			builtin_exit(NULL, ctx);
+
+		}
 		else if (ctx->input[0] == '\0')
 			continue ;
 		if (lexer(ctx) == 0)

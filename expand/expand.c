@@ -6,13 +6,13 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:19:55 by lray              #+#    #+#             */
-/*   Updated: 2023/10/13 20:49:26 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/26 20:55:59 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	valide_tree(t_dyntree *root);
+static int	valide_tree(t_ctx *ctx, t_dyntree *root);
 static int	is_quote(char c);
 int	delete_quotes(t_dyntree *root);
 
@@ -20,16 +20,16 @@ int	expand(t_ctx *ctx)
 {
 	if (!ctx->tree || !ctx->grpvar)
 		return (0);
-	if (!replace_var(ctx->tree, ctx->grpvar))
+	if (!replace_var(ctx->tree, ctx))
 		return (0);
 	delete_quotes(ctx->tree);
-	if (!valide_tree(ctx->tree))
+	if (!valide_tree(ctx, ctx->tree))
 		return (0);
 	replace_builtins(ctx->tree, ctx);
 	return (1);
 }
 
-static int	valide_tree(t_dyntree *root)
+static int	valide_tree(t_ctx *ctx, t_dyntree *root)
 {
 	size_t	i;
 
@@ -39,6 +39,7 @@ static int	valide_tree(t_dyntree *root)
 	{
 		if (root->value[0] == '\0')
 		{
+			ctx->ret_code = 2;
 			ft_puterror("ambiguous redirect");
 			return (0);
 		}
@@ -47,6 +48,7 @@ static int	valide_tree(t_dyntree *root)
 	{
 		if (root->numChildren < 2)
 		{
+			ctx->ret_code = 2;
 			ft_puterror("ambiguous redirect");
 			return (0);
 		}
@@ -64,7 +66,7 @@ static int	valide_tree(t_dyntree *root)
 	i = 0;
 	while (i < root->numChildren)
 	{
-		if (!valide_tree(root->children[i++]))
+		if (!valide_tree(ctx, root->children[i++]))
 			return (0);
 	}
 	return (1);
@@ -76,7 +78,6 @@ int	delete_quotes(t_dyntree *root)
 	size_t	i_str;
 	char	quote;
 
-	// sa"lu'ca"lut
 	quote = 0;
 	if (root->type == TK_COMMAND || root->type == TK_ARGUMENT || root->type == TK_FILE)
 	{
@@ -104,9 +105,7 @@ int	delete_quotes(t_dyntree *root)
 	}
 	i_child = 0;
 	while (i_child < root->numChildren)
-	{
 		delete_quotes(root->children[i_child++]);
-	}
 	return (1);
 }
 
