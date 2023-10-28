@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/23 22:12:19 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/28 13:46:35 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,20 +157,22 @@ static t_env	*set_env_redirection(t_env *env, t_dyntree *root, t_ctx *ctx, int p
 
 static int	exec_env(t_ctx *ctx, t_env *env, pid_t *pid, int **pipes_list, int nbr_pipes)
 {
-	if (env->type == TK_COMMAND || env->type == TK_BUILTINS)
+	int	bk_stdin;
+	int	bk_stdout;
+	(void)	pipes_list;
+	(void)	nbr_pipes;
+
+	env = select_fd(env);
+	if (env->type == TK_COMMAND)
 	{
-		env = select_fd(env);
 		*pid = fork();
 		if (*pid == 0)
 		{
-			dup2(env->fd_in, STDIN_FILENO);
-			dup2(env->fd_out, STDOUT_FILENO);
 			if (pipes_list)
 				close_unused_pipes(pipes_list, nbr_pipes, env->pipe_in, env->pipe_out);
-			if (env->type == TK_COMMAND)
-				run_cmd(env, ctx->grpvar);
-			else if (env->type == TK_BUILTINS)
-				run_builtins(env, ctx);
+			dup2(env->fd_in, STDIN_FILENO);
+			dup2(env->fd_out, STDOUT_FILENO);
+			run_cmd(env, ctx->grpvar);
 		}
 		else if (*pid > 0)
 		{
@@ -183,6 +185,33 @@ static int	exec_env(t_ctx *ctx, t_env *env, pid_t *pid, int **pipes_list, int nb
 		{
 			perror("minishel");
 			return (0);
+		}
+	}
+	else if (env->type == TK_BUILTINS)
+	{
+
+		if (env->pipe_in != -1)
+		{
+			bk_stdin = dup(STDIN_FILENO);
+			dup2(env->pipe_in, STDIN_FILENO);
+			close(env->pipe_in);
+		}
+		if (env->pipe_out != -1)
+		{
+			bk_stdout = dup(STDOUT_FILENO);
+			dup2(env->pipe_out, STDOUT_FILENO);
+			close(env->pipe_out);
+		}
+		run_builtins(env, ctx);
+		if (env->pipe_in != -1)
+		{
+			dup2(bk_stdin, STDIN_FILENO);
+			close(bk_stdin);
+		}
+		if (env->pipe_out != -1)
+		{
+			dup2(bk_stdout, STDOUT_FILENO);
+			close(bk_stdout);
 		}
 	}
 	return (1);
@@ -228,7 +257,6 @@ static void	run_cmd(t_env *env, t_grpvar *grpvar)
 static void	run_builtins(t_env *env, t_ctx *ctx)
 {
 	lstbuiltins_exec(ctx->lstbltins, env->path, env->args, ctx);
-	exit (1);
 }
 
 static pid_t *make_pids(pid_t *pids, int num_pids)
