@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
+/*   is_an_executable.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/21 18:48:33 by lray              #+#    #+#             */
-/*   Updated: 2023/10/29 00:25:08 by lray             ###   ########.fr       */
+/*   Created: 2023/10/28 23:45:33 by lray              #+#    #+#             */
+/*   Updated: 2023/10/29 00:25:53 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#include "../minishell.h"
 
-typedef struct s_env
+int	is_an_executable(char *path)
 {
-	int					type;
-	char				*path;
-	char				**args;
-	int					fd_in;
-	int					fd_out;
-	int					pipe_in;
-	int					pipe_out;
-}	t_env;
+	struct stat	sb;
 
-t_env	*env_new(void);
-void	env_show(t_env *head);
-void	*env_free(t_env *env);
-
-#endif
+	if (stat(path, &sb))
+	{
+		if (S_ISDIR(sb.st_mode))
+			return (0);
+	}
+	if (access(path, (F_OK | X_OK)) == -1)
+		return (0);
+	return (1);
+}

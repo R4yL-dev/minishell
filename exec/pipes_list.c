@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:54:30 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 14:15:19 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/29 00:26:05 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,13 @@ int	**pipes_list_create(int num_pipes)
 		return (NULL);
 	pipes_list = malloc(sizeof(int *) * num_pipes);
 	if (pipes_list == NULL)
-	{
-		ft_puterror("Malloc error");
 		return (NULL);
-	}
 	i = 0;
 	while (i < num_pipes)
 	{
 		pipes_list[i] = malloc(sizeof(int) * 2);
 		if (pipes_list[i] == NULL)
-		{
-			ft_puterror("Malloc error");
 			return (NULL);
-		}
 		if (pipe(pipes_list[i]) < 0)
 		{
 			perror("miniShrek");

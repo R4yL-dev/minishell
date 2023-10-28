@@ -26,11 +26,16 @@ SRCS 		:= \
 	expand/replace_var.c\
 	expand/replace_builtins.c \
 	exec/exec.c \
+	exec/exec_cmd.c \
+	exec/exec_piped_cmd.c \
 	exec/pipes_list.c \
 	exec/env.c \
 	exec/dynarrstr.c \
+	exec/make_env.c \
+	exec/exec_env.c \
 	exec/open_file.c \
 	exec/get_cmd_path.c \
+	exec/is_an_executable.c \
 	exec/make_argv.c \
 	exec/get_infd.c \
 	exec/get_outfd.c \

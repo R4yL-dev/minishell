@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:49:07 by lray              #+#    #+#             */
-/*   Updated: 2023/10/21 16:37:38 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/28 23:44:04 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_env	*env_new(void)
 {
-	t_env *new;
+	t_env	*new;
 
 	new = malloc(sizeof(t_env) * 1);
 	if (new == NULL)
@@ -50,7 +50,7 @@ void	env_show(t_env *env)
 	}
 }
 
-void	env_free(t_env *env)
+void	*env_free(t_env *env)
 {
 	if (env != NULL)
 	{
@@ -75,4 +75,5 @@ void	env_free(t_env *env)
 		free(env);
 		env = NULL;
 	}
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/24 16:34:16 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/28 21:42:16 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	g_in_heredoc = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)				argc;
-	(void)				argv;
-	t_ctx				*ctx;
+	t_ctx	*ctx;
 
+	(void) argc;
+	(void) argv;
 	ctx = NULL;
 	ctx = ctx_init(ctx, envp);
 	while (1)
@@ -40,4 +40,3 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
-
