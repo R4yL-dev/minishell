@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/28 13:46:35 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/28 15:19:02 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,10 +168,10 @@ static int	exec_env(t_ctx *ctx, t_env *env, pid_t *pid, int **pipes_list, int nb
 		*pid = fork();
 		if (*pid == 0)
 		{
-			if (pipes_list)
-				close_unused_pipes(pipes_list, nbr_pipes, env->pipe_in, env->pipe_out);
 			dup2(env->fd_in, STDIN_FILENO);
 			dup2(env->fd_out, STDOUT_FILENO);
+			if (pipes_list)
+				close_unused_pipes(pipes_list, nbr_pipes, env->pipe_in, env->pipe_out);
 			run_cmd(env, ctx->grpvar);
 		}
 		else if (*pid > 0)
@@ -189,26 +189,27 @@ static int	exec_env(t_ctx *ctx, t_env *env, pid_t *pid, int **pipes_list, int nb
 	}
 	else if (env->type == TK_BUILTINS)
 	{
-
-		if (env->pipe_in != -1)
+		if (env->fd_in != 0)
 		{
 			bk_stdin = dup(STDIN_FILENO);
-			dup2(env->pipe_in, STDIN_FILENO);
-			close(env->pipe_in);
+			dup2(env->fd_in, STDIN_FILENO);
+			if (env->pipe_in != -1)
+				close(env->fd_in);
 		}
-		if (env->pipe_out != -1)
+		if (env->fd_out != 1)
 		{
 			bk_stdout = dup(STDOUT_FILENO);
-			dup2(env->pipe_out, STDOUT_FILENO);
-			close(env->pipe_out);
+			dup2(env->fd_out, STDOUT_FILENO);
+			if (env->pipe_out != -1)
+				close(env->fd_out);
 		}
 		run_builtins(env, ctx);
-		if (env->pipe_in != -1)
+		if (env->fd_in != 0)
 		{
 			dup2(bk_stdin, STDIN_FILENO);
 			close(bk_stdin);
 		}
-		if (env->pipe_out != -1)
+		if (env->fd_out != 1)
 		{
 			dup2(bk_stdout, STDOUT_FILENO);
 			close(bk_stdout);
