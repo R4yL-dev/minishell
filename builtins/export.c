@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 01:51:07 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/29 02:16:47 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/29 03:44:22 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,85 @@ int	tablen(char **tab)
 	return (i);
 }
 
-int	builtin_export(char **argv, t_ctx *ctx)
+char	**copy_names(t_lstvar *lstvar)
+{
+	int		i;
+	char	**list;
+	
+	i = 0;
+	list = malloc(sizeof(char*) * lstvar->num_elements);
+	while (i < (int)lstvar->num_elements)
+	{
+		list[i] = ft_strdup(lstvar->array[i]->name);
+		i++;
+	}
+	return (list);
+}
+
+char	**sort_names(char **list)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+	
+	tmp = NULL;
+	i = 0;
+	while (list[i])
+    {
+		j = 0;
+        while (list[j + 1])
+        {
+			printf("J: %s\nJ + 1: %s\n", list[j], list[j + 1]);
+            if (ft_strncmp(list[j], list[j + 1], ft_strlen(list[j]) + 1) > 0)
+            {
+                tmp = ft_strdup(list[j]);
+				ft_strlcpy(list[j], list[j + 1], ft_strlen(list[j + 1] + 1));
+                ft_strlcpy(list[j + 1], tmp, ft_strlen(tmp) + 1);
+				free (tmp);
+				tmp = NULL;
+            }
+			j++;
+        }
+		i++;
+    }
+	return (list);
+}
+
+void	call_names_alpha(char **sorted_list, t_lstvar *lstvar)
 {
 	int	i;
-	int	j;
-	char **tab;
+	int	pos;
+
+	pos = -1;
+	i = 0;
+	while (sorted_list[i])
+	{
+		pos = lstvar_has(lstvar, sorted_list[i]);
+		if (lstvar->array[pos]->value)
+			printf("%s=%s\n", lstvar->array[pos]->name, lstvar->array[pos]->value);
+		else
+			printf("%s\n", lstvar->array[pos]->name);
+		i++;
+	}
+	
+}
+
+int	builtin_export(char **argv, t_ctx *ctx)
+{
+	int		i;
+	int		j;
+	char	**tab;
+	char	**sorted_list;
+	char	**unsorted_list;
 
 	i = 1;
-	if (!argv[1])
+	if (!argv[1]) // print sorted env.
 	{
-		// print env in alpha order.
+		unsorted_list = copy_names(ctx->grpvar->global);
+		sorted_list = sort_names(unsorted_list);
+		call_names_alpha(sorted_list, ctx->grpvar->global);
 	}
-	else
+	else // add variables to env.
 	{
 		while (argv[i])
 		{
