@@ -6,35 +6,83 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 01:51:07 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/25 01:22:36 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/29 02:16:47 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	tablen(char **tab)
+{
+	int i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
 int	builtin_export(char **argv, t_ctx *ctx)
 {
 	int	i;
-	char *name;
-	char *trim;
+	int	j;
+	char **tab;
 
-	i = 0;
-	name = NULL;
-	trim = NULL;
-	if (argv[1])
+	i = 1;
+	if (!argv[1])
 	{
-		while (argv[1][i] != '=')
+		// print env in alpha order.
+	}
+	else
+	{
+		while (argv[i])
+		{
+			tab = ft_split(argv[i], '=');
+			if (tablen(tab) == 1)
+				grpvar_add(ctx->grpvar, GRPVAR_GLOBAL, tab[0], NULL);
+			else if (tablen(tab) == 2)
+				grpvar_add(ctx->grpvar, GRPVAR_GLOBAL, tab[0], tab[1]);
+			j = 0;
+			while (tab[j])
+			{
+				free(tab[j]);
+				j++;
+			}
+			free(tab);
 			i++;
-		name = ft_calloc(i + 1, sizeof(char));
-		ft_strlcat(name, argv[1], i + 1);
-		trim = ft_calloc(i + 1, sizeof(char));
-		trim = ft_strjoin(name, "=");
-		grpvar_add(ctx->grpvar, GRPVAR_GLOBAL, name, ft_strtrim(argv[1], trim));
+		}
 	}
 	// printf("%s", name);
 	lstvar_show(ctx->grpvar->global);
 	return (0);
 }
+
+// int	builtin_export(char **argv, t_ctx *ctx)
+// {
+// 	int	i;
+// 	char *name;
+// 	char *trim;
+// 	char *value;
+
+// 	i = 0;
+// 	name = NULL;
+// 	trim = NULL;
+// 	value = NULL;
+// 	if (argv[1])
+// 	{
+// 		while (argv[1][i] != '=')
+// 			i++;
+// 		name = ft_calloc(i + 1, sizeof(char));
+// 		ft_strlcat(name, argv[1], i + 1);
+// 		trim = ft_calloc(i + 1, sizeof(char));
+// 		trim = ft_strjoin(name, "=");
+// 		value = ft_strtrim(argv[1], trim);
+// 		grpvar_add(ctx->grpvar, GRPVAR_GLOBAL, name, value);
+// 	}
+// 	// printf("%s", name);
+// 	lstvar_show(ctx->grpvar->global);
+// 	return (0);
+// }
 
 
 
