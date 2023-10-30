@@ -12,7 +12,6 @@
 
 #include "../minishell.h"
 
-static int	is_quote(char c);
 static char	*make_varname(char *varname, char *value, size_t i);
 static char	*init_varname(char *varname);
 static char	*add_char(char *varname, char c);
@@ -74,13 +73,6 @@ int	replace_var(t_dyntree *root, t_ctx *ctx)
 			return (0);
 	}
 	return (1);
-}
-
-static int is_quote(char c)
-{
-	if (c == '\'' || c == '"')
-		return (1);
-	return (0);
 }
 
 static char *make_varname(char *varname, char *value, size_t i)

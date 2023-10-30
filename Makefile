@@ -16,6 +16,8 @@ SRCS 		:= \
 	builtins/clear.c \
 	prompt/prompt.c \
 	lexer/lexer.c \
+	lexer/add_redirect.c \
+	lexer/add_to_tklist.c \
 	lexer/lexer_utils.c \
 	lexer/token.c \
 	lexer/dyntklist.c \

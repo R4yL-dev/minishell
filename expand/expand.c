@@ -6,15 +6,14 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:19:55 by lray              #+#    #+#             */
-/*   Updated: 2023/10/26 20:55:59 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 12:28:58 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static int	valide_tree(t_ctx *ctx, t_dyntree *root);
-static int	is_quote(char c);
-int	delete_quotes(t_dyntree *root);
+int			delete_quotes(t_dyntree *root);
 
 int	expand(t_ctx *ctx)
 {
@@ -107,11 +106,4 @@ int	delete_quotes(t_dyntree *root)
 	while (i_child < root->numChildren)
 		delete_quotes(root->children[i_child++]);
 	return (1);
-}
-
-static int	is_quote(char c)
-{
-	if (c == '\'' || c == '"')
-		return (1);
-	return (0);
 }
