@@ -6,21 +6,21 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/29 00:25:31 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/29 02:02:40 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static pid_t	*make_pids(pid_t *pids, int num_pids);
-static void		wait_all(pid_t *pids, int num_cmd);
+static void		wait_all(pid_t *pids, int num_cmd, t_ctx *ctx);
 
 int	exec(t_ctx *ctx)
 {
 	int		**pipes_list;
 	pid_t	*pids;
+	int		res;
 
-	pipes_list = NULL;
 	pids = NULL;
 	if (ctx->tree->numChildren > 0)
 		pids = make_pids(pids, (int)ctx->tree->numChildren);
@@ -33,11 +33,13 @@ int	exec(t_ctx *ctx)
 		pipes_list_free(pipes_list, (int)ctx->tree->numChildren -1);
 	}
 	else
-		exec_cmd(ctx, pids);
+		res = exec_cmd(ctx, pids);
+	if (res == 0)
+		return (0);
 	if (ctx->tree->numChildren > 0)
-		wait_all(pids, ctx->tree->numChildren);
+		wait_all(pids, ctx->tree->numChildren, ctx);
 	else if (ctx->tree->numChildren == 0)
-		wait_all(pids, 1);
+		wait_all(pids, 1, ctx);
 	free(pids);
 	return (1);
 }
@@ -64,14 +66,20 @@ static pid_t	*make_pids(pid_t *pids, int num_pids)
 	return (pids);
 }
 
-static void	wait_all(pid_t *pids, int num_cmd)
+static void	wait_all(pid_t *pids, int num_cmd, t_ctx *ctx)
 {
 	int	i;
+	int	status;
 
+	status = -1;
 	i = 0;
 	while (i < num_cmd)
 	{
-		waitpid(pids[i], NULL, 0);
+		waitpid(pids[i], &status, 0);
+		if (WIFEXITED(status))
+			ctx->ret_code = WEXITSTATUS(status);
+		else
+			ctx->ret_code = 0;
 		++i;
 	}
 }

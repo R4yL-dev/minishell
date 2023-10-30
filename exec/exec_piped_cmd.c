@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 22:51:16 by lray              #+#    #+#             */
-/*   Updated: 2023/10/29 00:25:22 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 11:24:28 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	exec_piped_cmd(t_ctx *ctx, int **pl, pid_t *pids)
 	i = 0;
 	while (i < ctx->tree->numChildren)
 	{
-		get_env(ctx, pl, i);
+		if (!get_env(ctx, pl, i))
+			return (0);
 		if (ctx->env != NULL)
 		{
 			exec_env(ctx, &pids[i], pl, (int)ctx->tree->numChildren - 1);
@@ -39,20 +40,16 @@ static int	get_env(t_ctx *ctx, int **pl, size_t i)
 	in_out[0] = -1;
 	in_out[1] = -1;
 	if (i == 0)
-	{
 		in_out[1] = pl[i][1];
-		ctx->env = make_env(ctx, ctx->tree->children[i], in_out);
-	}
 	else if ((int)i == (int)ctx->tree->numChildren - 1)
-	{
 		in_out[0] = pl[(int)i - 1][0];
-		ctx->env = make_env(ctx, ctx->tree->children[i], in_out);
-	}
 	else
 	{
 		in_out[0] = pl[(int)i - 1][0];
 		in_out[1] = pl[i][1];
-		ctx->env = make_env(ctx, ctx->tree->children[i], in_out);
 	}
+	ctx->env = make_env(ctx, ctx->tree->children[i], in_out);
+	if (!ctx->env)
+		return (0);
 	return (1);
 }
