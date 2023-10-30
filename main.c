@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/28 21:42:16 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 10:49:03 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ int	main(int argc, char **argv, char **envp)
 	ctx = ctx_init(ctx, envp);
 	while (1)
 	{
-		ctx->ret_code = 0;
 		ctx_free_line(ctx);
 		ctx->input = prompt_get();
 		if (ctx->input == NULL)
 		{
 			ctx->ret_code = 0;
 			builtin_exit(NULL, ctx);
-
 		}
 		else if (ctx->input[0] == '\0')
 			continue ;
