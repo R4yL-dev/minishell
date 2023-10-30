@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:19:55 by lray              #+#    #+#             */
-/*   Updated: 2023/10/30 12:28:58 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 13:41:52 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	valide_tree(t_ctx *ctx, t_dyntree *root)
 	}
 	else if (root->type == TK_PIPE)
 	{
-		if (root->numChildren < 2)
+		if (root->num_children < 2)
 		{
 			ctx->ret_code = 2;
 			ft_puterror("ambiguous redirect");
@@ -59,11 +59,11 @@ static int	valide_tree(t_ctx *ctx, t_dyntree *root)
 	}
 	else if (root->type == TK_REDIRECTION)
 	{
-		if (root->numChildren < 1 || root->children[0]->type != TK_FILE)
+		if (root->num_children < 1 || root->children[0]->type != TK_FILE)
 			return (0);
 	}
 	i = 0;
-	while (i < root->numChildren)
+	while (i < root->num_children)
 	{
 		if (!valide_tree(ctx, root->children[i++]))
 			return (0);
@@ -103,7 +103,7 @@ int	delete_quotes(t_dyntree *root)
 		}
 	}
 	i_child = 0;
-	while (i_child < root->numChildren)
+	while (i_child < root->num_children)
 		delete_quotes(root->children[i_child++]);
 	return (1);
 }

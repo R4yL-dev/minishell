@@ -67,7 +67,7 @@ int	replace_var(t_dyntree *root, t_ctx *ctx)
 		}
 	}
 	i_child = 0;
-	while (i_child < root->numChildren)
+	while (i_child < root->num_children)
 	{
 		if (!replace_var(root->children[i_child++], ctx))
 			return (0);

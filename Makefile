@@ -23,6 +23,10 @@ SRCS 		:= \
 	lexer/dyntklist.c \
 	lexer/dyntklist_split.c \
 	parser/parser.c \
+	parser/add_cmd_to_root.c \
+	parser/add_to_cmd.c \
+	parser/exctract_root.c \
+	parser/parser_utils.c \
 	parser/dyntree.c \
 	expand/expand.c \
 	expand/replace_var.c\
