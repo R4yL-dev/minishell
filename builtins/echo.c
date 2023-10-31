@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:23:16 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/13 22:11:36 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/31 20:30:22 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	builtin_echo(char **argv, t_ctx *ctx)
 {
-	int i;
+	int	i;
 
 	(void)ctx;
 	i = 1;

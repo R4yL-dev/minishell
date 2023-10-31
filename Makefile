@@ -7,6 +7,7 @@ SRCS 		:= \
 	vars/lstvar_to_array.c \
 	vars/grpvar.c \
 	builtins/lstbuiltins.c \
+	builtins/lstbuiltins_utils.c \
 	builtins/lstbuiltins_has.c \
 	builtins/lstbuiltins_exec.c \
 	builtins/showctx.c \
