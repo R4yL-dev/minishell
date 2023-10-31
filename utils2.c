@@ -1,21 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_sigint_heredoc.c                            :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/23 17:48:33 by lray              #+#    #+#             */
-/*   Updated: 2023/10/31 21:06:12 by lray             ###   ########.fr       */
+/*   Created: 2023/10/31 21:16:41 by lray              #+#    #+#             */
+/*   Updated: 2023/10/31 21:17:10 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-void	handle_sigint_heredoc(int sig)
+void	arr_show(char **arr)
 {
-	(void) sig;
-	g_in_heredoc = 0;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_on_new_line();
+	size_t	i;
+
+	i = 0;
+	if (arr)
+	{
+		while (arr[i])
+			printf("%s\n", arr[i++]);
+	}
+}
+
+int	ft_abs(int n)
+{
+	if (n < 0)
+		n *= -1;
+	return (n);
 }

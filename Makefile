@@ -4,8 +4,10 @@ SRCS 		:= \
 	ctx/ctx.c \
 	vars/var.c \
 	vars/lstvar.c \
+	vars/lstvar_utils.c \
 	vars/lstvar_to_array.c \
 	vars/grpvar.c \
+	vars/grpvar_utils.c \
 	builtins/lstbuiltins.c \
 	builtins/lstbuiltins_utils.c \
 	builtins/lstbuiltins_has.c \
@@ -57,6 +59,7 @@ SRCS 		:= \
 	signals/handle_sigquit.c \
 	signals/handle_sigquit_heredoc.c \
 	utils.c \
+	utils2.c \
 	main.c
 
 OBJS		:= $(SRCS:.c=.o)

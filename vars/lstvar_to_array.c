@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 14:33:25 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 16:09:36 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/31 20:54:30 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ t_dynarrstr	*lstvar_to_array(t_lstvar *lstvar)
 {
 	t_dynarrstr	*res;
 	size_t		i;
-	(void)		lstvar;
 	char		*value;
 
+	(void) lstvar;
 	res = NULL;
 	value = NULL;
 	if (lstvar == NULL)
@@ -29,7 +29,8 @@ t_dynarrstr	*lstvar_to_array(t_lstvar *lstvar)
 	i = 0;
 	while (i < lstvar->num_elements)
 	{
-		value = make_value(value, lstvar->array[i]->name, lstvar->array[i]->value);
+		value = make_value(value, lstvar->array[i]->name, \
+		lstvar->array[i]->value);
 		dynarrstr_add(res, value);
 		free(value);
 		value = NULL;

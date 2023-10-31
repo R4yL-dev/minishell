@@ -84,7 +84,7 @@ static int	process_var(t_ctx *ctx, t_dyntree *root, int *i_str)
 	int		pos;
 
 	varname = NULL;
-	varname = make_varname(varname, root->value, (size_t)*i_str);
+	varname = make_varname(varname, root->value, (size_t)(*i_str));
 	pos = grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, varname);
 	varname = add_dollar(varname);
 	if (pos == -1)
