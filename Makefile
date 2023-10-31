@@ -14,6 +14,7 @@ SRCS 		:= \
 	builtins/pwd.c \
 	builtins/exit.c \
 	builtins/export.c \
+	builtins/export_utils.c \
 	builtins/clear.c \
 	prompt/prompt.c \
 	lexer/lexer.c \
