@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:58:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/30 13:45:46 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 15:25:36 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	add_to_cmd(t_dyntklist *tklist, t_dyntree *root, int pos)
 
 static int	process_tklist(t_dyntree *root, t_dyntklist *tklist, int *i)
 {
-
 	while (*i < (int)tklist->size && tklist->array[*i]->type != TK_PIPE)
 	{
 		if (tklist->array[*i]->type == TK_PIPE)

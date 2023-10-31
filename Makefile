@@ -29,8 +29,12 @@ SRCS 		:= \
 	parser/parser_utils.c \
 	parser/dyntree.c \
 	expand/expand.c \
+	expand/delete_quotes.c \
 	expand/replace_var.c\
+	expand/replace_var_utils.c\
 	expand/replace_builtins.c \
+	expand/search_and_replace.c \
+	expand/valide_tree.c \
 	exec/exec.c \
 	exec/exec_cmd.c \
 	exec/exec_piped_cmd.c \

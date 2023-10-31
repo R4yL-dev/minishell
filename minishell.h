@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/10/24 16:36:50 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 14:04:42 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,12 @@
 # include "exec/pipes_list.h"
 # include "exec/dynarrstr.h"
 
-#include "signals/signals.h"
+# include "signals/signals.h"
 
 # include "libft/libft.h"
 # include "prompt/prompt.h"
 # include "lexer/lexer.h"
 # include "expand/expand.h"
-# include "expand/replace_var.h"
-# include "expand/replace_builtins.h"
 # include "parser/parser.h"
 # include "exec/exec.h"
 

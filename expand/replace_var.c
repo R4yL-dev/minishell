@@ -12,60 +12,22 @@
 
 #include "../minishell.h"
 
-static char	*make_varname(char *varname, char *value, size_t i);
-static char	*init_varname(char *varname);
-static char	*add_char(char *varname, char c);
-static char	*add_dollar(char *varname);
-static char	*search_and_replace(char **value, char *varname, char *res, size_t *i);
+static void	process_func(t_ctx *ctx, t_dyntree *root, int *i_str, char *quote);
+static int	process_var_spe(t_ctx *ctx, t_dyntree *root, int *i_str);
+static void	process_quotes(t_dyntree *root, char *quote, int *i_str);
+static int	process_var(t_ctx *ctx, t_dyntree *root, int *i_str);
 
 int	replace_var(t_dyntree *root, t_ctx *ctx)
 {
 	size_t	i_child;
-	size_t	i_str;
+	int		i_str;
 	char	quote;
-	char	*varname;
-	int		pos;
-	char	*res;
 
-	res = NULL;
-	varname = NULL;
 	quote = 0;
 	i_str = 0;
-	if (root->type == TK_COMMAND || root->type == TK_ARGUMENT || root->type == TK_FILE)
-	{
-		while (root->value[i_str] != '\0')
-		{
-			if (is_quote(root->value[i_str]))
-			{
-				if (quote == 0)
-					quote = root->value[i_str];
-				else if (root->value[i_str] == quote)
-					quote = 0;
-			}
-			if ((quote == 0 || quote == '"') && (root->value[i_str] == '$' && root->value[i_str + 1] == '?'))
-			{
-				res = ft_itoa(ctx->ret_code);
-				if (!res)
-					return (0);
-				search_and_replace(&root->value, "$?", res, &i_str);
-				free(res);
-			}
-			if ((quote == 0 || quote == '"') && root->value[i_str] == '$')
-			{
-				varname = make_varname(varname, root->value, i_str);
-				pos = grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, varname);
-				varname = add_dollar(varname);
-				if (pos == -1)
-					root->value = search_and_replace(&root->value, varname, NULL, &i_str);
-				else
-					root->value = search_and_replace(&root->value, varname, ctx->grpvar->global->array[pos]->value, &i_str);
-				free(varname);
-			}
-			if (root->value[i_str] == '\0')
-				break ;
-			i_str++;
-		}
-	}
+	if (root->type == TK_COMMAND || \
+	root->type == TK_ARGUMENT || root->type == TK_FILE)
+		process_func(ctx, root, &i_str, &quote);
 	i_child = 0;
 	while (i_child < root->num_children)
 	{
@@ -75,104 +37,61 @@ int	replace_var(t_dyntree *root, t_ctx *ctx)
 	return (1);
 }
 
-static char *make_varname(char *varname, char *value, size_t i)
+static void	process_func(t_ctx *ctx, t_dyntree *root, int *i_str, char *quote)
 {
-	i++;
-	varname = init_varname(varname);
-	if (!varname)
-		return (NULL);
-	while (value[i] != '\0' && (ft_isalnum(value[i]) || value[i] == '_'))
+	while (root->value[*i_str] != '\0')
 	{
-		varname = add_char(varname, value[i]);
-		i++;
-	}
-	return varname;
-}
-
-static char	*init_varname(char *varname)
-{
-	varname = malloc(sizeof(char));
-	if (!varname)
-	{
-		ft_puterror("Malloc failed");
-		return (NULL);
-	}
-	varname[0] = '\0';
-	return (varname);
-}
-
-static char *add_char(char *varname, char c)
-{
-	size_t len;
-
-	len = ft_strlen(varname) + 1;
-	varname = ft_realloc(varname, sizeof(char) * len, sizeof(char) * (len + 1));
-	varname[len] = '\0';
-	if (!varname)
-	{
-		ft_puterror("Realloc failed");
-		return (NULL);
-	}
-
-	varname = add_char_to_string(varname, c);
-	return (varname);
-}
-
-static char *add_dollar(char *varname)
-{
-	size_t len;
-
-	len = ft_strlen(varname) + 1;
-	varname = ft_realloc(varname, sizeof(char) * len, sizeof(char) * (len + 1));
-	if (!varname)
-	{
-		ft_puterror("Realloc failed");
-		return (NULL);
-	}
-	ft_memmove(varname + 1, varname, len);
-	varname[0] = '$';
-	return (varname);
-}
-
-static char	*search_and_replace(char **value, char *varname, char *res, size_t *i)
-{
-	size_t len_value;
-	size_t len_varname;
-	size_t len_res;
-	size_t len_new;
-
-	len_value = ft_strlen(*value);
-	len_varname = ft_strlen(varname);
-	if (!res)
-		len_res = 0;
-	else
-		len_res = ft_strlen(res);
-	len_new = len_value - len_varname + len_res;
-	if (len_new == 0)
-	{
-		*value[*i] = '\0';
-		return (*value);
-	}
-	if (len_new > len_value)
-	{
-		*value = ft_realloc(*value, sizeof(char) * len_value + 1, sizeof(char) * len_new + 1);
-		if (*value == NULL)
+		if (is_quote(root->value[*i_str]))
+			process_quotes(root, quote, i_str);
+		if ((*quote == 0 || *quote == '"') && \
+		(root->value[*i_str] == '$' && root->value[*i_str + 1] == '?'))
+			process_var_spe(ctx, root, i_str);
+		if ((*quote == 0 || *quote == '"') && root->value[*i_str] == '$')
+			process_var(ctx, root, i_str);
+		if (*i_str >= 0)
 		{
-			ft_puterror("Realloc failed");
-			return (NULL);
+			if (root->value[*i_str] == '\0')
+				break ;
 		}
+		(*i_str)++;
 	}
-	if (len_res == 0)
-		ft_memmove(*value + *i, *value + *i + len_varname, len_new + 1);
-	else if (len_res > len_varname)
-		ft_memmove(*value + *i + (len_res - len_varname), *value + *i, len_new + 1);
-	else if (len_res < len_varname)
-		ft_memmove(*value + *i + len_res - (len_varname - len_res) + 1, *value + *i + len_res + 1, len_new + 1);
-	if (len_res > 0)
-		ft_memcpy(*value + *i, res, len_res);
-	if (len_res > 0)
-		(*i) = len_res - 1;
-	else if (*i > 0)
-		(*i)--;
-	return (*value);
+}
+
+static void	process_quotes(t_dyntree *root, char *quote, int *i_str)
+{
+	if (*quote == 0)
+		*quote = root->value[*i_str];
+	else if (root->value[*i_str] == *quote)
+		quote = 0;
+}
+
+static int	process_var_spe(t_ctx *ctx, t_dyntree *root, int *i_str)
+{
+	char	*res;
+
+	res = NULL;
+	res = ft_itoa(ctx->ret_code);
+	if (!res)
+		return (0);
+	search_and_replace(&root->value, "$?", res, i_str);
+	free(res);
+	return (1);
+}
+
+static int	process_var(t_ctx *ctx, t_dyntree *root, int *i_str)
+{
+	char	*varname;
+	int		pos;
+
+	varname = NULL;
+	varname = make_varname(varname, root->value, (size_t)*i_str);
+	pos = grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, varname);
+	varname = add_dollar(varname);
+	if (pos == -1)
+		root->value = search_and_replace(&root->value, varname, NULL, i_str);
+	else
+		root->value = search_and_replace(&root->value, varname, \
+		ctx->grpvar->global->array[pos]->value, i_str);
+	free(varname);
+	return (1);
 }

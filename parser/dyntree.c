@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 18:09:29 by lray              #+#    #+#             */
-/*   Updated: 2023/10/30 13:45:52 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 15:15:49 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,11 @@ void	dyntree_free(t_dyntree *node)
 	i = 0;
 	while (i < node->num_children)
 		dyntree_free(node->children[i++]);
-	free(node->children);
-	node->children = NULL;
+	if (node->children)
+	{
+		free(node->children);
+		node->children = NULL;
+	}
 	free(node->value);
 	node->value = NULL;
 	free(node);
