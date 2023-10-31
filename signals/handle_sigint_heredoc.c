@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 17:48:33 by lray              #+#    #+#             */
-/*   Updated: 2023/10/24 16:50:39 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/31 20:42:58 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 void	handle_sigint_heredoc(int sig)
 {
-	(void)	sig;
-
+	(void) sig;
 	g_in_heredoc = 0;
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	rl_on_new_line();
