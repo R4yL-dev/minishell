@@ -6,18 +6,16 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:04:59 by lray              #+#    #+#             */
-/*   Updated: 2023/10/07 16:09:39 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/29 00:25:43 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
 static char	**get_all_paths(t_grpvar *grpvar);
 static char	*is_cmd(char *cmd, char **paths);
 static char	*make_path(char *path, char *cmd);
 static int	end_by_slash(char *path);
-static int	is_an_executable(char *path);
 
 char	*get_cmd_path(char *cmd, t_grpvar *grpvar)
 {
@@ -27,7 +25,7 @@ char	*get_cmd_path(char *cmd, t_grpvar *grpvar)
 	paths = NULL;
 	res = NULL;
 	if (is_an_executable(cmd))
-		return(ft_strdup(cmd));
+		return (ft_strdup(cmd));
 	paths = get_all_paths(grpvar);
 	res = is_cmd(cmd, paths);
 	if (paths)
@@ -59,7 +57,7 @@ static char	*is_cmd(char *cmd, char **paths)
 	{
 		path = make_path(paths[i_path], cmd);
 		if (is_an_executable(path))
-			return(path);
+			return (path);
 		free (path);
 		++i_path;
 	}
@@ -104,11 +102,4 @@ static int	end_by_slash(char *path)
 	if (path[path_len - 1] == '/')
 		return (1);
 	return (0);
-}
-
-static int	is_an_executable(char *path)
-{
-	if (access(path, (F_OK | X_OK)) == -1)
-		return (0);
-	return (1);
 }

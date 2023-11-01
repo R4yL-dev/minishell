@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 21:18:02 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/10 23:33:32 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/31 20:36:19 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	builtin_pwd(char **argv, t_ctx *ctx)
 {
-	(void)argv;
 	int	pos;
 
+	(void) argv;
 	pos = grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, "PWD");
 	if (pos == -1)
 		return (1);

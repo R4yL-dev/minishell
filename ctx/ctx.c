@@ -6,11 +6,13 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:30:19 by lray              #+#    #+#             */
-/*   Updated: 2023/10/11 14:21:42 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 12:14:42 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	ctx_free2(t_ctx *ctx);
 
 t_ctx	*ctx_init(t_ctx *ctx, char **envp)
 {
@@ -29,11 +31,13 @@ t_ctx	*ctx_init(t_ctx *ctx, char **envp)
 		ctx->tklist = NULL;
 		ctx->tree = NULL;
 		ctx->grpvar = grpvar_init(envp);
-		if (ctx->grpvar == NULL)
-			return (NULL);
+		var_set_init_value(ctx);
 		ctx->lstbltins = lstbuiltins_init(ctx->lstbltins);
 		if (!ctx->lstbltins)
 			return (NULL);
+		ctx->env = NULL;
+		ctx->ret_code = 0;
+		set_sigmode(&ctx->sigset, SIGMODE_NORMAL);
 		return (ctx);
 	}
 	return (NULL);
@@ -52,6 +56,8 @@ void	ctx_show(t_ctx *ctx)
 	printf("\n");
 	printf("= DYNTREE SHOW =\n");
 	dyntree_show(ctx->tree, 0);
+	printf("\n");
+	printf("Return code : %d\n", ctx->ret_code);
 	printf("\n");
 }
 
@@ -74,18 +80,28 @@ void	ctx_free(t_ctx *ctx)
 			free(ctx->input);
 			ctx->input = NULL;
 		}
-		if (ctx->tklist)
-		{
-			dyntklist_free(ctx->tklist);
-			ctx->tklist = NULL;
-		}
-		if (ctx->tree)
-		{
-			dyntree_free(ctx->tree);
-			ctx->tree = NULL;
-		}
+		ctx_free2(ctx);
 		free(ctx);
 		ctx = NULL;
+	}
+}
+
+static void	ctx_free2(t_ctx *ctx)
+{
+	if (ctx->tklist)
+	{
+		dyntklist_free(ctx->tklist);
+		ctx->tklist = NULL;
+	}
+	if (ctx->tree)
+	{
+		dyntree_free(ctx->tree);
+		ctx->tree = NULL;
+	}
+	if (ctx->env)
+	{
+		env_free(ctx->env);
+		ctx->env = NULL;
 	}
 }
 
