@@ -2,6 +2,7 @@ NAME		:= minishell
 
 SRCS 		:= \
 	ctx/ctx.c \
+	ctx/ctx_utils.c \
 	vars/var.c \
 	vars/lstvar.c \
 	vars/lstvar_utils.c \

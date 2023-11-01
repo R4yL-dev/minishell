@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:24:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/28 23:01:06 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 12:13:47 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ t_ctx	*ctx_init(t_ctx *ctx, char **envp);
 void	ctx_show(t_ctx *ctx);
 void	ctx_free(t_ctx *ctx);
 void	ctx_free_line(t_ctx *ctx);
+
+int		var_set_init_value(t_ctx *ctx);
 
 #endif
