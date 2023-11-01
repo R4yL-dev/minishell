@@ -43,15 +43,14 @@ static void	process_func(t_ctx *ctx, t_dyntree *root, int *i_str, char *quote)
 	{
 		if (is_quote(root->value[*i_str]))
 			process_quotes(root, quote, i_str);
-		if (root->value[*i_str] == '$' && \
-		!ft_isalnum(root->value[(*i_str) + 1]))
+		if ((*quote == 0 || *quote == '"') && \
+		(root->value[*i_str] == '$' && root->value[*i_str + 1] == '?'))
+			process_var_spe(ctx, root, i_str);
+		if (root->value[*i_str] == '$' && !ft_isalnum(root->value[(*i_str) + 1]))
 		{
 			(*i_str)++;
 			continue ;
 		}
-		if ((*quote == 0 || *quote == '"') && \
-		(root->value[*i_str] == '$' && root->value[*i_str + 1] == '?'))
-			process_var_spe(ctx, root, i_str);
 		if ((*quote == 0 || *quote == '"') && root->value[*i_str] == '$')
 			process_var(ctx, root, i_str);
 		if (*i_str >= 0)
