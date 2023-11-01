@@ -6,211 +6,83 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/10 16:21:16 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 16:27:51 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static	t_env_node	*make_env_list(t_dyntree *root, t_grpvar *grpvar, t_env_node *envlist);
-static	t_env_node	*make_env_node(t_dyntree *root, t_grpvar *grpvar, t_env_node *envlist, int pipe_in, int pipe_out);
-static int	exec_env_list(t_grpvar *grpvar,t_env_node *head, t_ctx *ctx);
-static void	run_cmd(t_grpvar *grpvar, t_env_node *p_env, int fd_in, int fd_out);
+static pid_t	*make_pids(pid_t *pids, int num_pids);
+static void		wait_all(pid_t *pids, int num_cmd, t_ctx *ctx);
 
 int	exec(t_ctx *ctx)
 {
-	t_env_node	*envlist;
-
-	envlist = NULL;
-	envlist = make_env_list(ctx->tree, ctx->grpvar, envlist);
-	exec_env_list(ctx->grpvar, envlist, ctx);
-	env_node_freeall(envlist);
-	return (1);
-}
-
-static	t_env_node	*make_env_list(t_dyntree *root, t_grpvar *grpvar, t_env_node *envlist)
-{
 	int		**pipes_list;
-	size_t	i_child;
+	pid_t	*pids;
+	int		res;
 
-	pipes_list = NULL;
-	if (root->type == TK_PIPE)
+	pids = NULL;
+	if (ctx->tree->num_children > 0)
+		pids = make_pids(pids, (int)ctx->tree->num_children);
+	else if (ctx->tree->num_children == 0)
+		pids = make_pids(pids, 1);
+	if (ctx->tree->type == TK_PIPE)
 	{
-		pipes_list = pipes_list_create((int)root->numChildren - 1);
-		i_child = 0;
-		while (i_child < root->numChildren)
-		{
-			if (i_child == 0)
-				envlist = make_env_node(root->children[i_child], grpvar, envlist, -1, pipes_list[i_child][1]);
-			else if ((int)i_child == (int)root->numChildren - 1)
-				envlist = make_env_node(root->children[i_child], grpvar, envlist, pipes_list[(int)i_child - 1][0], -1);
-			else
-				envlist = make_env_node(root->children[i_child], grpvar, envlist, pipes_list[(int)i_child - 1][0], pipes_list[i_child][1]);
-			if (envlist == NULL)
-			{
-				env_node_freeall(envlist);
-				return (0);
-			}
-			i_child++;
-		}
-		pipes_list_free(pipes_list, (int)root->numChildren - 1);
+		pipes_list = pipes_list_create((int)ctx->tree->num_children - 1);
+		exec_piped_cmd(ctx, pipes_list, pids);
+		pipes_list_free(pipes_list, (int)ctx->tree->num_children -1);
 	}
 	else
-	{
-		envlist = make_env_node(root, grpvar, envlist, -1, -1);
-		if (envlist == NULL)
-		{
-			env_node_freeall(envlist);
-			return (0);
-		}
-
-	}
-	return (envlist);
-}
-
-static	t_env_node	*make_env_node(t_dyntree *root, t_grpvar *grpvar, t_env_node *envlist, int pipe_in, int pipe_out)
-{
-	t_env_node	*last_el;
-	t_dynarrstr	*argv;
-
-	if (envlist == NULL)
-		envlist = env_node_new();
-	else
-		envlist = env_node_add(envlist, NULL);
-	last_el = env_node_getlast(envlist);
-	if (root->type == TK_COMMAND)
-	{
-		last_el->type = TK_COMMAND;
-		last_el->path = get_cmd_path(root->value, grpvar);
-		if (!last_el->path)
-		{
-			ft_puterror("command not found");
-			return (NULL);
-		}
-		argv = make_argv(root);
-		if (argv == NULL)
-			return (NULL);
-		last_el->args = arrcpy(argv->array, (int)argv->size);
-		dynarrstr_free(argv);
-		last_el->fd_in = get_infd(root);
-		last_el->fd_out = get_outfd(root);
-		last_el->pipe_in = pipe_in;
-		last_el->pipe_out = pipe_out;
-	}
-	else if (root->type == TK_BUILTINS)
-	{
-		last_el->type = TK_BUILTINS;
-		last_el->path = ft_strdup(root->value);
-		argv = make_argv(root);
-		if (argv == NULL)
-			return (NULL);
-		last_el->args = arrcpy(argv->array, (int)argv->size);
-		dynarrstr_free(argv);
-		last_el->fd_in = get_infd(root);
-		last_el->fd_out = get_outfd(root);
-		last_el->pipe_in = pipe_in;
-		last_el->pipe_out = pipe_out;
-	}
-	else if (root->type == TK_REDIRECTION)
-	{
-		last_el->type = TK_REDIRECTION;
-		last_el->path = NULL;
-		last_el->args = NULL;
-		last_el->fd_in = get_infd(root);
-		last_el->fd_out = get_outfd(root);
-		last_el->pipe_in = pipe_in;
-		last_el->pipe_out = pipe_out;
-	}
-	return (envlist);
-}
-
-static int	exec_env_list(t_grpvar *grpvar,t_env_node *head, t_ctx *ctx)
-{
-	t_env_node	*p_env;
-	pid_t		pid;
-	int			status;
-	int			fd_in;
-	int			fd_out;
-
-	if (head == NULL)
+		res = exec_cmd(ctx, pids);
+	if (res == 0)
 		return (0);
-	p_env = head;
-	while (p_env)
-	{
-		fd_in = 0;
-		fd_out = 1;
-		if (p_env->fd_in != 0)
-		{
-			fd_in = p_env->fd_in;
-			if (p_env->pipe_in != -1)
-				close(p_env->pipe_in);
-		}
-		else if (p_env->fd_in == 0 && p_env->pipe_in != -1)
-			fd_in = p_env->pipe_in;
-		if (p_env->fd_out != 1)
-		{
-			fd_out = p_env->fd_out;
-			if (p_env->pipe_out != -1)
-				close(p_env->pipe_out);
-		}
-		else if (p_env->fd_out == 1 && p_env->pipe_out != -1)
-			fd_out = p_env->pipe_out;
-		if (p_env->type == TK_COMMAND)
-		{
-			pid = fork();
-			if (pid == 0)
-				run_cmd(grpvar, p_env, fd_in, fd_out);
-			else
-			{
-				waitpid(pid, &status, 0);
-				if (fd_in != 0)
-					close(fd_in);
-				if (fd_out != 1)
-					close(fd_out);
-			}
-		}
-		else if (p_env->type == TK_BUILTINS)
-		{
-			int in;
-			int out;
-
-			if (fd_in != 0)
-			{
-				in = dup(STDIN_FILENO);
-				dup2(fd_in, STDIN_FILENO);
-			}
-			if (fd_out != 1)
-			{
-
-				out = dup(STDOUT_FILENO);
-				dup2(fd_out, STDOUT_FILENO);
-			}
-			lstbuiltins_exec(ctx->lstbltins, p_env->path, p_env->args, ctx);
-			if (fd_in != 0)
-			{
-				close(fd_in);
-				dup2(in, STDIN_FILENO);
-			}
-			if (fd_out != 1)
-			{
-				close(fd_out);
-				dup2(out, STDOUT_FILENO);
-			}
-		}
-		p_env = p_env->next;
-	}
+	if (ctx->tree->num_children > 0)
+		wait_all(pids, ctx->tree->num_children, ctx);
+	else if (ctx->tree->num_children == 0)
+		wait_all(pids, 1, ctx);
+	free(pids);
 	return (1);
 }
 
-static void	run_cmd(t_grpvar *grpvar, t_env_node *p_env, int fd_in, int fd_out)
+static pid_t	*make_pids(pid_t *pids, int num_pids)
 {
-	t_dynarrstr *varenv;
+	int	i;
 
-	dup2(fd_in, STDIN_FILENO);
-	dup2(fd_out, STDOUT_FILENO);
-	varenv = lstvar_to_array(grpvar->global);
-	if (varenv->size > 0)
-		execve(p_env->path, p_env->args, varenv->array);
-	else
-		execve(p_env->path, p_env->args, NULL);
+	i = 0;
+	if (!pids)
+	{
+		pids = malloc(sizeof(pid_t *) * num_pids);
+		if (!pids)
+		{
+			ft_puterror("Malloc failed");
+			return (NULL);
+		}
+		while (i < num_pids)
+		{
+			pids[i] = -1;
+			++i;
+		}
+	}
+	return (pids);
+}
+
+static void	wait_all(pid_t *pids, int num_cmd, t_ctx *ctx)
+{
+	int	i;
+	int	status;
+
+	status = -1;
+	i = 0;
+	while (i < num_cmd)
+	{
+		if (pids[i] != -1)
+		{
+			waitpid(pids[i], &status, 0);
+			if (WIFEXITED(status))
+				ctx->ret_code = WEXITSTATUS(status);
+			else
+				ctx->ret_code = 0;
+		}
+		++i;
+	}
 }

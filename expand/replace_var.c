@@ -2,119 +2,104 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   replace_var.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
+/*                                                   +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 19:49:33 by lray              #+#    #+#             */
-/*   Updated: 2023/09/29 19:54:55 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/13 10:57:07 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	is_var(t_dyntree *root);
-static char	*init_varname(char *varname);
-static char	*make_varname(char *varname, t_dyntree *root, size_t *i_str);
-static int	update_root_value(t_dyntree *root, t_grpvar *grpvar, size_t i_str, size_t i_var);
-static int	update_root_null(t_dyntree *root, size_t i_str);
+static void	process_func(t_ctx *ctx, t_dyntree *root, int *i_str, char *quote);
+static int	process_var_spe(t_ctx *ctx, t_dyntree *root, int *i_str);
+static void	process_quotes(t_dyntree *root, char *quote, int *i_str);
+static int	process_var(t_ctx *ctx, t_dyntree *root, int *i_str);
 
-int	replace_var(t_dyntree *root, t_grpvar *grpvar)
+int	replace_var(t_dyntree *root, t_ctx *ctx)
 {
-	size_t	i_str;
-	size_t	i_var;
 	size_t	i_child;
-	char	*varname;
+	int		i_str;
+	char	quote;
 
-	if (is_var(root))
-	{
-		varname = NULL;
-		varname = init_varname(varname);
-		i_str = 1;
-		if (root->value[i_str] != '\0' || ft_isalnum(root->value[i_str]))
-		{
-			varname = make_varname(varname, root, &i_str);
-			i_var = grpvar_has(grpvar, GRPVAR_GLOBAL, varname);
-			if ((int)i_var >= 0)
-				update_root_value(root, grpvar, i_str, i_var);
-			else
-				update_root_null(root, i_str);
-		}
-	}
+	quote = 0;
+	i_str = 0;
+	if (root->type == TK_COMMAND || \
+	root->type == TK_ARGUMENT || root->type == TK_FILE)
+		process_func(ctx, root, &i_str, &quote);
 	i_child = 0;
-	while (i_child < root->numChildren)
-		if (!replace_var(root->children[i_child++], grpvar))
+	while (i_child < root->num_children)
+	{
+		if (!replace_var(root->children[i_child++], ctx))
 			return (0);
+	}
 	return (1);
 }
 
-static int	is_var(t_dyntree *root)
+static void	process_func(t_ctx *ctx, t_dyntree *root, int *i_str, char *quote)
 {
-	if (root->value[0] == '$')
-		return (1);
-	return (0);
-}
-
-static char	*init_varname(char *varname)
-{
-	varname = malloc(sizeof(char) * 1);
-	if (!varname)
+	while (root->value[*i_str] != '\0')
 	{
-		ft_puterror("Malloc failed");
-		return (NULL);
-	}
-	varname[0] = '\0';
-	return (varname);
-}
-
-static char	*make_varname(char *varname, t_dyntree *root, size_t *i_str)
-{
-	while (root->value[*i_str] != '\0' && ft_isalnum(root->value[*i_str]))
-	{
-		varname = add_char_to_string(varname, root->value[*i_str]);
-		if (!varname)
-			return (NULL);
+		if (is_quote(root->value[*i_str]))
+			process_quotes(root, quote, i_str);
+		if (root->value[*i_str] == '$' && \
+		!ft_isalnum(root->value[(*i_str) + 1]))
+		{
+			(*i_str)++;
+			continue ;
+		}
+		if ((*quote == 0 || *quote == '"') && \
+		(root->value[*i_str] == '$' && root->value[*i_str + 1] == '?'))
+			process_var_spe(ctx, root, i_str);
+		if ((*quote == 0 || *quote == '"') && root->value[*i_str] == '$')
+			process_var(ctx, root, i_str);
+		if (*i_str >= 0)
+		{
+			if (root->value[*i_str] == '\0')
+				break ;
+		}
 		(*i_str)++;
 	}
-	return (varname);
 }
 
-static int	update_root_value(t_dyntree *root, t_grpvar *grpvar, size_t i_str, size_t i_var)
+static void	process_quotes(t_dyntree *root, char *quote, int *i_str)
 {
-	int		len_endstr;
-	int		len_var;
-	char	*new_value;
+	if (*quote == 0)
+		*quote = root->value[*i_str];
+	else if (root->value[*i_str] == *quote)
+		*quote = 0;
+	else if (is_quote(root->value[*i_str]))
+		*quote = root->value[*i_str];
+}
 
-	if (!root || !grpvar)
+static int	process_var_spe(t_ctx *ctx, t_dyntree *root, int *i_str)
+{
+	char	*res;
+
+	res = NULL;
+	res = ft_itoa(ctx->ret_code);
+	if (!res)
 		return (0);
-	len_endstr = (int)ft_strlen(root->value + i_str);
-	len_var = (int)ft_strlen(grpvar->global->array[i_var]->value);
-	new_value = malloc(sizeof(char) * (len_endstr + len_var + 1));
-	if (!new_value)
-	{
-		ft_puterror("Malloc failed");
-		return (0);
-	}
-	ft_strlcpy(new_value, grpvar->global->array[i_var]->value, len_var + 1);
-	ft_strlcat(new_value, root->value + i_str, len_endstr + len_var + 1);
-	free(root->value);
-	root->value = ft_strdup(new_value);
-	free(new_value);
+	search_and_replace(&root->value, "$?", res, i_str);
+	free(res);
 	return (1);
 }
 
-static int	update_root_null(t_dyntree *root, size_t i_str)
+static int	process_var(t_ctx *ctx, t_dyntree *root, int *i_str)
 {
-	char	*new_value;
+	char	*varname;
+	int		pos;
 
-	new_value = malloc(sizeof(char) * ft_strlen(root->value + i_str) + 1);
-	if (!new_value)
-	{
-		ft_puterror("Malloc failed");
-		return (0);
-	}
-	ft_strlcpy(new_value, root->value + i_str, ft_strlen(root->value));
-	free(root->value);
-	root->value = ft_strdup(new_value);
-	free(new_value);
+	varname = NULL;
+	varname = make_varname(varname, root->value, (size_t)(*i_str));
+	pos = grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, varname);
+	varname = add_dollar(varname);
+	if (pos == -1)
+		root->value = search_and_replace(&root->value, varname, NULL, i_str);
+	else
+		root->value = search_and_replace(&root->value, varname, \
+		ctx->grpvar->global->array[pos]->value, i_str);
+	free(varname);
 	return (1);
 }

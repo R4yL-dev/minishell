@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:46:34 by lray              #+#    #+#             */
-/*   Updated: 2023/10/11 14:47:51 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/31 20:30:12 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 int	builtin_clear(char **argv, t_ctx *ctx)
 {
-	(void)	argv;
-	(void)	ctx;
-
+	(void) argv;
+	(void) ctx;
 	printf("\e[1;1H\e[2J");
 	return (1);
 }

@@ -6,13 +6,13 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 19:58:19 by lray              #+#    #+#             */
-/*   Updated: 2023/10/03 20:14:06 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 13:43:30 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_dynarrstr *make_argv(t_dyntree *root)
+t_dynarrstr	*make_argv(t_dyntree *root)
 {
 	t_dynarrstr	*res;
 	size_t		i_child;
@@ -26,7 +26,7 @@ t_dynarrstr *make_argv(t_dyntree *root)
 	if (!dynarrstr_add(res, root->value))
 		return (NULL);
 	i_child = 0;
-	while (i_child < root->numChildren)
+	while (i_child < root->num_children)
 	{
 		if (root->children[i_child]->type == TK_ARGUMENT)
 		{

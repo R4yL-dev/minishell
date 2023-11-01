@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:23:16 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/10 18:03:37 by mflury           ###   ########.fr       */
+/*   Updated: 2023/11/01 15:59:09 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,25 @@
 
 int	builtin_echo(char **argv, t_ctx *ctx)
 {
-	int i;
+	int	i;
 
-	(void)ctx;
-	i = 1;
-	if (!argv)
-		return (1);
-	else if (ft_strncmp(argv[1], "-n\0", 3) != 0 || argv[1] == NULL)
+	(void) ctx;
+	if (!argv[1])
+		printf("\n");
+	else
 	{
+		if (ft_strncmp(argv[1], "-n", 3) != 0 || argv[1] == NULL)
+			i = 1;
+		else
+			i = 2;
 		while (argv[i])
 		{
 			printf("%s", argv[i++]);
 			if (argv[i])
 				printf(" ");
 		}
-		printf("\n");
-	}
-	else
-	{
-		i = 2;
-		while (argv[i])
-			printf("%s", argv[i++]);
+		if (ft_strncmp(argv[1], "-n", 3) != 0 || argv[1] == NULL)
+			printf("\n");
 	}
 	return (0);
 }

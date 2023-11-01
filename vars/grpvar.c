@@ -6,12 +6,11 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 19:02:28 by lray              #+#    #+#             */
-/*   Updated: 2023/10/11 13:57:01 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/31 21:08:25 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 t_grpvar	*grpvar_init(char **envp)
 {
@@ -30,31 +29,27 @@ t_grpvar	*grpvar_init(char **envp)
 
 int	grpvar_add(t_grpvar *grpvar, int lstvar, char *name, char *value)
 {
-	if (!grpvar || !name || !value)
-	{
-		ft_puterror("grpvar, name and value cannot be NULL");
+	if (!grpvar)
 		return (0);
-	}
 	if (lstvar != GRPVAR_GLOBAL && lstvar != GRPVAR_LOCAL)
-	{
-		ft_puterror("lstvar unknown");
 		return (0);
-	}
 	if (lstvar == GRPVAR_GLOBAL)
 	{
-		if (!lstvar_add(grpvar->global, var_new(name, value)))
+		if (value == NULL)
 		{
-			ft_puterror("Error adding variable to grpvar->global");
-			return (0);
+			if (!lstvar_add(grpvar->global, var_new(name, "")))
+				return (0);
+		}
+		else
+		{
+			if (!lstvar_add(grpvar->global, var_new(name, value)))
+				return (0);
 		}
 	}
 	else
 	{
 		if (!lstvar_add(grpvar->local, var_new(name, value)))
-		{
-			ft_puterror("Error adding variable to grpvar->global");
 			return (0);
-		}
 	}
 	return (1);
 }
@@ -68,13 +63,15 @@ void	grpvar_show(t_grpvar *grpvar)
 		{
 			printf("== GLOBAL ==\n");
 			lstvar_show(grpvar->global);
-			printf("Number of global variable : %ld\n", grpvar->global->num_elements);
+			printf("Number of global variable : %ld\n", \
+			grpvar->global->num_elements);
 		}
 		if (grpvar->local)
 		{
 			printf("== LOCAL ==\n");
 			lstvar_show(grpvar->local);
-			printf("Number of local variable : %ld\n", grpvar->local->num_elements);
+			printf("Number of local variable : %ld\n", \
+			grpvar->local->num_elements);
 		}
 	}
 }
@@ -117,23 +114,3 @@ int	grpvar_remove(t_grpvar *grpvar, int lstvar, size_t index)
 	else
 		return (lstvar_remove(grpvar->local, index));
 }
-
-void	grpvar_free(t_grpvar *grpvar)
-{
-	if (grpvar)
-	{
-		if (grpvar->global)
-		{
-			lstvar_free(grpvar->global);
-			grpvar->global = NULL;
-		}
-		if (grpvar->local)
-		{
-			lstvar_free(grpvar->local);
-			grpvar->local = NULL;
-		}
-		free(grpvar);
-		grpvar = NULL;
-	}
-}
-

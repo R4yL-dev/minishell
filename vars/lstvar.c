@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 16:11:12 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 14:09:57 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/31 21:07:21 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,10 @@ int	lstvar_add(t_lstvar *lstvar, t_var *var)
 		if (lstvar->num_elements == lstvar->capacity)
 		{
 			lstvar->capacity *= 2;
-			lstvar->array = ft_realloc(lstvar->array, lstvar->capacity / 2 * sizeof(t_var), lstvar->capacity * sizeof(t_var));
+			lstvar->array = ft_realloc(lstvar->array, lstvar->capacity / \
+			2 * sizeof(t_var), lstvar->capacity * sizeof(t_var));
 			if (!lstvar->array)
-			{
-				ft_puterror("Realloc failed");
 				return (0);
-			}
 		}
 		lstvar->array[lstvar->num_elements] = var;
 		lstvar->num_elements++;
@@ -89,7 +87,7 @@ size_t	lstvar_has(t_lstvar *lstvar, char *name)
 	pos = 0;
 	while (pos < lstvar->num_elements)
 	{
-		if (ft_strncmp(name, lstvar->array[pos]->name, ft_strlen(name)) == 0 &&\
+		if (ft_strncmp(name, lstvar->array[pos]->name, ft_strlen(name)) == 0 && \
 			ft_strlen(name) == ft_strlen(lstvar->array[pos]->name))
 			return (pos);
 		++pos;
@@ -97,62 +95,14 @@ size_t	lstvar_has(t_lstvar *lstvar, char *name)
 	return (-1);
 }
 
-int	lstvar_remove(t_lstvar *lstvar, size_t index)
-{
-	size_t	i;
-
-	if (lstvar == NULL || (int)index >= (int)lstvar->num_elements)
-	{
-		ft_puterror("Element to be deleted does not exist");
-		return (-1);
-	}
-	if ((int)index == -1)
-		return (-1);
-	var_free(lstvar->array[index]);
-	i = index;
-	while (i < lstvar->num_elements - 1)
-	{
-		lstvar->array[i] = lstvar->array[i + 1];
-		++i;
-	}
-	lstvar->num_elements--;
-	return (lstvar->num_elements);
-}
-
-void	lstvar_free(t_lstvar *lstvar)
-{
-	size_t	i;
-
-	if (lstvar)
-	{
-		if (lstvar->array)
-		{
-			if (lstvar->num_elements > 0)
-			{
-				i = 0;
-				while (i < lstvar->num_elements)
-				{
-					var_free(lstvar->array[i]);
-					lstvar->array[i] = NULL;
-					++i;
-				}
-			}
-			free(lstvar->array);
-			lstvar->array = NULL;
-		}
-		free(lstvar);
-		lstvar = NULL;
-	}
-}
-
 static int	add_envp(t_lstvar *lstvar, char **envp)
 {
-	int	i;
+	int		i;
 	char	*name;
 	char	*value;
 	char	*equal;
-	(void)	lstvar;
 
+	(void) lstvar;
 	i = 0;
 	while (envp[i])
 	{
