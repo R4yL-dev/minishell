@@ -4,9 +4,12 @@ SRCS 		:= \
 	ctx/ctx.c \
 	vars/var.c \
 	vars/lstvar.c \
+	vars/lstvar_utils.c \
 	vars/lstvar_to_array.c \
 	vars/grpvar.c \
+	vars/grpvar_utils.c \
 	builtins/lstbuiltins.c \
+	builtins/lstbuiltins_utils.c \
 	builtins/lstbuiltins_has.c \
 	builtins/lstbuiltins_exec.c \
 	builtins/showctx.c \
@@ -16,15 +19,25 @@ SRCS 		:= \
 	builtins/clear.c \
 	prompt/prompt.c \
 	lexer/lexer.c \
+	lexer/add_redirect.c \
+	lexer/add_to_tklist.c \
 	lexer/lexer_utils.c \
 	lexer/token.c \
 	lexer/dyntklist.c \
 	lexer/dyntklist_split.c \
 	parser/parser.c \
+	parser/add_cmd_to_root.c \
+	parser/add_to_cmd.c \
+	parser/exctract_root.c \
+	parser/parser_utils.c \
 	parser/dyntree.c \
 	expand/expand.c \
+	expand/delete_quotes.c \
 	expand/replace_var.c\
+	expand/replace_var_utils.c\
 	expand/replace_builtins.c \
+	expand/search_and_replace.c \
+	expand/valide_tree.c \
 	exec/exec.c \
 	exec/exec_cmd.c \
 	exec/exec_piped_cmd.c \
@@ -46,6 +59,7 @@ SRCS 		:= \
 	signals/handle_sigquit.c \
 	signals/handle_sigquit_heredoc.c \
 	utils.c \
+	utils2.c \
 	main.c
 
 OBJS		:= $(SRCS:.c=.o)

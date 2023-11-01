@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_sigint_heredoc.c                            :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/23 17:48:33 by lray              #+#    #+#             */
-/*   Updated: 2023/10/31 21:06:12 by lray             ###   ########.fr       */
+/*   Created: 2023/10/30 12:57:44 by lray              #+#    #+#             */
+/*   Updated: 2023/10/30 13:46:05 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_sigint_heredoc(int sig)
+int	has_token_type(t_dyntklist *tklist, int token_type)
 {
-	(void) sig;
-	g_in_heredoc = 0;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_on_new_line();
+	int	pos;
+
+	if (tklist == NULL || tklist->array == NULL || token_type < 0)
+		return (-1);
+	pos = 0;
+	while (tklist->array[pos])
+	{
+		if (tklist->array[pos]->type == token_type)
+			return (pos);
+		pos++;
+	}
+	return (-1);
 }

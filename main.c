@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/30 10:49:03 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/31 21:19:10 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_ctx	*ctx;
 
-	(void) argc;
-	(void) argv;
+	(void) argc, (void) argv;
 	ctx = NULL;
 	ctx = ctx_init(ctx, envp);
 	while (1)

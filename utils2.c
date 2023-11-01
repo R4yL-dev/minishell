@@ -1,17 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   replace_var.h                                      :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/29 19:49:20 by lray              #+#    #+#             */
-/*   Updated: 2023/10/26 19:49:14 by lray             ###   ########.fr       */
+/*   Created: 2023/10/31 21:16:41 by lray              #+#    #+#             */
+/*   Updated: 2023/10/31 21:17:10 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REPLACE_VAR_H
-# define REPLACE_H
+#include "minishell.h"
 
-int	replace_var(t_dyntree *root, t_ctx *ctx);
-#endif
+void	arr_show(char **arr)
+{
+	size_t	i;
+
+	i = 0;
+	if (arr)
+	{
+		while (arr[i])
+			printf("%s\n", arr[i++]);
+	}
+}
+
+int	ft_abs(int n)
+{
+	if (n < 0)
+		n *= -1;
+	return (n);
+}

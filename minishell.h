@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/10/24 16:36:50 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/31 21:10:33 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,12 @@
 # include "exec/pipes_list.h"
 # include "exec/dynarrstr.h"
 
-#include "signals/signals.h"
+# include "signals/signals.h"
 
 # include "libft/libft.h"
 # include "prompt/prompt.h"
 # include "lexer/lexer.h"
 # include "expand/expand.h"
-# include "expand/replace_var.h"
-# include "expand/replace_builtins.h"
 # include "parser/parser.h"
 # include "exec/exec.h"
 
@@ -44,19 +42,7 @@ extern int	g_in_heredoc;
 
 void	free_split(char **splitted_arr);
 
-/**
- * @brief Copies an array of strings.
- *
- * This function copies an array of strings by allocating memory for each string in the
- * array and copying the contents of each string to the new array. If any allocation or
- * copying fails, this function returns NULL. Otherwise, this function returns a pointer
- * to the new array of strings.
- *
- * @param arr A pointer to the array of strings to copy.
- * @param size The size of the array.
- * @return A pointer to the new array of strings, or NULL if any error occurs.
- */
-char **arrcpy(char **arr, int size);
+char	**arrcpy(char **arr, int size);
 
 void	ft_puterror(char *msg);
 

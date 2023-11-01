@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   lstbuiltins.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 19:32:21 by lray              #+#    #+#             */
-
-/*   Updated: 2023/10/10 21:17:43 by mflury           ###   ########.fr       */
+/*   Updated: 2023/10/31 20:34:58 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_lstbuiltins	*lstbuiltins_new(char *name, int (*func)(char **argv, t_ctx *ctx))
+t_lstbuiltins	*lstbuiltins_new(char *n, int (*func)(char **argv, t_ctx *ctx))
 {
 	t_lstbuiltins	*lst;
 
-	if (!name || !func)
+	if (!n || !func)
 		return (NULL);
 	lst = malloc(sizeof(t_lstbuiltins));
 	if (!lst)
@@ -25,13 +24,13 @@ t_lstbuiltins	*lstbuiltins_new(char *name, int (*func)(char **argv, t_ctx *ctx))
 		ft_puterror("Malloc failed");
 		return (NULL);
 	}
-	lst->name = ft_strdup(name);
+	lst->name = ft_strdup(n);
 	lst->func = func;
 	lst->next = NULL;
 	return (lst);
 }
 
-t_lstbuiltins *lstbuiltins_init(t_lstbuiltins *head)
+t_lstbuiltins	*lstbuiltins_init(t_lstbuiltins *head)
 {
 	head = lstbuiltins_new("showctx", builtin_showctx);
 	lstbuiltins_add(head, lstbuiltins_new("echo", builtin_echo));
@@ -44,6 +43,7 @@ t_lstbuiltins *lstbuiltins_init(t_lstbuiltins *head)
 t_lstbuiltins	*lstbuiltins_getlast(t_lstbuiltins *head)
 {
 	t_lstbuiltins	*p_lst;
+
 	if (!head)
 		return (NULL);
 	p_lst = head;
@@ -77,35 +77,5 @@ void	lstbuiltins_show(t_lstbuiltins *head)
 		printf("\tFunction address : %p\n", p_lst->func);
 		printf("\tNext builtin address: %p\n", p_lst->next);
 		p_lst = p_lst->next;
-	}
-}
-
-void	lstbuiltins_free(t_lstbuiltins *node)
-{
-	if (node)
-	{
-		if (node->name)
-		{
-			free(node->name);
-			node->name = NULL;
-		}
-		node->func = NULL;
-		node->next = NULL;
-		free(node);
-		node = NULL;
-	}
-}
-
-void	lstbuiltins_freeall(t_lstbuiltins *head)
-{
-	t_lstbuiltins	*next;
-
-	if (!head)
-		return ;
-	while (head)
-	{
-		next = head->next;
-		lstbuiltins_free(head);
-		head = next;
 	}
 }

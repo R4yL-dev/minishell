@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:18:42 by lray              #+#    #+#             */
-/*   Updated: 2023/10/30 11:38:46 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 13:43:43 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	get_infd(t_dyntree *root, t_ctx *ctx)
 			return (-1);
 	}
 	i = 0;
-	while (i < root->numChildren)
+	while (i < root->num_children)
 	{
 		if (is_redirect_in(root->children[i]))
 		{

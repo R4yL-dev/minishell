@@ -1,21 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_sigint_heredoc.c                            :+:      :+:    :+:   */
+/*   lstbuiltins_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/23 17:48:33 by lray              #+#    #+#             */
-/*   Updated: 2023/10/31 21:06:12 by lray             ###   ########.fr       */
+/*   Created: 2023/10/31 20:33:13 by lray              #+#    #+#             */
+/*   Updated: 2023/10/31 20:33:32 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_sigint_heredoc(int sig)
+void	lstbuiltins_free(t_lstbuiltins *node)
 {
-	(void) sig;
-	g_in_heredoc = 0;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_on_new_line();
+	if (node)
+	{
+		if (node->name)
+		{
+			free(node->name);
+			node->name = NULL;
+		}
+		node->func = NULL;
+		node->next = NULL;
+		free(node);
+		node = NULL;
+	}
+}
+
+void	lstbuiltins_freeall(t_lstbuiltins *head)
+{
+	t_lstbuiltins	*next;
+
+	if (!head)
+		return ;
+	while (head)
+	{
+		next = head->next;
+		lstbuiltins_free(head);
+		head = next;
+	}
 }

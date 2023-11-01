@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/29 02:02:40 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 13:42:49 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@ int	exec(t_ctx *ctx)
 	int		res;
 
 	pids = NULL;
-	if (ctx->tree->numChildren > 0)
-		pids = make_pids(pids, (int)ctx->tree->numChildren);
-	else if (ctx->tree->numChildren == 0)
+	if (ctx->tree->num_children > 0)
+		pids = make_pids(pids, (int)ctx->tree->num_children);
+	else if (ctx->tree->num_children == 0)
 		pids = make_pids(pids, 1);
 	if (ctx->tree->type == TK_PIPE)
 	{
-		pipes_list = pipes_list_create((int)ctx->tree->numChildren - 1);
+		pipes_list = pipes_list_create((int)ctx->tree->num_children - 1);
 		exec_piped_cmd(ctx, pipes_list, pids);
-		pipes_list_free(pipes_list, (int)ctx->tree->numChildren -1);
+		pipes_list_free(pipes_list, (int)ctx->tree->num_children -1);
 	}
 	else
 		res = exec_cmd(ctx, pids);
 	if (res == 0)
 		return (0);
-	if (ctx->tree->numChildren > 0)
-		wait_all(pids, ctx->tree->numChildren, ctx);
-	else if (ctx->tree->numChildren == 0)
+	if (ctx->tree->num_children > 0)
+		wait_all(pids, ctx->tree->num_children, ctx);
+	else if (ctx->tree->num_children == 0)
 		wait_all(pids, 1, ctx);
 	free(pids);
 	return (1);

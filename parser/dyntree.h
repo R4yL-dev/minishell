@@ -6,10 +6,9 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 18:11:07 by lray              #+#    #+#             */
-/*   Updated: 2023/10/11 13:46:11 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/31 21:02:39 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef DYNTREE_H
 # define DYNTREE_H
@@ -21,7 +20,7 @@ typedef struct s_dyntree
 	int					type;
 	char				*value;
 	struct s_dyntree	**children;
-	size_t				numChildren;
+	size_t				num_children;
 	size_t				capacity;
 }	t_dyntree;
 

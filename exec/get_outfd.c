@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:18:42 by lray              #+#    #+#             */
-/*   Updated: 2023/10/29 00:25:50 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 13:43:57 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	get_outfd(t_dyntree *root)
 	ft_strncmp(root->value, ">>", 3) == 0)
 		fd = open_file_wra(root->children[0]->value);
 	i = 0;
-	while (i < root->numChildren)
+	while (i < root->num_children)
 	{
 		if (root->children[i]->type == TK_REDIRECTION && \
 		(ft_strncmp(root->children[i]->value, ">", 2) == 0 || \

@@ -1,21 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   replace_builtins.h                                 :+:      :+:    :+:   */
+/*   grpvar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 15:16:32 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 20:50:41 by lray             ###   ########.fr       */
+/*   Created: 2023/10/31 20:52:24 by lray              #+#    #+#             */
+/*   Updated: 2023/10/31 20:52:46 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REPLACE_BUILTINS_H
-# define REPLACE_BUILTINS_H
+#include "../minishell.h"
 
-# include <sys/types.h>
-# include <dirent.h>
-
-int	replace_builtins(t_dyntree *root, t_ctx *ctx);
-
-#endif
+void	grpvar_free(t_grpvar *grpvar)
+{
+	if (grpvar)
+	{
+		if (grpvar->global)
+		{
+			lstvar_free(grpvar->global);
+			grpvar->global = NULL;
+		}
+		if (grpvar->local)
+		{
+			lstvar_free(grpvar->local);
+			grpvar->local = NULL;
+		}
+		free(grpvar);
+		grpvar = NULL;
+	}
+}
