@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 02:30:09 by mflury            #+#    #+#             */
-/*   Updated: 2023/11/01 14:31:15 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 14:33:33 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,19 @@ int	builtin_cd(char **argv, t_ctx *ctx)
 	if (argv && argv[1])
 	{
 		if (argv[1][0] == '-')
+		{
 			argv[1] = process_dash(ctx, argv[1]);
+			if (argv[1] == NULL)
+				return (2);
+		}
 		if (argv[1][0] == '~')
 		{
 			argv[1] = process_wave(ctx, argv[1]);
 			if (argv[1] == NULL)
-				return (2);
+				return (3);
 		}
 		if (jump(ctx, argv[1]) == 0)
-			return (3);
+			return (4);
 	}
 	else
 	{
