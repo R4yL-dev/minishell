@@ -18,6 +18,7 @@ SRCS 		:= \
 	builtins/pwd.c \
 	builtins/exit.c \
 	builtins/clear.c \
+	builtins/cd.c \
 	prompt/prompt.c \
 	lexer/lexer.c \
 	lexer/add_redirect.c \

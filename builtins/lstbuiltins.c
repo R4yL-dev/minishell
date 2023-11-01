@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 19:32:21 by lray              #+#    #+#             */
-/*   Updated: 2023/10/31 20:34:58 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 13:11:52 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_lstbuiltins	*lstbuiltins_init(t_lstbuiltins *head)
 	lstbuiltins_add(head, lstbuiltins_new("pwd", builtin_pwd));
 	lstbuiltins_add(head, lstbuiltins_new("exit", builtin_exit));
 	lstbuiltins_add(head, lstbuiltins_new("clear", builtin_clear));
+	lstbuiltins_add(head, lstbuiltins_new("cd", builtin_cd));
 	return (head);
 }
 
