@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 15:22:36 by lray              #+#    #+#             */
-/*   Updated: 2023/10/30 11:43:27 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 16:46:03 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static t_env	*set_env_cmd(t_ctx *c, t_dyntree *r, int in_out[2])
 	if (!c->env->path)
 	{
 		ft_puterror("command not found");
+		c->ret_code = 127;
 		c->env = env_free(c->env);
 		return (NULL);
 	}
