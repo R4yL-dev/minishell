@@ -6,11 +6,13 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/10/31 21:19:10 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 12:28:05 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static t_ctx	*app_init(t_ctx *ctx, char **envp);
 
 int	g_in_heredoc = 0;
 
@@ -20,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void) argc, (void) argv;
 	ctx = NULL;
-	ctx = ctx_init(ctx, envp);
+	ctx = app_init(ctx, envp);
 	while (1)
 	{
 		ctx_free_line(ctx);
@@ -41,4 +43,10 @@ int	main(int argc, char **argv, char **envp)
 		exec(ctx);
 	}
 	return (0);
+}
+
+static t_ctx	*app_init(t_ctx *ctx, char **envp)
+{
+	ctx = ctx_init(ctx, envp);
+	return (ctx);
 }

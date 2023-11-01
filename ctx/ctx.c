@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:30:19 by lray              #+#    #+#             */
-/*   Updated: 2023/10/31 20:28:34 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 12:14:42 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_ctx	*ctx_init(t_ctx *ctx, char **envp)
 		ctx->tklist = NULL;
 		ctx->tree = NULL;
 		ctx->grpvar = grpvar_init(envp);
+		var_set_init_value(ctx);
 		ctx->lstbltins = lstbuiltins_init(ctx->lstbltins);
 		if (!ctx->lstbltins)
 			return (NULL);
