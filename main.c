@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/11/01 12:28:05 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 14:29:00 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@ int	main(int argc, char **argv, char **envp)
 
 static t_ctx	*app_init(t_ctx *ctx, char **envp)
 {
+	int			pos;
+
 	ctx = ctx_init(ctx, envp);
+	pos = grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, "HOME");
+	if (pos == -1 || ctx->grpvar->global->array[pos]->value[0] == '\0')
+	{
+		ft_puterror("init failed");
+		builtin_exit(NULL, ctx);
+	}
+	builtin_cd(NULL, ctx);
+	grpvar_add(ctx->grpvar, GRPVAR_GLOBAL, "OLDPWD", NULL);
 	return (ctx);
 }
