@@ -69,6 +69,8 @@ static void	process_quotes(t_dyntree *root, char *quote, int *i_str)
 		*quote = root->value[*i_str];
 	else if (root->value[*i_str] == *quote)
 		*quote = 0;
+	else if (is_quote(root->value[*i_str]))
+		*quote = root->value[*i_str];
 }
 
 static int	process_var_spe(t_ctx *ctx, t_dyntree *root, int *i_str)
