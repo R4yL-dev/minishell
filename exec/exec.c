@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/10/30 13:42:49 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 16:27:51 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,14 @@ static void	wait_all(pid_t *pids, int num_cmd, t_ctx *ctx)
 	i = 0;
 	while (i < num_cmd)
 	{
-		waitpid(pids[i], &status, 0);
-		if (WIFEXITED(status))
-			ctx->ret_code = WEXITSTATUS(status);
-		else
-			ctx->ret_code = 0;
+		if (pids[i] != -1)
+		{
+			waitpid(pids[i], &status, 0);
+			if (WIFEXITED(status))
+				ctx->ret_code = WEXITSTATUS(status);
+			else
+				ctx->ret_code = 0;
+		}
 		++i;
 	}
 }
