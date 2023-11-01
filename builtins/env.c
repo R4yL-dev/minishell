@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 23:59:21 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/14 23:50:41 by mflury           ###   ########.fr       */
+/*   Updated: 2023/11/01 20:33:16 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ int	builtin_env(char **argv, t_ctx *ctx)
 {
 	char	*tmp;
 	char	*res;
+	int		i;
 
+	i = 0;
 	tmp = NULL;
 	res = NULL;
 	if (argv[1])
@@ -30,6 +32,11 @@ int	builtin_env(char **argv, t_ctx *ctx)
 	}
 	if (!ctx->grpvar->global)
 		return (1);
-	lstvar_show(ctx->grpvar->global);
+	while (i < (int)ctx->grpvar->global->num_elements)
+	{
+		if (ctx->grpvar->global->array[i]->value)
+			printf("%s=%s\n", ctx->grpvar->global->array[i]->name, ctx->grpvar->global->array[i]->value);
+		i++;
+	}
 	return (0);
 }
