@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 13:53:36 by lray              #+#    #+#             */
-/*   Updated: 2023/10/30 18:05:56 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 15:29:58 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static int	process_file(t_ctx *ctx, t_dyntree *root)
 
 static int	process_pipe(t_ctx *ctx, t_dyntree *root)
 {
+	size_t	last_token;
+
 	if (root->type == TK_PIPE)
 	{
 		if (root->num_children < 2)
@@ -64,6 +66,13 @@ static int	process_pipe(t_ctx *ctx, t_dyntree *root)
 			ft_puterror("ambiguous redirect");
 			return (0);
 		}
+	}
+	last_token = ctx->tklist->size - 1;
+	if (ctx->tklist->array[last_token]->type == TK_PIPE)
+	{
+		ctx->ret_code = 2;
+		ft_puterror("ambiguous redirect");
+		return (0);
 	}
 	return (1);
 }
