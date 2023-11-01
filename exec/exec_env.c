@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 15:26:02 by lray              #+#    #+#             */
-/*   Updated: 2023/11/01 16:20:38 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/01 16:50:49 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ static void	run_builtins(t_ctx *ctx)
 		bk_stdout = dup(STDOUT_FILENO);
 		dup2(ctx->env->fd_out, STDOUT_FILENO);
 	}
-	ctx->ret_code =  lstbuiltins_exec(ctx->lstbltins, ctx->env->path, ctx->env->args, ctx);
+	ctx->ret_code = lstbuiltins_exec(ctx->lstbltins, \
+	ctx->env->path, ctx->env->args, ctx);
 	if (ctx->env->fd_in != 0)
 	{
 		dup2(bk_stdin, STDIN_FILENO);
