@@ -19,6 +19,7 @@ int	builtin_pwd(char **argv, t_ctx *ctx);
 int	builtin_exit(char **argv, t_ctx *ctx);
 int	builtin_unset(char **argv, t_ctx *ctx);
 int	builtin_clear(char **argv, t_ctx *ctx);
+int	builtin_env(char **argv, t_ctx *ctx);
 int	builtin_cd(char **argv, t_ctx *ctx);
 
 #endif
