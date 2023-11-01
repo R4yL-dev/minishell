@@ -17,6 +17,7 @@ SRCS 		:= \
 	builtins/echo.c \
 	builtins/pwd.c \
 	builtins/exit.c \
+	builtins/unset.c \
 	builtins/clear.c \
 	builtins/cd.c \
 	prompt/prompt.c \

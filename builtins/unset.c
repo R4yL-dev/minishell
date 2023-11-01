@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 19:59:04 by lray              #+#    #+#             */
-/*   Updated: 2023/11/01 13:10:54 by lray             ###   ########.fr       */
+/*   Created: 2023/10/21 18:36:06 by mflury            #+#    #+#             */
+/*   Updated: 2023/10/21 23:58:11 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "../minishell.h"
 
-int	builtin_showctx(char **argv, t_ctx *ctx);
-int	builtin_echo(char **argv, t_ctx *ctx);
-int	builtin_pwd(char **argv, t_ctx *ctx);
-int	builtin_exit(char **argv, t_ctx *ctx);
-int	builtin_unset(char **argv, t_ctx *ctx);
-int	builtin_clear(char **argv, t_ctx *ctx);
-int	builtin_cd(char **argv, t_ctx *ctx);
+int	builtin_unset(char **argv, t_ctx *ctx)
+{
+	int		i;
+	int		pos;
 
-#endif
+	pos = -1;
+	i = 1;
+	while (argv[i])
+	{
+		pos = (int)grpvar_has(ctx->grpvar,GRPVAR_GLOBAL, argv[i]);
+		if (pos >= 0)
+			grpvar_remove(ctx->grpvar, GRPVAR_GLOBAL, pos);
+		i++;
+	}
+	return (0);
+}
