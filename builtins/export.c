@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 01:51:07 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/31 02:07:26 by mflury           ###   ########.fr       */
+/*   Updated: 2023/11/02 03:02:03 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,13 @@ int	builtin_export(char **argv, t_ctx *ctx)
 	char	**sorted_list;
 	char	**unsorted_list;
 
-	if (!argv[1]) // print sorted env.
+	if (!argv[1])
 	{
 		unsorted_list = copy_names(ctx->grpvar->global);
 		sorted_list = sort_names(unsorted_list, ctx->grpvar->global);
 		call_names_alpha(sorted_list, ctx->grpvar->global);
 	}
-	else // add variables to env.
+	else
 		add_var_list(argv, ctx);
 	return (0);
 }

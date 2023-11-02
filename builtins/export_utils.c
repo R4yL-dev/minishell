@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 21:01:45 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/31 02:07:31 by mflury           ###   ########.fr       */
+/*   Updated: 2023/11/02 17:34:54 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**sort_names(char **list, t_lstvar *lstvar)
 		j = 0;
         while (j + 1 < (int)lstvar->num_elements)
         {
-            if (ft_strncmp(list[j], list[j + 1], ft_strlen(list[j]) + 1) > 0)
+            if (ft_strncmp(list[j], list[j + 1], ft_strlen(list[j])) > 0)
             {
                 tmp = ft_strdup(list[j]);
 				ft_strlcpy(list[j], list[j + 1], ft_strlen(list[j + 1]) + 1);
@@ -75,10 +75,12 @@ void	call_names_alpha(char **sorted_list, t_lstvar *lstvar)
 	while (i < (int)lstvar->num_elements)
 	{
 		pos = lstvar_has(lstvar, sorted_list[i]);
+		free (sorted_list[i]);
 		if (lstvar->array[pos]->value)
 			printf("declare -x %s=\"%s\"\n", lstvar->array[pos]->name, lstvar->array[pos]->value);
 		else
 			printf("declare -x %s\n", lstvar->array[pos]->name);
 		i++;
 	}
+	free (sorted_list);
 }
