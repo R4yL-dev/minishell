@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:48:12 by lray              #+#    #+#             */
-/*   Updated: 2023/11/02 16:28:59 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 17:43:01 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	sig_update(int sig)
 	else if (sig == SIGMODE_HEREDOC)
 	{
 		signal(SIGINT, handle_sigint_heredoc);
-		signal(SIGQUIT, handle_sigquit_heredoc);
+		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (sig == SIGMODE_CMD)
 	{
