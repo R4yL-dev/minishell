@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:28:36 by lray              #+#    #+#             */
-/*   Updated: 2023/10/31 20:36:13 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 17:38:57 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ int	builtin_showctx(char **argv, t_ctx *ctx)
 {
 	(void) argv;
 	ctx_show(ctx);
-	return (1);
+	return (0);
 }
