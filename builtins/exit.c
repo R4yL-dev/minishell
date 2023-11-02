@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:12:24 by mflury            #+#    #+#             */
-/*   Updated: 2023/11/02 16:57:17 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 17:19:35 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	builtin_exit(char **argv, t_ctx *ctx)
 	printf("exit\n");
 	if (argv)
 	{
-		if (argv[2] != NULL)
+		if (argv[1] || argv[2])
 		{
 			g_code = 2;
 			ft_puterror("exit: too many arguments");
