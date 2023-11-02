@@ -6,7 +6,7 @@
 /*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 01:51:07 by mflury            #+#    #+#             */
-/*   Updated: 2023/11/02 03:02:03 by mflury           ###   ########.fr       */
+/*   Updated: 2023/11/02 23:13:46 by mflury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	add_var_list_two_args(char **argv, char **tab, t_ctx *ctx)
 
 void	add_var_list_bullshit_args(char **argv, char **tab, t_ctx *ctx)
 {
-	int	i;
+	int		i;
 	char	*value;
 	char	*var_value;
 
