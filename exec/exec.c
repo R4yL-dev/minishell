@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/11/02 16:24:44 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 17:29:27 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ static void	wait_all(pid_t *pids, int num_cmd)
 	while (i < num_cmd)
 	{
 		if (pids[i] != -1)
+		{
 			wait(&g_code);
+			g_code %= 255;
+		}
 		++i;
 	}
 }
