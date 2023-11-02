@@ -6,14 +6,14 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:19:41 by lray              #+#    #+#             */
-/*   Updated: 2023/11/01 16:27:51 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 16:24:44 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static pid_t	*make_pids(pid_t *pids, int num_pids);
-static void		wait_all(pid_t *pids, int num_cmd, t_ctx *ctx);
+static void		wait_all(pid_t *pids, int num_cmd);
 
 int	exec(t_ctx *ctx)
 {
@@ -37,9 +37,9 @@ int	exec(t_ctx *ctx)
 	if (res == 0)
 		return (0);
 	if (ctx->tree->num_children > 0)
-		wait_all(pids, ctx->tree->num_children, ctx);
+		wait_all(pids, ctx->tree->num_children);
 	else if (ctx->tree->num_children == 0)
-		wait_all(pids, 1, ctx);
+		wait_all(pids, 1);
 	free(pids);
 	return (1);
 }
@@ -66,23 +66,15 @@ static pid_t	*make_pids(pid_t *pids, int num_pids)
 	return (pids);
 }
 
-static void	wait_all(pid_t *pids, int num_cmd, t_ctx *ctx)
+static void	wait_all(pid_t *pids, int num_cmd)
 {
 	int	i;
-	int	status;
 
-	status = -1;
 	i = 0;
 	while (i < num_cmd)
 	{
 		if (pids[i] != -1)
-		{
-			waitpid(pids[i], &status, 0);
-			if (WIFEXITED(status))
-				ctx->ret_code = WEXITSTATUS(status);
-			else
-				ctx->ret_code = 0;
-		}
+			wait(&g_code);
 		++i;
 	}
 }

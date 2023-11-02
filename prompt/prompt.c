@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:19:00 by lray              #+#    #+#             */
-/*   Updated: 2023/10/14 15:05:48 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 16:29:18 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ char	*prompt_get(void)
 {
 	char	*input;
 
-	rl_on_new_line();
 	input = readline("MiniShrek$ ");
+
 	if (input != NULL && input[0] != '\0' && !str_is_only_space(input))
 		add_history(input);
 	return (input);

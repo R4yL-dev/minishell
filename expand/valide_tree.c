@@ -6,13 +6,13 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 13:53:36 by lray              #+#    #+#             */
-/*   Updated: 2023/11/01 15:29:58 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 13:11:40 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	process_file(t_ctx *ctx, t_dyntree *root);
+static int	process_file(t_dyntree *root);
 static int	process_pipe(t_ctx *ctx, t_dyntree *root);
 static int	process_cmd(t_dyntree *root);
 static int	process_redirect(t_dyntree *root);
@@ -23,7 +23,7 @@ int	valide_tree(t_ctx *ctx, t_dyntree *root)
 
 	if (!root)
 		return (0);
-	if (process_file(ctx, root) == 0)
+	if (process_file(root) == 0)
 		return (0);
 	if (process_pipe(ctx, root) == 0)
 		return (0);
@@ -40,13 +40,13 @@ int	valide_tree(t_ctx *ctx, t_dyntree *root)
 	return (1);
 }
 
-static int	process_file(t_ctx *ctx, t_dyntree *root)
+static int	process_file(t_dyntree *root)
 {
 	if (root->type == TK_FILE)
 	{
 		if (root->value[0] == '\0')
 		{
-			ctx->ret_code = 2;
+			g_code = 2;
 			ft_puterror("ambiguous redirect");
 			return (0);
 		}
@@ -62,7 +62,7 @@ static int	process_pipe(t_ctx *ctx, t_dyntree *root)
 	{
 		if (root->num_children < 2)
 		{
-			ctx->ret_code = 2;
+			g_code = 2;
 			ft_puterror("ambiguous redirect");
 			return (0);
 		}
@@ -70,7 +70,7 @@ static int	process_pipe(t_ctx *ctx, t_dyntree *root)
 	last_token = ctx->tklist->size - 1;
 	if (ctx->tklist->array[last_token]->type == TK_PIPE)
 	{
-		ctx->ret_code = 2;
+		g_code = 2;
 		ft_puterror("ambiguous redirect");
 		return (0);
 	}

@@ -13,7 +13,7 @@
 #include "../minishell.h"
 
 static void	process_func(t_ctx *ctx, t_dyntree *root, int *i_str, char *quote);
-static int	process_var_spe(t_ctx *ctx, t_dyntree *root, int *i_str);
+static int	process_var_spe(t_dyntree *root, int *i_str);
 static void	process_quotes(t_dyntree *root, char *quote, int *i_str);
 static int	process_var(t_ctx *ctx, t_dyntree *root, int *i_str);
 
@@ -45,7 +45,7 @@ static void	process_func(t_ctx *ctx, t_dyntree *root, int *i_str, char *quote)
 			process_quotes(root, quote, i_str);
 		if ((*quote == 0 || *quote == '"') && \
 		(root->value[*i_str] == '$' && root->value[*i_str + 1] == '?'))
-			process_var_spe(ctx, root, i_str);
+			process_var_spe(root, i_str);
 		if (root->value[*i_str] == '$' && !ft_isalnum(root->value[(*i_str) + 1]))
 		{
 			(*i_str)++;
@@ -72,12 +72,12 @@ static void	process_quotes(t_dyntree *root, char *quote, int *i_str)
 		*quote = root->value[*i_str];
 }
 
-static int	process_var_spe(t_ctx *ctx, t_dyntree *root, int *i_str)
+static int	process_var_spe(t_dyntree *root, int *i_str)
 {
 	char	*res;
 
 	res = NULL;
-	res = ft_itoa(ctx->ret_code);
+	res = ft_itoa(g_code);
 	if (!res)
 		return (0);
 	search_and_replace(&root->value, "$?", res, i_str);

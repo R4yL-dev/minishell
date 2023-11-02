@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:11:04 by lray              #+#    #+#             */
-/*   Updated: 2023/10/29 00:26:00 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 13:17:00 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*make_heredoc(char *deli)
 
 	filename = make_filename();
 	fd = open_file_wr(filename);
-	while (g_in_heredoc)
+	while (1)
 	{
 		input = readline("> ");
 		if (input == NULL)
@@ -33,7 +33,7 @@ char	*make_heredoc(char *deli)
 			free(input);
 			break ;
 		}
-		if (ft_strncmp(deli, input, ft_strlen(deli) + 1) == 0)
+		if (g_code == 130 || ft_strncmp(deli, input, ft_strlen(deli) + 1) == 0)
 		{
 			free(input);
 			break ;

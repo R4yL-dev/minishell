@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*   sig_update.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/28 22:52:58 by lray              #+#    #+#             */
-/*   Updated: 2023/11/02 16:25:28 by lray             ###   ########.fr       */
+/*   Created: 2023/11/02 13:48:12 by lray              #+#    #+#             */
+/*   Updated: 2023/11/02 16:28:59 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	exec_cmd(t_ctx *ctx, pid_t *pids)
+void	sig_update(int sig)
 {
-	int		in_out[2];
-
-	in_out[0] = -1;
-	in_out[1] = -1;
-	ctx->env = make_env(ctx, ctx->tree, in_out);
-	if (ctx->env == NULL)
+	if (sig == SIGMODE_DEFAULT)
 	{
-		free(pids);
-		return (0);
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, SIG_IGN);
 	}
-	sig_update(SIGMODE_CMD);
-	exec_env(ctx, &pids[0], NULL, 0);
-	ctx->env = env_free(ctx->env);
-	return (1);
+	else if (sig == SIGMODE_HEREDOC)
+	{
+		signal(SIGINT, handle_sigint_heredoc);
+		signal(SIGQUIT, handle_sigquit_heredoc);
+	}
+	else if (sig == SIGMODE_CMD)
+	{
+		signal(SIGINT, handle_sigint_cmd);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }

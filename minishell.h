@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:13:07 by lray              #+#    #+#             */
-/*   Updated: 2023/10/31 21:10:33 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 13:02:35 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # include "parser/parser.h"
 # include "exec/exec.h"
 
-extern int	g_in_heredoc;
+extern int	g_code;
 
 void	free_split(char **splitted_arr);
 
