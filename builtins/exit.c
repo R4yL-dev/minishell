@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:12:24 by mflury            #+#    #+#             */
-/*   Updated: 2023/11/02 13:30:20 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 16:57:17 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	builtin_exit(char **argv, t_ctx *ctx)
 {
 	(void) argv;
 	printf("exit\n");
-
 	if (argv)
 	{
 		if (argv[2] != NULL)

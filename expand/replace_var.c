@@ -46,7 +46,8 @@ static void	process_func(t_ctx *ctx, t_dyntree *root, int *i_str, char *quote)
 		if ((*quote == 0 || *quote == '"') && \
 		(root->value[*i_str] == '$' && root->value[*i_str + 1] == '?'))
 			process_var_spe(root, i_str);
-		if (root->value[*i_str] == '$' && !ft_isalnum(root->value[(*i_str) + 1]))
+		if (root->value[*i_str] == '$' && \
+		!ft_isalnum(root->value[(*i_str) + 1]))
 		{
 			(*i_str)++;
 			continue ;
