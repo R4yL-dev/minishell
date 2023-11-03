@@ -17,6 +17,8 @@ SRCS 		:= \
 	builtins/echo.c \
 	builtins/pwd.c \
 	builtins/exit.c \
+	builtins/export.c \
+	builtins/export_utils.c \
 	builtins/unset.c \
 	builtins/clear.c \
 	builtins/env.c \
@@ -69,7 +71,7 @@ SRCS 		:= \
 OBJS		:= $(SRCS:.c=.o)
 
 CC 			:= gcc
-CFLAGS		:= -Wall -Wextra -Werror -std=gnu89 -fsanitize=address,undefined -static-libasan -fno-omit-frame-pointer -g
+CFLAGS		:= -Wall -Wextra -Werror -std=gnu89 -g
 CPPFLAGS	:= -Ireadline/include/readline/ -lreadline -Lreadline/lib -Ilibft -Iprompt -Ilexer
 
 LIBS		:= \

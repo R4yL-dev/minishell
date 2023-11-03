@@ -36,6 +36,7 @@ t_lstbuiltins	*lstbuiltins_init(t_lstbuiltins *head)
 	lstbuiltins_add(head, lstbuiltins_new("echo", builtin_echo));
 	lstbuiltins_add(head, lstbuiltins_new("pwd", builtin_pwd));
 	lstbuiltins_add(head, lstbuiltins_new("exit", builtin_exit));
+	lstbuiltins_add(head, lstbuiltins_new("export", builtin_export));
 	lstbuiltins_add(head, lstbuiltins_new("unset", builtin_unset));
 	lstbuiltins_add(head, lstbuiltins_new("clear", builtin_clear));
 	lstbuiltins_add(head, lstbuiltins_new("env", builtin_env));
