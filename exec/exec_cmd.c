@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 22:52:58 by lray              #+#    #+#             */
-/*   Updated: 2023/10/29 00:25:12 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 16:25:28 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	exec_cmd(t_ctx *ctx, pid_t *pids)
 		free(pids);
 		return (0);
 	}
+	sig_update(SIGMODE_CMD);
 	exec_env(ctx, &pids[0], NULL, 0);
 	ctx->env = env_free(ctx->env);
 	return (1);

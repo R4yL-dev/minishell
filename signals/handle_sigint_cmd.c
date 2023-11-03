@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   showctx.c                                          :+:      :+:    :+:   */
+/*   handle_sigint_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 14:28:36 by lray              #+#    #+#             */
-/*   Updated: 2023/11/02 17:38:57 by lray             ###   ########.fr       */
+/*   Created: 2023/10/23 17:47:15 by lray              #+#    #+#             */
+/*   Updated: 2023/11/02 17:58:42 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	builtin_showctx(char **argv, t_ctx *ctx)
+void	handle_sigint_cmd(int sig)
 {
-	(void) argv;
-	ctx_show(ctx);
-	return (0);
+	(void)sig;
+	g_code = 130;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
 }

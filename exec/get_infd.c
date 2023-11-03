@@ -6,14 +6,14 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:18:42 by lray              #+#    #+#             */
-/*   Updated: 2023/10/30 13:43:43 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 13:53:45 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static int	is_double_redirect_in(t_dyntree *root);
-static void	run_heredoc(t_ctx *ctx, t_dyntree	*root);
+static void	run_heredoc(t_dyntree	*root);
 static int	is_redirect_in(t_dyntree *root);
 
 int	get_infd(t_dyntree *root, t_ctx *ctx)
@@ -25,7 +25,7 @@ int	get_infd(t_dyntree *root, t_ctx *ctx)
 	if (root->type == TK_REDIRECTION)
 	{
 		if (is_double_redirect_in(root))
-			run_heredoc(ctx, root);
+			run_heredoc(root);
 		fd = open_file_rd(root->children[0]->value);
 		if (fd == -1)
 			return (-1);
@@ -52,16 +52,15 @@ static int	is_double_redirect_in(t_dyntree *root)
 	return (0);
 }
 
-static void	run_heredoc(t_ctx *ctx, t_dyntree	*root)
+static void	run_heredoc(t_dyntree	*root)
 {
 	char	*filename;
 
 	filename = NULL;
-	set_sigmode(&ctx->sigset, SIGMODE_HEREDOC);
+	sig_update(SIGMODE_HEREDOC);
 	filename = make_heredoc(root->children[0]->value);
 	free(root->children[0]->value);
 	root->children[0]->value = filename;
-	set_sigmode(&ctx->sigset, SIGMODE_NORMAL);
 }
 
 static int	is_redirect_in(t_dyntree *root)

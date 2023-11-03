@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:30:19 by lray              #+#    #+#             */
-/*   Updated: 2023/11/01 12:14:42 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 16:52:32 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ t_ctx	*ctx_init(t_ctx *ctx, char **envp)
 		if (!ctx->lstbltins)
 			return (NULL);
 		ctx->env = NULL;
-		ctx->ret_code = 0;
-		set_sigmode(&ctx->sigset, SIGMODE_NORMAL);
 		return (ctx);
 	}
 	return (NULL);
@@ -56,8 +54,6 @@ void	ctx_show(t_ctx *ctx)
 	printf("\n");
 	printf("= DYNTREE SHOW =\n");
 	dyntree_show(ctx->tree, 0);
-	printf("\n");
-	printf("Return code : %d\n", ctx->ret_code);
 	printf("\n");
 }
 

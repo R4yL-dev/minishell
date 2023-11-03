@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:08:50 by lray              #+#    #+#             */
-/*   Updated: 2023/11/01 16:48:00 by lray             ###   ########.fr       */
+/*   Updated: 2023/11/02 15:01:22 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_ctx	*app_init(t_ctx *ctx, char **envp);
 
-int	g_in_heredoc = 0;
+int	g_code;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -26,6 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		ctx_free_line(ctx);
+		sig_update(SIGMODE_DEFAULT);
 		ctx->input = prompt_get();
 		if (ctx->input == NULL)
 			builtin_exit(NULL, ctx);
@@ -46,6 +47,7 @@ static t_ctx	*app_init(t_ctx *ctx, char **envp)
 {
 	int			pos;
 
+	g_code = 0;
 	ctx = ctx_init(ctx, envp);
 	pos = grpvar_has(ctx->grpvar, GRPVAR_GLOBAL, "HOME");
 	if (pos == -1 || ctx->grpvar->global->array[pos]->value[0] == '\0')

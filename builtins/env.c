@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 23:59:21 by mflury            #+#    #+#             */
-/*   Updated: 2023/11/01 20:33:16 by mflury           ###   ########.fr       */
+/*   Updated: 2023/11/02 17:03:28 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	process_print(t_var *var);
 
 int	builtin_env(char **argv, t_ctx *ctx)
 {
@@ -34,9 +36,14 @@ int	builtin_env(char **argv, t_ctx *ctx)
 		return (1);
 	while (i < (int)ctx->grpvar->global->num_elements)
 	{
-		if (ctx->grpvar->global->array[i]->value)
-			printf("%s=%s\n", ctx->grpvar->global->array[i]->name, ctx->grpvar->global->array[i]->value);
+		process_print(ctx->grpvar->global->array[i]);
 		i++;
 	}
 	return (0);
+}
+
+static void	process_print(t_var *var)
+{
+	if (var->value)
+		printf("%s=%s\n", var->name, var->value);
 }
