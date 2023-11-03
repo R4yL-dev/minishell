@@ -3,24 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:12:24 by mflury            #+#    #+#             */
-/*   Updated: 2023/10/10 20:59:52 by mflury           ###   ########.fr       */
+/*   Updated: 2023/11/02 17:19:35 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// note that "1" in exit() should be replaced by the global
-// error code modulo 256 when we implement it.
-
 int	builtin_exit(char **argv, t_ctx *ctx)
 {
-	(void)argv;
-
+	(void) argv;
+	printf("exit\n");
+	if (argv)
+	{
+		if (argv[1] || argv[2])
+		{
+			g_code = 2;
+			ft_puterror("exit: too many arguments");
+			return (1);
+		}
+	}
 	clear_history();
 	ctx_free(ctx);
-	printf("exit\n");
-	exit (1 % 256);
+	exit(g_code);
 }

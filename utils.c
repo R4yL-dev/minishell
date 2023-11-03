@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 21:58:35 by lray              #+#    #+#             */
-/*   Updated: 2023/09/29 19:38:52 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/31 21:17:05 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,18 @@ char	*add_char_to_string(char *str, char c)
 	str[len - 1] = c;
 	str[len] = '\0';
 	return (str);
+}
+
+int	str_is_only_space(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (0);
+		++i;
+	}
+	return (1);
 }

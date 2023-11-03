@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mflury <mflury@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:19:00 by lray              #+#    #+#             */
-/*   Updated: 2023/08/18 00:51:22 by mflury           ###   ########.fr       */
+/*   Updated: 2023/11/02 17:05:13 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ char	*prompt_get(void)
 {
 	char	*input;
 
-	rl_on_new_line();
 	input = readline("MiniShrek$ ");
-	add_history(input);
+	if (input != NULL && input[0] != '\0' && !str_is_only_space(input))
+		add_history(input);
 	return (input);
 }

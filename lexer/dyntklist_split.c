@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 17:02:57 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 18:24:06 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 11:51:54 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ static t_dyntklist	**set_res(t_dyntklist **res, t_dyntklist *tklist)
 		while (i_tklist < (int)tklist->size)
 		{
 			if (tklist->array[i_tklist]->type != TK_PIPE)
-				dyntklist_add(res[i_res], tklist->array[i_tklist]->type, tklist->array[i_tklist]->value);
+				dyntklist_add(res[i_res], tklist->array[i_tklist]->type, \
+				tklist->array[i_tklist]->value);
 			else
 			{
 				++i_tklist;

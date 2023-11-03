@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:17 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 20:52:15 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/30 13:51:37 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@ int	replace_builtins(t_dyntree *root, t_ctx *ctx)
 	if (root->type == TK_COMMAND)
 	{
 		if (lstbuiltins_has(ctx->lstbltins, root->value))
-		{
 			root->type = TK_BUILTINS;
-		}
 	}
 	i_child = 0;
-	while (i_child < root->numChildren)
+	while (i_child < root->num_children)
 	{
 		if (!replace_builtins(root->children[i_child++], ctx))
 			return (0);

@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   replace_builtins.h                                 :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 15:16:32 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 20:50:41 by lray             ###   ########.fr       */
+/*   Created: 2023/08/21 18:48:33 by lray              #+#    #+#             */
+/*   Updated: 2023/10/29 00:25:08 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REPLACE_BUILTINS_H
-# define REPLACE_BUILTINS_H
+#ifndef ENV_H
+# define ENV_H
 
-# include <sys/types.h>
-# include <dirent.h>
+typedef struct s_env
+{
+	int					type;
+	char				*path;
+	char				**args;
+	int					fd_in;
+	int					fd_out;
+	int					pipe_in;
+	int					pipe_out;
+}	t_env;
 
-int	replace_builtins(t_dyntree *root, t_ctx *ctx);
+t_env	*env_new(void);
+void	env_show(t_env *head);
+void	*env_free(t_env *env);
 
 #endif

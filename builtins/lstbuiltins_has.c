@@ -6,7 +6,7 @@
 /*   By: lray <lray@student.42lausanne.ch >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 20:05:37 by lray              #+#    #+#             */
-/*   Updated: 2023/10/09 20:25:21 by lray             ###   ########.fr       */
+/*   Updated: 2023/10/31 20:31:01 by lray             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_lstbuiltins	*lstbuiltins_has(t_lstbuiltins *head, char *name)
 	p_lst = head;
 	while (p_lst)
 	{
-		if (ft_strncmp(p_lst->name, name, ft_strlen(p_lst->name)) == 0 &&\
+		if (ft_strncmp(p_lst->name, name, ft_strlen(p_lst->name)) == 0 && \
 		ft_strlen(p_lst->name) == ft_strlen(name))
 			return (p_lst);
 		p_lst = p_lst->next;
